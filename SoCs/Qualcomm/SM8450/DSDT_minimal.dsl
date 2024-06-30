@@ -1489,4 +1489,3 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8450 ", 0x00000003)
         }
     }
 }
-

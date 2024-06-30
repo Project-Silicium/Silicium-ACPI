@@ -18,7 +18,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "MSM8998 ", 0x00000003)
                     Package (0x0A)
                     {
                         0x01F8, 
-                        0x0086, 
+                        0x86, 
                         Zero, 
                         Zero, 
                         Zero, 
@@ -620,7 +620,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "MSM8998 ", 0x00000003)
                     Package (0x0A)
                     {
                         0x0516, 
-                        0x0052, 
+                        0x52, 
                         Zero, 
                         Zero, 
                         Zero, 

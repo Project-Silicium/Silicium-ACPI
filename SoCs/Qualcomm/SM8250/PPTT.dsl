@@ -1,12 +1,12 @@
 [000h 0000 004h]                   Signature : "PPTT"    [Processor Properties Topology Table]
 [004h 0004 004h]                Table Length : 0000019E
 [008h 0008 001h]                    Revision : 01
-[009h 0009 001h]                    Checksum : CB
+[009h 0009 001h]                    Checksum : 7D
 [00Ah 0010 006h]                      Oem ID : "QCOM  "
 [010h 0016 008h]                Oem Table ID : "QCOMEDK2"
 [018h 0024 004h]                Oem Revision : 00008250
 [01Ch 0028 004h]             Asl Compiler ID : "INTL"
-[020h 0032 004h]       Asl Compiler Revision : 20200925
+[020h 0032 004h]       Asl Compiler Revision : 20230628
 
 
 [024h 0036 001h]               Subtable Type : 01 [Cache Type]
