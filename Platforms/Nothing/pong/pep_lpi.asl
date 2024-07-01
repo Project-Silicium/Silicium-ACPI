@@ -22,7 +22,7 @@ Device (SYSM)
                     0x00,               // Bit Width
                     0x00,               // Bit Offset
                     0x0000000000000000, // Address
-                    ,)
+                     )
             }, 
 
             ResourceTemplate ()
@@ -31,7 +31,7 @@ Device (SYSM)
                     0x00,               // Bit Width
                     0x00,               // Bit Offset
                     0x0000000000000000, // Address
-                    ,)
+                     )
             }, 
 
             "platform.DRIPS"
@@ -61,7 +61,7 @@ Device (SYSM)
                         0x00,               // Bit Width
                         0x00,               // Bit Offset
                         0x0000000000000000, // Address
-                        ,)
+                         )
                 }, 
 
                 ResourceTemplate ()
@@ -70,7 +70,7 @@ Device (SYSM)
                         0x00,               // Bit Width
                         0x00,               // Bit Offset
                         0x0000000000000000, // Address
-                        ,)
+                         )
                 }, 
 
                 "L3Cluster.D2"
@@ -91,7 +91,7 @@ Device (SYSM)
                         0x00,               // Bit Width
                         0x00,               // Bit Offset
                         0x0000000000000000, // Address
-                        ,)
+                         )
                 }, 
 
                 ResourceTemplate ()
@@ -100,7 +100,7 @@ Device (SYSM)
                         0x00,               // Bit Width
                         0x00,               // Bit Offset
                         0x0000000000000000, // Address
-                        ,)
+                         )
                 }, 
 
                 "L3Cluster.D4"
@@ -134,7 +134,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -144,7 +144,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -153,7 +153,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver0.C1"
@@ -173,7 +173,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -183,7 +183,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -192,7 +192,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver0.C2"
@@ -212,7 +212,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -222,7 +222,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -231,7 +231,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver0.C3"
@@ -251,7 +251,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -261,7 +261,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -270,7 +270,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver0.C4"
@@ -306,7 +306,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -316,7 +316,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -325,7 +325,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver1.C1"
@@ -345,7 +345,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -355,7 +355,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -364,7 +364,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver1.C2"
@@ -384,7 +384,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -394,7 +394,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -403,7 +403,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver1.C3"
@@ -423,7 +423,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -433,7 +433,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -442,7 +442,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver1.C4"
@@ -478,7 +478,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -488,7 +488,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -497,7 +497,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver2.C1"
@@ -517,7 +517,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -527,7 +527,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -536,7 +536,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver2.C2"
@@ -556,7 +556,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -566,7 +566,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -575,7 +575,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver2.C3"
@@ -595,7 +595,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -605,7 +605,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -614,7 +614,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver2.C4"
@@ -650,7 +650,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -660,7 +660,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -669,7 +669,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver3.C1"
@@ -689,7 +689,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -699,7 +699,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -708,7 +708,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver3.C2"
@@ -728,7 +728,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -738,7 +738,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -747,7 +747,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver3.C3"
@@ -767,7 +767,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -777,7 +777,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -786,7 +786,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoSilver3.C4"
@@ -822,7 +822,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -832,7 +832,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -841,7 +841,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold0.C1"
@@ -861,7 +861,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -871,7 +871,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -880,7 +880,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold0.C2"
@@ -900,7 +900,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -910,7 +910,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -919,7 +919,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold0.C3"
@@ -939,7 +939,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -949,7 +949,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -958,7 +958,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold0.C4"
@@ -994,7 +994,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1004,7 +1004,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1013,7 +1013,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold1.C1"
@@ -1033,7 +1033,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1043,7 +1043,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1052,7 +1052,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold1.C2"
@@ -1072,7 +1072,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1082,7 +1082,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1091,7 +1091,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold1.C3"
@@ -1111,7 +1111,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1121,7 +1121,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1130,7 +1130,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold1.C4"
@@ -1166,7 +1166,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1176,7 +1176,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1185,7 +1185,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold2.C1"
@@ -1205,7 +1205,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1215,7 +1215,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1224,7 +1224,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold2.C2"
@@ -1244,7 +1244,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1254,7 +1254,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1263,7 +1263,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold2.C3"
@@ -1283,7 +1283,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1293,7 +1293,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1302,7 +1302,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoGold2.C4"
@@ -1338,7 +1338,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x00000000FFFFFFFF, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1348,7 +1348,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1357,7 +1357,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoPrime0.C1"
@@ -1377,7 +1377,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000002, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1387,7 +1387,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1396,7 +1396,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoPrime0.C2"
@@ -1416,7 +1416,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000003, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1426,7 +1426,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1435,7 +1435,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoPrime0.C3"
@@ -1455,7 +1455,7 @@ Device (SYSM)
                             0x20,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000040000004, // Address
-                            0x03,               // Access Size
+                            0x03               // Access Size
                             )
                     }, 
 
@@ -1465,7 +1465,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     ResourceTemplate ()
@@ -1474,7 +1474,7 @@ Device (SYSM)
                             0x00,               // Bit Width
                             0x00,               // Bit Offset
                             0x0000000000000000, // Address
-                            ,)
+                             )
                     }, 
 
                     "KryoPrime0.C4"

@@ -55,9 +55,9 @@ Device (URS0)
     Name (_CCA, Zero)  // _CCA: Cache Coherency Attribute
     Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
     {
-	
-		/* Device USB controller is at 0x600000: run "getprop | grep usb" = [ro.boot.usbcontroller]: [a600000.dwc3]
-		On sm8250.dtsi usb device with 0x600000 address is soc@0 { > usb_1: usb@a6f8800 { > usb_1_dwc3: usb@a600000 */
+
+		/* Device USB controller is at 0xe00000: run "getprop | grep usb" = [ro.boot.usbcontroller]: [4e00000.dwc3]
+		On sm6125.dtsi (SM6225 does not have mainline) usb device with 0xe00000 address is soc@0 { > usb_1: usb@4ef8800 { > usb_1_dwc3: usb@4e00000 */
 
         Memory32Fixed (ReadWrite,
             0x0A600000,         // Address Base
@@ -68,48 +68,30 @@ Device (URS0)
     {
         Name (_ADR, Zero)  // _ADR: Address
         Name (_S0W, 0x03)  // _S0W: S0 Device Wake State
-        Name (_PLD, Package (0x01)  // _PLD: Physical Location of Device
+        Name(_PLD, Package()
         {
-            ToPLD (
-                PLD_Revision           = 0x2,
-                PLD_IgnoreColor        = 0x1,
-                PLD_Red                = 0x0,
-                PLD_Green              = 0x0,
-                PLD_Blue               = 0x0,
-                PLD_Width              = 0x0,
-                PLD_Height             = 0x0,
-                PLD_UserVisible        = 0x1,
-                PLD_Dock               = 0x0,
-                PLD_Lid                = 0x0,
-                PLD_Panel              = "BACK",
-                PLD_VerticalPosition   = "CENTER",
-                PLD_HorizontalPosition = "LEFT",
-                PLD_Shape              = "VERTICALRECTANGLE",
-                PLD_GroupOrientation   = 0x0,
-                PLD_GroupToken         = 0x0,
-                PLD_GroupPosition      = 0x0,
-                PLD_Bay                = 0x0,
-                PLD_Ejectable          = 0x0,
-                PLD_EjectRequired      = 0x0,
-                PLD_CabinetNumber      = 0x0,
-                PLD_CardCageNumber     = 0x0,
-                PLD_Reference          = 0x0,
-                PLD_Rotation           = 0x0,
-                PLD_Order              = 0x0,
-                PLD_VerticalOffset     = 0xFFFF,
-                PLD_HorizontalOffset   = 0xFFFF)
-
+            Buffer()
+            {
+            0x82,                   // Revision 2, ignore color.
+            0x00,0x00,0x00,         // Color (ignored).
+            0x00,0x00,0x00,0x00,    // Width and height.
+            0x69,                   // User visible; Back panel; VerticalPos:Center.
+            0x0c,                   // HorizontalPos:0; Shape:Vertical Rectangle; GroupOrientation:0.
+            0x00,0x00,              // Group Token:0; Group Position:0; So Connector ID is 0.
+            0x00,0x00,0x00,0x00,    // Not ejectable.
+            0xFF,0xFF,0xFF,0xFF     // Vert. and horiz. offsets not supplied.
+            }
         })
         Name (_UPC, Package (0x04)  // _UPC: USB Port Capabilities
         {
-            One, 
-            0x09, 
-            Zero, 
+            One,
+            0x09,
+            Zero,
             Zero
         })
         Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
         {
-			/* 
+			/*
 			on gic driver:
 				#define GIC_PPI_BASE  U(16)
 				#define GIC_SPI_BASE  U(32)
@@ -120,40 +102,40 @@ Device (URS0)
 				If PPI: + 16 + 1
 				If SPI: + 32 + 0
 			Non GIC interrupts must be incremented by 512
-			
-			soc@0 { usb_1: usb@a6f8800 { usb_1_dwc3: usb@a600000 { interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-			133 + 32 + 0 = 165, in hex = A5 */
+
+			soc@0 { usb_1: usb@4ef8800 { usb_1_dwc3: usb@4e00000 { interrupts = <GIC_SPI 255 IRQ_TYPE_LEVEL_HIGH>;
+			255 + 32 + 0 = 287, in hex = 11F */
             Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, )
             {
-                0xA5,
+                0x11F,
             }
-			
-			/* soc: soc@0 { usb_1: usb@a6f8800 { interrupts-extended = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
-			131 + 32 + 0 = 163, in hex = A3 */
+
+			/* soc: soc@0 { usb_1: usb@4ef8800 { interrupts-extended = <GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH>,
+			260 + 32 + 0 = 292, in hex = 0x124 */
             Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, )
             {
-                0xA3,
+                0x124,
             }
-			
-			/* soc: soc@0 { usb_1: usb@a6f8800 { interrupts-extended = <&pdc 17 IRQ_TYPE_LEVEL_HIGH>,
-			17 + 512 = 529, in hex = 211 */
+
+			/* soc: soc@0 { usb_1: usb@4ef8800 { interrupts-extended = <GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>,
+			422 + 32 + 0 = 454, in hex = 1C6 */
             Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, )
             {
-                0x211,
+                0x1C6,
             }
-			
-			/* soc: soc@0 { usb_1: usb@a6f8800 { interrupts-extended = <&pdc 15 IRQ_TYPE_EDGE_BOTH>,
-			15 + 512 = 527, in hex = 20F */
+
+			/* soc: soc@0 { usb_1: usb@4ef8800 { interrupts-extended = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>,
+			188 + 32 = 220, in hex = DC */
             Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, )
             {
-                0x20F,
+                0xDC,
             }
-			
-			/* soc: soc@0 { usb_1: usb@a6f8800 { interrupts-extended =  <&pdc 14 IRQ_TYPE_EDGE_BOTH>,
-			14 + 512 = 526, in hex = 20E */
+
+			/* soc: soc@0 { usb_1: usb@4ef8800 { interrupts-extended =  <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>,
+			184 + 32 = 216, in hex = D8 */
             Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, )
             {
-                0x20E,
+                0xD8,
             }
         })
         Method (_STA, 0, NotSerialized)  // _STA: Status
@@ -260,54 +242,36 @@ Device (URS0)
     {
         Name (_ADR, One)  // _ADR: Address
         Name (_S0W, 0x03)  // _S0W: S0 Device Wake State
-        Name (_PLD, Package (0x01)  // _PLD: Physical Location of Device
+        Name(_PLD, Package()
         {
-            ToPLD (
-                PLD_Revision           = 0x2,
-                PLD_IgnoreColor        = 0x1,
-                PLD_Red                = 0x0,
-                PLD_Green              = 0x0,
-                PLD_Blue               = 0x0,
-                PLD_Width              = 0x0,
-                PLD_Height             = 0x0,
-                PLD_UserVisible        = 0x1,
-                PLD_Dock               = 0x0,
-                PLD_Lid                = 0x0,
-                PLD_Panel              = "BACK",
-                PLD_VerticalPosition   = "CENTER",
-                PLD_HorizontalPosition = "LEFT",
-                PLD_Shape              = "VERTICALRECTANGLE",
-                PLD_GroupOrientation   = 0x0,
-                PLD_GroupToken         = 0x0,
-                PLD_GroupPosition      = 0x0,
-                PLD_Bay                = 0x0,
-                PLD_Ejectable          = 0x0,
-                PLD_EjectRequired      = 0x0,
-                PLD_CabinetNumber      = 0x0,
-                PLD_CardCageNumber     = 0x0,
-                PLD_Reference          = 0x0,
-                PLD_Rotation           = 0x0,
-                PLD_Order              = 0x0,
-                PLD_VerticalOffset     = 0xFFFF,
-                PLD_HorizontalOffset   = 0xFFFF)
-
+            Buffer()
+            {
+            0x82,                   // Revision 2, ignore color.
+            0x00,0x00,0x00,         // Color (ignored).
+            0x00,0x00,0x00,0x00,    // Width and height.
+            0x69,                   // User visible; Back panel; VerticalPos:Center.
+            0x0c,                   // HorizontalPos:0; Shape:Vertical Rectangle; GroupOrientation:0.
+            0x00,0x00,              // Group Token:0; Group Position:0; So Connector ID is 0.
+            0x00,0x00,0x00,0x00,    // Not ejectable.
+            0xFF,0xFF,0xFF,0xFF     // Vert. and horiz. offsets not supplied.
+            }
         })
         Name (_UPC, Package (0x04)  // _UPC: USB Port Capabilities
         {
-            One, 
-            0x09, 
-            Zero, 
+            One,
+            0x09,
+            Zero,
             Zero
         })
         Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
         {
             Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, )
             {
-                0xA5,
+                0x11F,
             }
             Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, )
             {
-                0xA3,
+                0x124,
             }
         })
         Method (CCVL, 0, NotSerialized)

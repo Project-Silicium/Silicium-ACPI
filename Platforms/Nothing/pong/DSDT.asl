@@ -1,4 +1,4 @@
-DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8450 ", 0x00000003)
+DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 0x00000003)
 {
     Scope (_SB)
     {
@@ -37,10 +37,10 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8450 ", 0x00000003)
         Name (PRP5, 0xFFFFFFFF)
         Name (PRP6, 0xFFFFFFFF)
         
-        Include("ufs.dsl")
+        Include("ufs.asl")
 
-        Include("pep_lpi.dsl");
+        Include("pep_lpi.asl");
 
-        Include("usb.dsl");
+        Include("usb.asl");
     }
 }
