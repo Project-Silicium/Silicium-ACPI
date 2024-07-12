@@ -19,7 +19,7 @@ wine asl.exe DSDT_minimal.asl
 
 Same for Device DSDT Tables, Just Replace `DSDT_minimal.asl` with `DSDT.asl`.
 
-# Notes
+## Notes
 
 You can't Compile `FACP` Table Manually, You have to Compile all others at once so it Compiles.
 
