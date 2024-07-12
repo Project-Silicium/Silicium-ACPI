@@ -8,8 +8,9 @@
 
 ### Checklist
 
-<!-- Place a 'x' inside the '[}' to Check the Box. -->
+<!-- Place a 'x' inside the '[ ]' to Check the Box. -->
 
-* [ ] Is what you changed Tested?
+* [ ] Is what you changed Tested?                (Required)
 * [ ] Is all the ACPI Source based on your DTS?
-* [ ] Are there no References from the Compiler?
+* [ ] Are the Correct Compiler Versions used?    (Required)
+* [ ] Are there no References from the Compiler? (Required)

@@ -1,3 +1,4 @@
+[000h 0000 004h]                   Signature : "APIC"    [Multiple APIC Description Table (MADT)]
 [004h 0004 004h]                Table Length : 000002E4
 [008h 0008 001h]                    Revision : 05
 [009h 0009 001h]                    Checksum : 0B
