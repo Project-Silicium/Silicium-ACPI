@@ -1,5 +1,5 @@
 // CreatorID=MSFT	CreatorRev=5.0.0
-// FileLength=366248	FileChkSum=0x5e
+// FileLength=362066	FileChkSum=0x62
 
 DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 {
@@ -98,10 +98,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
 	0x86, 0x09, 0x00, 0x01, 0x00, 0x40, 0x80, 0x08, 0x00, 0x10, 0x00, 0x00,
 	0x89, 0x06, 0x00, 0x01, 0x01, 0xec, 0x00, 0x00, 0x00, 0x8c, 0x20, 0x00,
-	0x01, 0x00, 0x01, 0x00, 0x1d, 0x00, 0x01, 0x00, 0x00, 0x88, 0x13, 0x17,
+	0x01, 0x00, 0x01, 0x00, 0x1b, 0x00, 0x02, 0x00, 0x00, 0x88, 0x13, 0x17,
 	0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x5c, 0x5f,
 	0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01,
-	0x01, 0x01, 0x00, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00,
+	0x01, 0x01, 0x00, 0x08, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00,
 	0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x60, 0x00, 0x5c, 0x5f, 0x53,
 	0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79, 0x00
                 })
@@ -357,17 +357,14 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Name(_HID, "QCOM0531")
             Alias(\_SB_.PSUB, _SUB)
-            Name(_DEP, Package(0x5)
+            Name(_DEP, Package(0x2)
             {
                 \_SB_.PMIC,
-                \_SB_.PEXT,
-                \_SB_.ADC1,
-                \_SB_.ADC2,
-                \_SB_.ADC3
+                \_SB_.ADC2
             })
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xf)
+                Return(0xb)
             }
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -713,10 +710,6 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 \_SB_.PMBT
             })
-            Method(_STA, 0x0, NotSerialized)
-            {
-                Return(0xf)
-            }
             Method(_CRS, 0x0, NotSerialized)
             {
                 Name(RBUF, Buffer(0x2)
@@ -724,6 +717,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x79, 0x00
                 })
                 Return(RBUF)
+            }
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(0xb)
             }
         }
         Device(BCL1)
@@ -780,6 +777,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 })
                 Return(CFG0)
             }
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(0xb)
+            }
         }
         Device(PTCC)
         {
@@ -787,7 +788,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Name(_DEP, Package(One)
             {
-                \_SB_.PEXT
+                \_SB_.PMIC
             })
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -35998,8 +35999,91 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 Return(OPCC)
             }
-            Name(OPCC, Package(0x0)
+            Name(OPCC, Package(0x1)
             {
+                Package(0x4)
+                {
+                    "DEVICE",
+                    "\\_SB.ADSP.SLM1.ADCM.AUDD.SPK1",
+                    Package(0x6)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x59,
+                                One,
+                                Zero,
+                                One,
+                                0x3,
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "DELAY",
+                            Package(0x1)
+                            {
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x5c,
+                                One,
+                                Zero,
+                                One,
+                                0x3,
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "DELAY",
+                            Package(0x1)
+                            {
+                                0x2
+                            }
+                        }
+                    },
+                    Package(0x4)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x59,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x5c,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    }
+                }
             })
         }
         Scope(\_SB_.PEP0)
@@ -45040,142 +45124,8 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Method(EWMD, 0x0, NotSerialized)
             {
-                If(LEqual(\_SB_.PSUB, "MTP08150"))
-                {
-                    If(LOr(LEqual(\_SB_.PLST, One), LEqual(\_SB_.PLST, 0x4)))
-                    {
-                        Return(WBRX)
-                    }
-                    Else
-                    {
-                        Return(WBRC)
-                    }
-                }
-                Else
-                {
-                    If(LEqual(\_SB_.PSUB, "CLS08150"))
-                    {
-                        If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID(), 0x2), LEqual(BSID(), 0x3))))
-                        {
-                            Return(WBRX)
-                        }
-                        Else
-                        {
-                            Return(WBRC)
-                        }
-                    }
-                    Else
-                    {
-                        Return(WBRC)
-                    }
-                }
+                Return(WBRC)
             }
-            Name(WBRX, Package(0x1)
-            {
-                Package(0x5)
-                {
-                    "DEVICE",
-                    "\\_SB.BTH0",
-                    Package(0x3)
-                    {
-                        "COMPONENT",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            Zero
-                        }
-                    },
-                    Package(0x5)
-                    {
-                        "DSTATE",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_SMPS5_A",
-                                0x2,
-                                0x1dc130,
-                                One,
-                                0x6,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_SMPS6_C",
-                                0x2,
-                                0x149970,
-                                One,
-                                0x4,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_SMPS7_C",
-                                0x2,
-                                0xe7ef0,
-                                One,
-                                0x7,
-                                Zero
-                            }
-                        }
-                    },
-                    Package(0x5)
-                    {
-                        "DSTATE",
-                        0x3,
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_SMPS5_A",
-                                0x2,
-                                Zero,
-                                Zero,
-                                0x4,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_SMPS6_C",
-                                0x2,
-                                Zero,
-                                Zero,
-                                0x4,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_SMPS7_C",
-                                0x2,
-                                Zero,
-                                Zero,
-                                0x4,
-                                Zero
-                            }
-                        }
-                    }
-                }
-            })
             Name(WBRC, Package(0x3)
             {
                 Package(0x7)
@@ -45444,35 +45394,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 If(LNot(LLess(\_SB_.SVMJ, 0x2)))
                 {
-                    If(LEqual(\_SB_.PSUB, "MTP08150"))
-                    {
-                        If(LOr(LEqual(\_SB_.PLST, One), LEqual(\_SB_.PLST, 0x4)))
-                        {
-                            Return(PEMH)
-                        }
-                        Else
-                        {
-                            Return(PEMC)
-                        }
-                    }
-                    Else
-                    {
-                        If(LEqual(\_SB_.PSUB, "CLS08150"))
-                        {
-                            If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID(), 0x2), LEqual(BSID(), 0x3))))
-                            {
-                                Return(PEMH)
-                            }
-                            Else
-                            {
-                                Return(PEMC)
-                            }
-                        }
-                        Else
-                        {
-                            Return(PEMC)
-                        }
-                    }
+                    Return(PEMC)
                 }
                 Else
                 {
@@ -46958,843 +46880,6 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                 "gcc_ufs_card_clkref_en",
                                 0x9,
                                 0x8
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_pipe_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_slv_axi_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_slv_q2a_axi_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_mstr_axi_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_cfg_ahb_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x4)
-                            {
-                                "gcc_pcie_1_aux_clk",
-                                0x8,
-                                0x124f800,
-                                0x3
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x4)
-                            {
-                                "gcc_pcie1_phy_refgen_clk",
-                                0x8,
-                                0x5f5e100,
-                                0x3
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "TLMMGPIO",
-                            Package(0x7)
-                            {
-                                0x67,
-                                Zero,
-                                One,
-                                Zero,
-                                0x3,
-                                Zero,
-                                Zero
-                            }
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        One
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        0x2
-                    },
-                    Package(0x11)
-                    {
-                        "DSTATE",
-                        0x3,
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_aux_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_slv_axi_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_slv_q2a_axi_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_mstr_axi_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_cfg_ahb_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie1_phy_refgen_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_1_pipe_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_phy_aux_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_aggre_noc_pcie_tbu_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "NPARESOURCE",
-                            Package(0x4)
-                            {
-                                One,
-                                "/arc/client/rail_cx",
-                                0x10,
-                                "SUPPRESSIBLE"
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_APPSS_PROC",
-                                "ICBID_SLAVE_PCIE_1_CFG",
-                                Zero,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_PCIE_1",
-                                "ICBID_SLAVE_EBI1",
-                                Zero,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "FOOTSWITCH",
-                            Package(0x2)
-                            {
-                                "pcie_1_gdsc",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO3_C",
-                                One,
-                                Zero,
-                                Zero,
-                                Zero,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO5_A",
-                                One,
-                                Zero,
-                                Zero,
-                                Zero,
-                                Zero
-                            }
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "CRASHDUMP_EXCEPTION",
-                        Package(0x2)
-                        {
-                            "EXECUTE_FUNCTION",
-                            Package(0x1)
-                            {
-                                "ExecuteOcdPCIeExceptions"
-                            }
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "CRASHDUMP_DSTATE",
-                        Zero
-                    }
-                },
-                Package(0x7)
-                {
-                    "DEVICE",
-                    "\\_SB.PCI1.RP1",
-                    Package(0x4)
-                    {
-                        "COMPONENT",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            Zero
-                        },
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            One
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        Zero
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        One
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        0x2
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        0x3
-                    }
-                }
-            })
-            Name(PEMH, Package(0x4)
-            {
-                Package(0x9)
-                {
-                    "DEVICE",
-                    "\\_SB.PCI0",
-                    Package(0x4)
-                    {
-                        "COMPONENT",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            Zero
-                        },
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            One
-                        }
-                    },
-                    Package(0x12)
-                    {
-                        "DSTATE",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO3_C",
-                                One,
-                                0x124f80,
-                                One,
-                                One,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO5_A",
-                                One,
-                                0xd6d80,
-                                One,
-                                One,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "FOOTSWITCH",
-                            Package(0x2)
-                            {
-                                "pcie_0_gdsc",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_APPSS_PROC",
-                                "ICBID_SLAVE_PCIE_0_CFG",
-                                0x47868c0,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_PCIE_0",
-                                "ICBID_SLAVE_EBI1",
-                                0x3a699d00,
-                                0x3a699d00
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "NPARESOURCE",
-                            Package(0x4)
-                            {
-                                One,
-                                "/arc/client/rail_cx",
-                                0x100,
-                                "SUPPRESSIBLE"
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_phy_aux_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_aggre_noc_pcie_tbu_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_pipe_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_slv_axi_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_slv_q2a_axi_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_mstr_axi_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_cfg_ahb_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x4)
-                            {
-                                "gcc_pcie_0_aux_clk",
-                                0x8,
-                                0x124f800,
-                                0x3
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x4)
-                            {
-                                "gcc_pcie0_phy_refgen_clk",
-                                0x8,
-                                0x5f5e100,
-                                0x3
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "TLMMGPIO",
-                            Package(0x7)
-                            {
-                                0x24,
-                                Zero,
-                                One,
-                                Zero,
-                                0x3,
-                                Zero,
-                                Zero
-                            }
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        One
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        0x2
-                    },
-                    Package(0x11)
-                    {
-                        "DSTATE",
-                        0x3,
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_aux_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_slv_axi_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_slv_q2a_axi_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_mstr_axi_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_cfg_ahb_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie0_phy_refgen_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_0_pipe_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_phy_aux_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_aggre_noc_pcie_tbu_clk",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "NPARESOURCE",
-                            Package(0x4)
-                            {
-                                One,
-                                "/arc/client/rail_cx",
-                                0x10,
-                                "SUPPRESSIBLE"
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_APPSS_PROC",
-                                "ICBID_SLAVE_PCIE_0_CFG",
-                                Zero,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_PCIE_0",
-                                "ICBID_SLAVE_EBI1",
-                                Zero,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "FOOTSWITCH",
-                            Package(0x2)
-                            {
-                                "pcie_0_gdsc",
-                                0x2
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO3_C",
-                                One,
-                                Zero,
-                                Zero,
-                                Zero,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO5_A",
-                                One,
-                                Zero,
-                                Zero,
-                                Zero,
-                                Zero
-                            }
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "CRASHDUMP_EXCEPTION",
-                        Package(0x2)
-                        {
-                            "EXECUTE_FUNCTION",
-                            Package(0x1)
-                            {
-                                "ExecuteOcdPCIeExceptions"
-                            }
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "CRASHDUMP_DSTATE",
-                        Zero
-                    }
-                },
-                Package(0x7)
-                {
-                    "DEVICE",
-                    "\\_SB.PCI0.RP1",
-                    Package(0x4)
-                    {
-                        "COMPONENT",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            Zero
-                        },
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            One
-                        }
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        Zero
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        One
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        0x2
-                    },
-                    Package(0x2)
-                    {
-                        "DSTATE",
-                        0x3
-                    }
-                },
-                Package(0x9)
-                {
-                    "DEVICE",
-                    "\\_SB.PCI1",
-                    Package(0x4)
-                    {
-                        "COMPONENT",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            Zero
-                        },
-                        Package(0x2)
-                        {
-                            "FSTATE",
-                            One
-                        }
-                    },
-                    Package(0x12)
-                    {
-                        "DSTATE",
-                        Zero,
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO3_C",
-                                One,
-                                0x124f80,
-                                One,
-                                One,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO5_A",
-                                One,
-                                0xd6d80,
-                                One,
-                                One,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "FOOTSWITCH",
-                            Package(0x2)
-                            {
-                                "pcie_1_gdsc",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_APPSS_PROC",
-                                "ICBID_SLAVE_PCIE_1_CFG",
-                                0x47868c0,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "BUSARB",
-                            Package(0x5)
-                            {
-                                0x3,
-                                "ICBID_MASTER_PCIE_1",
-                                "ICBID_SLAVE_EBI1",
-                                0x74d33a00,
-                                0x74d33a00
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "NPARESOURCE",
-                            Package(0x4)
-                            {
-                                One,
-                                "/arc/client/rail_cx",
-                                0x100,
-                                "SUPPRESSIBLE"
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_pcie_phy_aux_clk",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CLOCK",
-                            Package(0x2)
-                            {
-                                "gcc_aggre_noc_pcie_tbu_clk",
-                                One
                             }
                         },
                         Package(0x2)
@@ -52502,7 +51587,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     "DEVICE",
                     "\\_SB.CAMS",
-                    Package(0x11)
+                    Package(0x12)
                     {
                         "DSTATE",
                         Zero,
@@ -52579,7 +51664,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0xb,
+                                0x3b,
                                 Zero,
                                 Zero,
                                 One,
@@ -52616,15 +51701,26 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x7)
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_SMPS5_A",
+                                0x2,
+                                0x1dc130,
+                                One,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x5)
                             {
                                 "PPP_RESOURCE_ID_BUCK_BOOST1_C",
                                 0xc,
                                 0x328980,
                                 One,
-                                0x2,
-                                "HLOS_DRV",
-                                "SUPPRESSIBLE"
+                                0x6
                             }
                         },
                         Package(0x2)
@@ -52643,7 +51739,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0xb,
+                                0x3b,
                                 One,
                                 Zero,
                                 One,
@@ -52673,7 +51769,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             }
                         }
                     },
-                    Package(0xf)
+                    Package(0x10)
                     {
                         "DSTATE",
                         0x3,
@@ -52682,7 +51778,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0xb,
+                                0x3b,
                                 Zero,
                                 Zero,
                                 One,
@@ -52725,15 +51821,13 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x7)
+                            Package(0x5)
                             {
                                 "PPP_RESOURCE_ID_BUCK_BOOST1_C",
                                 0xc,
+                                0x328980,
                                 Zero,
-                                Zero,
-                                0x2,
-                                "HLOS_DRV",
-                                "SUPPRESSIBLE"
+                                0x2
                             }
                         },
                         Package(0x2)
@@ -52743,6 +51837,19 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             {
                                 "PPP_RESOURCE_ID_LDO1_C",
                                 One,
+                                Zero,
+                                Zero,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_SMPS5_A",
+                                0x2,
                                 Zero,
                                 Zero,
                                 0x7,
@@ -52887,7 +51994,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1e,
+                                0x36,
                                 Zero,
                                 Zero,
                                 One,
@@ -52900,7 +52007,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0xb,
+                                0x76,
                                 Zero,
                                 Zero,
                                 One,
@@ -52937,15 +52044,13 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x7)
+                            Package(0x5)
                             {
                                 "PPP_RESOURCE_ID_BUCK_BOOST1_C",
                                 0xc,
                                 0x328980,
                                 One,
-                                0x2,
-                                "HLOS_DRV",
-                                "SUPPRESSIBLE"
+                                0x6
                             }
                         },
                         Package(0x2)
@@ -52953,7 +52058,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "CLOCK",
                             Package(0x4)
                             {
-                                "cam_cc_mclk1_clk",
+                                "cam_cc_mclk0_clk",
                                 0x8,
                                 0x124f800,
                                 0x3
@@ -52964,7 +52069,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0xb,
+                                0x76,
                                 One,
                                 Zero,
                                 One,
@@ -52977,7 +52082,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1e,
+                                0x36,
                                 One,
                                 Zero,
                                 One,
@@ -53003,7 +52108,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0xb,
+                                0x76,
                                 Zero,
                                 Zero,
                                 One,
@@ -53016,7 +52121,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1e,
+                                0x36,
                                 Zero,
                                 Zero,
                                 One,
@@ -53037,7 +52142,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "CLOCK",
                             Package(0x4)
                             {
-                                "cam_cc_mclk1_clk",
+                                "cam_cc_mclk0_clk",
                                 0xc,
                                 Zero,
                                 0x3
@@ -53046,15 +52151,13 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x7)
+                            Package(0x5)
                             {
                                 "PPP_RESOURCE_ID_BUCK_BOOST1_C",
                                 0xc,
+                                0x328980,
                                 Zero,
-                                Zero,
-                                0x2,
-                                "HLOS_DRV",
-                                "SUPPRESSIBLE"
+                                0x2
                             }
                         },
                         Package(0x2)
@@ -61442,21 +60545,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 Method(_STA, 0x0, NotSerialized)
                 {
-                    If(LAnd(LEqual(\_SB_.SOID, 0x169), LEqual(\_SB_.PLST, One)))
-                    {
-                        Return(Zero)
-                    }
-                    Else
-                    {
-                        If(LEqual(\_SB_.PLST, 0x4))
-                        {
-                            Return(Zero)
-                        }
-                        Else
-                        {
-                            Return(0xf)
-                        }
-                    }
+                    Return(0xf)
                 }
             }
         }
@@ -61518,7 +60607,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         }
         Device(CDSP)
         {
-            Name(_DEP, Package(0x8)
+            Name(_DEP, Package(0x7)
             {
                 \_SB_.PEP0,
                 \_SB_.PILC,
@@ -61526,8 +60615,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 \_SB_.IPC0,
                 \_SB_.RPEN,
                 \_SB_.SSDD,
-                \_SB_.ARPC,
-                \_SB_.NSPM
+                \_SB_.ARPC
             })
             Name(_HID, "QCOM0523")
             Alias(\_SB_.PSUB, _SUB)
@@ -61556,7 +60644,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xf)
+                Return(Zero)
             }
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -61589,26 +60677,103 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Method(_SUB, 0x0, NotSerialized)
             {
-                If(LAnd(LEqual(\_SB_.SOID, 0x169), LEqual(\_SB_.PLST, 0x2)))
+                If(LEqual(\_SB_.SOID, 0x169))
                 {
-                    Return("MTPB8150")
-                }
-                Else
-                {
-                    If(LAnd(LEqual(\_SB_.SOID, 0x169), LEqual(\_SB_.PLST, One)))
+                    If(LEqual(\_SB_.PLST, One))
                     {
-                        Return("MTPC8150")
+                        Return("MTPB8150")
                     }
                     Else
                     {
-                        If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x2)))
+                        If(LEqual(\_SB_.PLST, 0x2))
                         {
-                            Return("MTPD8150")
+                            Return("MTPC8150")
                         }
                         Else
                         {
-                            Return(\_SB_.PSUB)
+                            If(LEqual(\_SB_.PLST, 0x3))
+                            {
+                                Return("MTPD8150")
+                            }
+                            Else
+                            {
+                                If(LEqual(\_SB_.PLST, 0x4))
+                                {
+                                    Return("MTPE8150")
+                                }
+                                Else
+                                {
+                                    If(LEqual(\_SB_.PLST, 0x5))
+                                    {
+                                        Return("MTPF8150")
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(\_SB_.PLST, 0x6))
+                                        {
+                                            Return("MTPG8150")
+                                        }
+                                        Else
+                                        {
+                                            Return("MTPA8150")
+                                        }
+                                    }
+                                }
+                            }
                         }
+                    }
+                }
+                Else
+                {
+                    If(LEqual(\_SB_.SOID, 0x153))
+                    {
+                        If(LEqual(\_SB_.PLST, One))
+                        {
+                            Return("MTP18150")
+                        }
+                        Else
+                        {
+                            If(LEqual(\_SB_.PLST, 0x2))
+                            {
+                                Return("MTP28150")
+                            }
+                            Else
+                            {
+                                If(LEqual(\_SB_.PLST, 0x3))
+                                {
+                                    Return("MTP38150")
+                                }
+                                Else
+                                {
+                                    If(LEqual(\_SB_.PLST, 0x4))
+                                    {
+                                        Return("MTP48150")
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(\_SB_.PLST, 0x5))
+                                        {
+                                            Return("MTP58150")
+                                        }
+                                        Else
+                                        {
+                                            If(LEqual(\_SB_.PLST, 0x6))
+                                            {
+                                                Return("MTP68150")
+                                            }
+                                            Else
+                                            {
+                                                Return(\_SB_.PSUB)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Else
+                    {
+                        Return(\_SB_.PSUB)
                     }
                 }
             }
@@ -61619,51 +60784,135 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 If(LEqual(\_SB_.SOID, 0x169))
                 {
-                    If(LEqual(\_SB_.PLST, 0x2))
+                    If(LEqual(\_SB_.PLST, One))
                     {
                         Return("MTPB8150")
                     }
                     Else
                     {
-                        If(LEqual(\_SB_.PLST, One))
+                        If(LEqual(\_SB_.PLST, 0x2))
                         {
                             Return("MTPC8150")
                         }
                         Else
                         {
-                            If(LEqual(\_SB_.PLST, 0x4))
+                            If(LEqual(\_SB_.PLST, 0x3))
                             {
-                                Return("MTPF8150")
+                                Return("MTPD8150")
                             }
                             Else
                             {
-                                Return("MTPA8150")
+                                If(LEqual(\_SB_.PLST, 0x4))
+                                {
+                                    Return("MTPE8150")
+                                }
+                                Else
+                                {
+                                    If(LEqual(\_SB_.PLST, 0x5))
+                                    {
+                                        Return("MTPF8150")
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(\_SB_.PLST, 0x6))
+                                        {
+                                            Return("MTPG8150")
+                                        }
+                                        Else
+                                        {
+                                            Return("MTPA8150")
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
                 Else
                 {
-                    If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x2)))
+                    If(LEqual(\_SB_.SOID, 0x153))
                     {
-                        Return("MTPD8150")
-                    }
-                    Else
-                    {
-                        If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x4)))
+                        If(LEqual(\_SB_.PLST, One))
                         {
-                            Return("MTPE8150")
+                            Return("MTP18150")
                         }
                         Else
                         {
-                            Return(\_SB_.PSUB)
+                            If(LEqual(\_SB_.PLST, 0x2))
+                            {
+                                Return("MTP28150")
+                            }
+                            Else
+                            {
+                                If(LEqual(\_SB_.PLST, 0x3))
+                                {
+                                    Return("MTP38150")
+                                }
+                                Else
+                                {
+                                    If(LEqual(\_SB_.PLST, 0x4))
+                                    {
+                                        Return("MTP48150")
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(\_SB_.PLST, 0x5))
+                                        {
+                                            Return("MTP58150")
+                                        }
+                                        Else
+                                        {
+                                            If(LEqual(\_SB_.PLST, 0x6))
+                                            {
+                                                Return("MTP68150")
+                                            }
+                                            Else
+                                            {
+                                                Return(\_SB_.PSUB)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
+                    }
+                    Else
+                    {
+                        Return(\_SB_.PSUB)
                     }
                 }
             }
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xf)
+                If(LEqual(\_SB_.SOID, 0x169))
+                {
+                    Return(Zero)
+                }
+                Else
+                {
+                    If(LEqual(\_SB_.SOID, 0x153))
+                    {
+                        If(LEqual(\_SB_.PLST, 0x5))
+                        {
+                            Return(Zero)
+                        }
+                        Else
+                        {
+                            If(LEqual(\_SB_.PLST, 0x6))
+                            {
+                                Return(Zero)
+                            }
+                            Else
+                            {
+                                Return(0xf)
+                            }
+                        }
+                    }
+                    Else
+                    {
+                        Return(0xf)
+                    }
+                }
             }
         }
         Device(LLC_)
@@ -74027,25 +73276,14 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 })
                 Method(_CRS, 0x0, NotSerialized)
                 {
-                    If(LEqual(PSUB, "CLS08150"))
+                    Name(RBF1, Buffer(0x25)
                     {
-                        Name(RBF0, Buffer(0x2)
-                        {
-	0x79, 0x00
-                        })
-                        Return(RBF0)
-                    }
-                    Else
-                    {
-                        Name(RBF1, Buffer(0x25)
-                        {
 	0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x13, 0x00, 0x01, 0x00, 0x00,
 	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x80,
 	0x01, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79,
 	0x00
-                        })
-                        Return(RBF1)
-                    }
+                    })
+                    Return(RBF1)
                 }
                 Method(_DSM, 0x4, NotSerialized)
                 {
@@ -74156,80 +73394,11 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             }
             Method(_QPG, 0x0, Serialized)
             {
-                If(LEqual(\_SB_.PSUB, "CLS08150"))
+                Return(Package(0x2)
                 {
-                    Return(Package(0x2)
-                    {
-                        Zero,
-                        One
-                    })
-                }
-                Else
-                {
-                    Return(Package(0x2)
-                    {
-                        One,
-                        One
-                    })
-                }
-            }
-            Name(GWLE, Buffer(0x25)
-            {
-	0x8c, 0x20, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00,
-	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0xa9,
-	0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79,
-	0x00
-            })
-            Name(GMDM, Buffer(0x25)
-            {
-	0x8c, 0x20, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00,
-	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0xb9,
-	0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79,
-	0x00
-            })
-            Name(GMDR, Buffer(0x25)
-            {
-	0x8c, 0x20, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00,
-	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x10,
-	0x02, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x50, 0x4d, 0x30, 0x31, 0x00, 0x79,
-	0x00
-            })
-            Name(GMDS, Buffer(0x25)
-            {
-	0x8c, 0x20, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00,
-	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0xa5,
-	0x02, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x50, 0x4d, 0x30, 0x31, 0x00, 0x79,
-	0x00
-            })
-            Scope(\_SB_.GIO0)
-            {
-                OperationRegion(WLEN, GeneralPurposeIO, Zero, One)
-                OperationRegion(MPON, GeneralPurposeIO, Zero, One)
-            }
-            Scope(\_SB_.PM01)
-            {
-                OperationRegion(PMDR, GeneralPurposeIO, Zero, One)
-                OperationRegion(PMON, GeneralPurposeIO, Zero, One)
-            }
-            Field(\_SB_.GIO0.WLEN, ByteAcc, NoLock, Preserve)
-            {
-                Connection(\_SB_.QPPX.GWLE),
-                WLEN, 1
-            }
-            Field(\_SB_.GIO0.MPON, ByteAcc, NoLock, Preserve)
-            {
-                Connection(\_SB_.QPPX.GMDM),
-                MPON, 1
-            }
-            Field(\_SB_.PM01.PMDR, ByteAcc, NoLock, Preserve)
-            {
-                Connection(\_SB_.QPPX.GMDR),
-                PMDR, 1
-            }
-            Field(\_SB_.PM01.PMON, ByteAcc, NoLock, Preserve)
-            {
-                Connection(\_SB_.QPPX.GMDS),
-                PMON, 1
+                    One,
+                    One
+                })
             }
             Method(_RST, 0x1, Serialized)
             {
@@ -74239,47 +73408,11 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     Store(ToInteger(Arg0, ), _T_0)
                     If(LEqual(_T_0, Zero))
                     {
-                        If(LEqual(\_SB_.PSUB, "MTP08150"))
-                        {
-                            If(LOr(LEqual(\_SB_.PLST, One), LEqual(\_SB_.PLST, 0x4)))
-                            {
-                                Store(Zero, \_SB_.QPPX.WLEN)
-                                Sleep(0x5)
-                                Store(One, \_SB_.QPPX.WLEN)
-                            }
-                        }
-                        Else
-                        {
-                            If(LEqual(\_SB_.PSUB, "CLS08150"))
-                            {
-                                If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID(), 0x2), LEqual(BSID(), 0x3))))
-                                {
-                                    Store(Zero, \_SB_.QPPX.WLEN)
-                                    Sleep(0x5)
-                                    Store(One, \_SB_.QPPX.WLEN)
-                                }
-                            }
-                        }
                     }
                     Else
                     {
                         If(LEqual(_T_0, One))
                         {
-                            If(LEqual(\_SB_.PSUB, "CLS08150"))
-                            {
-                                If(LEqual(BREV(), Zero))
-                                {
-                                    Store(Zero, \_SB_.QPPX.PMON)
-                                    Store(Zero, \_SB_.QPPX.PMDR)
-                                    Store(Zero, \_SB_.QPPX.MPON)
-                                    Sleep(0x190)
-                                    Store(One, \_SB_.QPPX.MPON)
-                                    Store(One, \_SB_.QPPX.PMDR)
-                                    Sleep(0x64)
-                                    Store(One, \_SB_.QPPX.PMON)
-                                    Sleep(0x1e)
-                                }
-                            }
                         }
                         Else
                         {
@@ -74752,19 +73885,6 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Name(_HID, "QCOM058A")
             Alias(\_SB_.PSUB, _SUB)
         }
-        Device(NSPM)
-        {
-            Name(_DEP, Package(0x5)
-            {
-                \_SB_.MMU0,
-                \_SB_.GLNK,
-                \_SB_.SCM0,
-                \_SB_.IMM0,
-                \_SB_.ARPC
-            })
-            Name(_HID, "QCOM05E5")
-            Alias(\_SB_.PSUB, _SUB)
-        }
         Device(RFS0)
         {
             Name(_DEP, Package(One)
@@ -74808,7 +73928,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Device(SPK1)
             {
-                Name(_HID, "TAS2562")
+                Name(_HID, "TAS256X")
                 Name(_UID, Zero)
                 Alias(\_SB_.PSUB, _SUB)
                 Name(_DEP, Package(0x2)
@@ -74818,44 +73938,25 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 })
                 Method(_CRS, 0x0, NotSerialized)
                 {
-                    Name(RBUF, Buffer(0x64)
+                    Name(RBUF, Buffer(0xc6)
                     {
 	0x8e, 0x19, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x01, 0x06, 0x00,
-	0xa0, 0x86, 0x01, 0x00, 0x4d, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x49,
-	0x32, 0x43, 0x38, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02,
-	0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23,
-	0x00, 0x00, 0x00, 0x5a, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49,
-	0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02, 0x00,
-	0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00,
-	0x00, 0x00, 0x59, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f,
-	0x30, 0x00, 0x79, 0x00
-                    })
-                    Return(RBUF)
-                }
-            }
-            Device(SPK2)
-            {
-                Name(_HID, "TAS2562")
-                Name(_UID, One)
-                Alias(\_SB_.PSUB, _SUB)
-                Name(_DEP, Package(0x2)
-                {
-                    \_SB_.GIO0,
-                    \_SB_.I2C8
-                })
-                Method(_CRS, 0x0, NotSerialized)
-                {
-                    Name(RBUF, Buffer(0x64)
-                    {
-	0x8e, 0x19, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x01, 0x06, 0x00,
-	0xa0, 0x86, 0x01, 0x00, 0x4c, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x49,
-	0x32, 0x43, 0x38, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02,
-	0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23,
-	0x00, 0x00, 0x00, 0x5b, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49,
-	0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02, 0x00,
-	0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00,
-	0x00, 0x00, 0x5c, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f,
-	0x30, 0x00, 0x79, 0x00
+	0x80, 0x1a, 0x06, 0x00, 0x4c, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x49,
+	0x32, 0x43, 0x38, 0x00, 0x8e, 0x19, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00,
+	0x00, 0x01, 0x06, 0x00, 0x80, 0x1a, 0x06, 0x00, 0x4d, 0x00, 0x5c, 0x5f,
+	0x53, 0x42, 0x2e, 0x49, 0x32, 0x43, 0x38, 0x00, 0x8c, 0x20, 0x00, 0x01,
+	0x00, 0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00,
+	0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x5a, 0x00, 0x5c, 0x5f, 0x53,
+	0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00,
+	0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00,
+	0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x59, 0x00, 0x5c, 0x5f, 0x53, 0x42,
+	0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01,
+	0x00, 0x02, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19,
+	0x00, 0x23, 0x00, 0x00, 0x00, 0x5b, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e,
+	0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00,
+	0x02, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00,
+	0x23, 0x00, 0x00, 0x00, 0x5c, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47,
+	0x49, 0x4f, 0x30, 0x00, 0x79, 0x00
                     })
                     Return(RBUF)
                 }
@@ -74894,9 +73995,23 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 }
                 Else
                 {
-                    If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x2)))
+                    If(LEqual(\_SB_.SOID, 0x153))
                     {
-                        Return(Zero)
+                        If(LEqual(\_SB_.PLST, 0x5))
+                        {
+                            Return(Zero)
+                        }
+                        Else
+                        {
+                            If(LEqual(\_SB_.PLST, 0x6))
+                            {
+                                Return(Zero)
+                            }
+                            Else
+                            {
+                                Return(0xf)
+                            }
+                        }
                     }
                     Else
                     {
@@ -74934,9 +74049,23 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 }
                 Else
                 {
-                    If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x2)))
+                    If(LEqual(\_SB_.SOID, 0x153))
                     {
-                        Return(Zero)
+                        If(LEqual(\_SB_.PLST, 0x5))
+                        {
+                            Return(Zero)
+                        }
+                        Else
+                        {
+                            If(LEqual(\_SB_.PLST, 0x6))
+                            {
+                                Return(Zero)
+                            }
+                            Else
+                            {
+                                Return(0xf)
+                            }
+                        }
                     }
                     Else
                     {
@@ -75987,15 +75116,43 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Method(_STA, 0x0, NotSerialized)
             {
-                If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(\_SB_.PLST, One), LEqual(\_SB_.PLST, 0x2))))
+                If(LEqual(\_SB_.SOID, 0x169))
                 {
-                    Return(Zero)
+                    If(LEqual(\_SB_.PLST, 0x5))
+                    {
+                        Return(Zero)
+                    }
+                    Else
+                    {
+                        If(LEqual(\_SB_.PLST, 0x6))
+                        {
+                            Return(Zero)
+                        }
+                        Else
+                        {
+                            Return(0xf)
+                        }
+                    }
                 }
                 Else
                 {
-                    If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x2)))
+                    If(LEqual(\_SB_.SOID, 0x153))
                     {
-                        Return(Zero)
+                        If(LEqual(\_SB_.PLST, 0x5))
+                        {
+                            Return(Zero)
+                        }
+                        Else
+                        {
+                            If(LEqual(\_SB_.PLST, 0x6))
+                            {
+                                Return(Zero)
+                            }
+                            Else
+                            {
+                                Return(0xf)
+                            }
+                        }
                     }
                     Else
                     {
@@ -76283,19 +75440,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                OperationRegion(USBC, SystemMemory, 0x9ff90080, One)
-                Field(USBC, ByteAcc, NoLock, Preserve)
-                {
-                    UCAM, 8
-                }
-                If(LAnd(LEqual(UCAM, Zero), LEqual(\_SB_.PLST, One)))
-                {
-                    Return(Zero)
-                }
-                Else
-                {
-                    Return(0xf)
-                }
+                Return(0xf)
             }
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -76316,42 +75461,21 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             }
             Method(PCFG, 0x0, Serialized)
             {
-                If(LEqual(\_SB_.PLST, One))
+                Return(Package(0x1)
                 {
-                    Return(Package(0x1)
+                    Package(0x9)
                     {
-                        Package(0x9)
-                        {
-                            0x3,
-                            0x110100,
-                            0x110010,
-                            Zero,
-                            Zero,
-                            Zero,
-                            Zero,
-                            Zero,
-                            Zero
-                        }
-                    })
-                }
-                Else
-                {
-                    Return(Package(0x1)
-                    {
-                        Package(0x9)
-                        {
-                            0x3,
-                            0x110100,
-                            0x110010,
-                            Zero,
-                            Zero,
-                            Zero,
-                            Zero,
-                            Zero,
-                            Zero
-                        }
-                    })
-                }
+                        0x3,
+                        0x110101,
+                        0x200013,
+                        Zero,
+                        Zero,
+                        Zero,
+                        Zero,
+                        Zero,
+                        Zero
+                    }
+                })
             }
             Method(PERF, 0x0, NotSerialized)
             {
@@ -76719,14 +75843,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                If(LEqual(\_SB_.PLST, One))
-                {
-                    Return(Zero)
-                }
-                Else
-                {
-                    Return(0xf)
-                }
+                Return(0xf)
             }
             Method(SCFG, 0x0, Serialized)
             {
@@ -76734,10 +75851,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     Package(0x5)
                     {
-                        "com.qti.sensormodule.sony_imx351.bin",
-                        "com.qti.tuned.sony_imx351.bin",
-                        0x150034,
-                        0x3510016,
+                        "com.qti.sensormodule.sunny_imx582.bin",
+                        "com.qti.tuned.sunny_imx582.bin",
+                        0x160020,
+                        0x5820016,
                         Zero
                     }
                 })
@@ -76800,19 +75917,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                OperationRegion(USBC, SystemMemory, 0x9ff90080, One)
-                Field(USBC, ByteAcc, NoLock, Preserve)
-                {
-                    UCAM, 8
-                }
-                If(LAnd(LEqual(\_SB_.PLST, One), LEqual(UCAM, One)))
-                {
-                    Return(Zero)
-                }
-                Else
-                {
-                    Return(0xf)
-                }
+                Return(0xf)
             }
             Method(SCFG, 0x0, Serialized)
             {
@@ -76820,10 +75925,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     Package(0x5)
                     {
-                        "com.qti.sensormodule.sony_front_imx351.bin",
-                        "com.qti.tuned.sony_front_imx351.bin",
-                        0x150034,
-                        0x3510016,
+                        "com.qti.sensormodule.sunny_s5k3t2.bin",
+                        "com.qti.tuned.sunny_s5k3t2.bin",
+                        0x160020,
+                        0x26960000,
                         Zero
                     }
                 })
@@ -76877,11 +75982,9 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         }
         Device(FLSH)
         {
-            Name(_DEP, Package(0x3)
+            Name(_DEP, Package(One)
             {
-                \_SB_.CAMP,
-                \_SB_.CAMS,
-                \_SB_.PMAP
+                \_SB_.CAMP
             })
             Name(_HID, "QCOM052A")
             Name(_UID, 0x19)
@@ -80473,6 +79576,15 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Name(_HID, "QCOM0513")
             Alias(\_SB_.PSUB, _SUB)
         }
+        Device(FMSL)
+        {
+            Name(_DEP, Package(0x2)
+            {
+                \_SB_.PEP0,
+                \_SB_.BTH0
+            })
+            Name(_HID, "QCOM056F")
+        }
         Device(BTH0)
         {
             Name(_HID, "QCOM0571")
@@ -80510,45 +79622,101 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 If(LEqual(\_SB_.SOID, 0x169))
                 {
-                    If(LEqual(\_SB_.PLST, 0x2))
+                    If(LEqual(\_SB_.PLST, One))
                     {
                         Return("MTPB8150")
                     }
                     Else
                     {
-                        If(LEqual(\_SB_.PLST, One))
+                        If(LEqual(\_SB_.PLST, 0x2))
                         {
                             Return("MTPC8150")
                         }
                         Else
                         {
-                            If(LEqual(\_SB_.PLST, 0x4))
+                            If(LEqual(\_SB_.PLST, 0x3))
                             {
-                                Return("MTPF8150")
+                                Return("MTPD8150")
                             }
                             Else
                             {
-                                Return("MTPA8150")
+                                If(LEqual(\_SB_.PLST, 0x4))
+                                {
+                                    Return("MTPE8150")
+                                }
+                                Else
+                                {
+                                    If(LEqual(\_SB_.PLST, 0x5))
+                                    {
+                                        Return("MTPF8150")
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(\_SB_.PLST, 0x6))
+                                        {
+                                            Return("MTPG8150")
+                                        }
+                                        Else
+                                        {
+                                            Return("MTPA8150")
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
                 Else
                 {
-                    If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x2)))
+                    If(LEqual(\_SB_.SOID, 0x153))
                     {
-                        Return("MTPD8150")
-                    }
-                    Else
-                    {
-                        If(LAnd(LEqual(\_SB_.SOID, 0x153), LEqual(\_SB_.PLST, 0x4)))
+                        If(LEqual(\_SB_.PLST, One))
                         {
-                            Return("MTPE8150")
+                            Return("MTP18150")
                         }
                         Else
                         {
-                            Return(\_SB_.PSUB)
+                            If(LEqual(\_SB_.PLST, 0x2))
+                            {
+                                Return("MTP28150")
+                            }
+                            Else
+                            {
+                                If(LEqual(\_SB_.PLST, 0x3))
+                                {
+                                    Return("MTP38150")
+                                }
+                                Else
+                                {
+                                    If(LEqual(\_SB_.PLST, 0x4))
+                                    {
+                                        Return("MTP48150")
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(\_SB_.PLST, 0x5))
+                                        {
+                                            Return("MTP58150")
+                                        }
+                                        Else
+                                        {
+                                            If(LEqual(\_SB_.PLST, 0x6))
+                                            {
+                                                Return("MTP68150")
+                                            }
+                                            Else
+                                            {
+                                                Return(\_SB_.PSUB)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
+                    }
+                    Else
+                    {
+                        Return(\_SB_.PSUB)
                     }
                 }
             }
@@ -82109,7 +81277,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Method(CHAN, 0x0, NotSerialized)
             {
-                Return(Package(0x7)
+                Return(Package(0x9)
                 {
                     Package(0xb)
                     {
@@ -82200,6 +81368,34 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         "PA_THERM1",
                         0x4f,
                         0x2,
+                        Zero,
+                        0x2,
+                        One,
+                        One,
+                        One,
+                        0x2,
+                        0x186a0,
+                        SYTB
+                    },
+                    Package(0xb)
+                    {
+                        "SYS_THERM6",
+                        0x53,
+                        One,
+                        Zero,
+                        0x2,
+                        One,
+                        One,
+                        One,
+                        0x2,
+                        0x186a0,
+                        SYTB
+                    },
+                    Package(0xb)
+                    {
+                        "SYS_THERM7",
+                        0x54,
+                        One,
                         Zero,
                         0x2,
                         One,
@@ -82471,7 +81667,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Method(CHAN, 0x0, NotSerialized)
             {
-                Return(Package(0x4)
+                Return(Package(0x5)
                 {
                     Package(0xb)
                     {
@@ -82520,6 +81716,20 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         "SYS_THERM6",
                         0x4f,
                         0x2,
+                        Zero,
+                        0x2,
+                        One,
+                        One,
+                        One,
+                        0x2,
+                        0x186a0,
+                        SYTB
+                    },
+                    Package(0xb)
+                    {
+                        "SYS_THERM8",
+                        0x53,
+                        One,
                         Zero,
                         0x2,
                         One,
