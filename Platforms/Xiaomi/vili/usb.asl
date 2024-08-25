@@ -5,6 +5,8 @@ Device (URS0)
 {
     Alias (\_SB.PSUB, _SUB)                                                                                                             // Subsystem ID
 
+    Method (_STA, 0, NotSerialized) { Return (0x0F) }                                                                                   // Status
+
     Name (_HID, "QCOM0497")                                                                                                             // Hardware ID
     Name (_CID, "PNP0CA1")                                                                                                              // Compatible ID
     Name (_UID, 0)                                                                                                                      // Unique ID
@@ -14,8 +16,6 @@ Device (URS0)
     {
         Memory32Fixed (ReadWrite, 0x0A600000, 0x00100000)                                                                               // USB Base Address & Length
     })
-
-    Method (_STA, 0, NotSerialized) { Return (0x0F) }                                                                                   // Status
 
     //
     // USB Host Mode
