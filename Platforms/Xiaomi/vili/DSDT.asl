@@ -6,7 +6,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8350 ", 3)
         // Global Variables
         //
         Name (PSUB, "MTP08350")
-        Name (EMUL, 0xFFFFFFFF)
 
         //
         // Internal Storage (UFS)
@@ -19,8 +18,23 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8350 ", 3)
         Include ("cpu.asl")
 
         //
+        // PMIC (Incomplete)
+        //
+        Include ("pmic.asl")
+
+        //
+        // SPMI
+        //
+        Include ("spmi.asl")
+
+        //
         // USB Port (Incomplete)
         //
         Include ("usb.asl")
+
+        //
+        // Buttons
+        //
+        Include ("buttons.asl")
     }
 }

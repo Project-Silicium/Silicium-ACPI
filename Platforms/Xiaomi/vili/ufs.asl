@@ -4,7 +4,8 @@
 Device (UFS0)
 {
     Alias (\_SB.PSUB, _SUB)                                                                                                             // Subsystem ID
-    Alias (\_SB.EMUL, EMUL)
+
+    Method (_STA, 0, NotSerialized) { Return (0x0F) }                                                                                   // Status
 
     Name (_HID, "QCOM24A5")                                                                                                             // Hardware ID
     Name (_UID, 0)                                                                                                                      // Unique ID
@@ -22,6 +23,4 @@ Device (UFS0)
         Method (_ADR, 0, NotSerialized) { Return (0x08) }                                                                               // Address
         Method (_RMV, 0, NotSerialized) { Return (0x00) }                                                                               // Removal Status
     }
-
-    Method (_STA, 0, NotSerialized) { Return (0x0F) }                                                                                   // Status
 }
