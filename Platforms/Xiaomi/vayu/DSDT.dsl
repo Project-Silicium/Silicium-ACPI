@@ -77538,7 +77538,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     /* 0120 */  0x3E, 0x0A, 0x20, 0x3C, 0x53, 0x65, 0x72, 0x69,  // >. <Seri
                     /* 0128 */  0x61, 0x6C, 0x4E, 0x75, 0x6D, 0x62, 0x65, 0x72,  // alNumber
                     /* 0130 */  0x3E, 0x30, 0x78, 0x30, 0x30, 0x30, 0x30, 0x30,  // >0x00000
-                    /* 0138 */  0x31, 0x3C, 0x2F, 0x53, 0x65, 0x72, 0x69, 0x61,  // 1</Seria
+                    /* 0138 */  0x30, 0x3C, 0x2F, 0x53, 0x65, 0x72, 0x69, 0x61,  // 0</Seria
                     /* 0140 */  0x6C, 0x4E, 0x75, 0x6D, 0x62, 0x65, 0x72, 0x3E,  // lNumber>
                     /* 0148 */  0x0A, 0x20, 0x3C, 0x57, 0x65, 0x65, 0x6B, 0x6F,  // . <Weeko
                     /* 0150 */  0x66, 0x4D, 0x61, 0x6E, 0x75, 0x66, 0x61, 0x63,  // fManufac
@@ -78223,7 +78223,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     /* 0120 */  0x65, 0x3E, 0x0A, 0x20, 0x3C, 0x53, 0x65, 0x72,  // e>. <Ser
                     /* 0128 */  0x69, 0x61, 0x6C, 0x4E, 0x75, 0x6D, 0x62, 0x65,  // ialNumbe
                     /* 0130 */  0x72, 0x3E, 0x30, 0x78, 0x30, 0x30, 0x30, 0x30,  // r>0x0000
-                    /* 0138 */  0x30, 0x31, 0x3C, 0x2F, 0x53, 0x65, 0x72, 0x69,  // 01</Seri
+                    /* 0138 */  0x30, 0x30, 0x3C, 0x2F, 0x53, 0x65, 0x72, 0x69,  // 00</Seri
                     /* 0140 */  0x61, 0x6C, 0x4E, 0x75, 0x6D, 0x62, 0x65, 0x72,  // alNumber
                     /* 0148 */  0x3E, 0x0A, 0x20, 0x3C, 0x57, 0x65, 0x65, 0x6B,  // >. <Week
                     /* 0150 */  0x6F, 0x66, 0x4D, 0x61, 0x6E, 0x75, 0x66, 0x61,  // ofManufa
@@ -80869,10 +80869,11 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                 Name (_HID, "TAS256X")  // _HID: Hardware ID
                 Name (_UID, Zero)  // _UID: Unique ID
                 Alias (\_SB.PSUB, _SUB)
-                Name (_DEP, Package (0x02)  // _DEP: Dependencies
+                Name (_DEP, Package (0x03)  // _DEP: Dependencies
                 {
                     \_SB.GIO0, 
-                    \_SB.I2C8
+                    \_SB.I2C8, 
+                    \_SB.AFT1
                 })
                 Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
                 {
@@ -80896,19 +80897,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                             "\\_SB.GIO0", 0x00, ResourceConsumer, ,
                             )
                             {   // Pin list
-                                0x005C
-                            }
-                        GpioInt (Level, ActiveLow, Exclusive, PullNone, 0x0000,
-                            "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                            )
-                            {   // Pin list
                                 0x005A
-                            }
-                        GpioInt (Level, ActiveLow, Exclusive, PullNone, 0x0000,
-                            "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                            )
-                            {   // Pin list
-                                0x0059
                             }
                     })
                     Return (RBUF) /* \_SB_.ADSP.SLM1.ADCM.AUDD.SPK1._CRS.RBUF */
