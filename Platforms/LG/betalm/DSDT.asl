@@ -1,4 +1,4 @@
-DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
+DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 {
     Scope(\_SB_)
     {
@@ -31,6 +31,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         Name(SOSI, 0xdeadbeefffffffff)
         Name(PRP0, 0xffffffff)
         Name(PRP1, 0xffffffff)
+        Name(PRP2, 0xffffffff)
+        Name(PRP3, 0xffffffff)
         Device(AUDS)
         {
             Name(_HID, "QCOM05D2")
@@ -76,6 +78,89 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     Return(Zero)
                 }
+            }
+        }
+        Device(UFS1)
+        {
+            Method(_STA, 0x0, NotSerialized)
+            {
+                If(LEqual(SUFS, One))
+                {
+                    If(LEqual(STOR, One))
+                    {
+                        Return(0xf)
+                    }
+                    Else
+                    {
+                        Return(Zero)
+                    }
+                }
+                Else
+                {
+                    Return(Zero)
+                }
+            }
+            Name(_DEP, Package(One)
+            {
+                \_SB_.PEP0
+            })
+            Name(_HID, "QCOM24A5")
+            Alias(\_SB_.PSUB, _SUB)
+            Name(_UID, One)
+            Name(_CCA, One)
+            Method(_CRS, 0x0, NotSerialized)
+            {
+                Name(RBUF, Buffer(0x17)
+                {
+	0x86, 0x09, 0x00, 0x01, 0x00, 0x40, 0xd6, 0x01, 0x00, 0x40, 0x01, 0x00,
+	0x89, 0x06, 0x00, 0x01, 0x01, 0xa9, 0x02, 0x00, 0x00, 0x79, 0x00
+                })
+                Return(RBUF)
+            }
+            Device(DEV0)
+            {
+                Method(_ADR, 0x0, NotSerialized)
+                {
+                    Return(0x8)
+                }
+                Method(_RMV, 0x0, NotSerialized)
+                {
+                    Return(Zero)
+                }
+            }
+        }
+        Device(SDC2)
+        {
+            Name(_DEP, Package(0x2)
+            {
+                \_SB_.PEP0,
+                \_SB_.GIO0
+            })
+            Name(_HID, "QCOM2466")
+            Name(_UID, One)
+            Name(_CCA, Zero)
+            Alias(\_SB_.PSUB, _SUB)
+            Method(_CRS, 0x0, NotSerialized)
+            {
+                Name(RBUF, Buffer(0x5d)
+                {
+	0x86, 0x09, 0x00, 0x01, 0x00, 0x40, 0x80, 0x08, 0x00, 0x10, 0x00, 0x00,
+	0x89, 0x06, 0x00, 0x01, 0x01, 0xec, 0x00, 0x00, 0x00, 0x8c, 0x20, 0x00,
+	0x01, 0x00, 0x01, 0x00, 0x1d, 0x00, 0x01, 0x00, 0x00, 0x88, 0x13, 0x17,
+	0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x5c, 0x5f,
+	0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01,
+	0x01, 0x01, 0x00, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00,
+	0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x30, 0x00, 0x5c, 0x5f, 0x53,
+	0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79, 0x00
+                })
+                Return(RBUF)
+            }
+            Method(_DIS, 0x0, NotSerialized)
+            {
+            }
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(0xf)
             }
         }
         Device(ABD_)
@@ -282,23 +367,13 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 Return(Zero)
             }
         }
-        Device(PEXT)
-        {
-            Name(_DEP, Package(0x2)
-            {
-                \_SB_.SPMI,
-                \_SB_.PMIC
-            })
-            Name(_HID, "QCOM05CE")
-            Alias(\_SB_.PSUB, _SUB)
-        }
-        Name(BFCC, 0x3336)
+        Name(BFCC, 0x33e0)
         Name(PCT1, 0x5)
         Name(PCT2, 0x9)
-        Name(CUST, "8150_MTP")
-        Name(VNOM, 0xed8)
-        Name(VLOW, 0xce4)
-        Name(EMPT, 0xc80)
+        Name(CUST, "8996_MTP")
+        Name(VNOM, 0xf0a)
+        Name(VLOW, 0xdac)
+        Name(EMPT, 0xd48)
         Name(DCMA, 0x384)
         Name(BOCP, 0x1194)
         Name(BVLO, 0xbb8)
@@ -306,7 +381,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         Name(BNOP, 0x16)
         Name(IFGD, 0x32)
         Name(VFGD, 0x32)
-        Name(VDD1, 0x10fe)
+        Name(VDD1, 0x1130)
         Name(FCC1, 0x834)
         Name(HCLI, Zero)
         Name(SCLI, 0xa)
@@ -327,7 +402,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             })
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xb)
+                Return(0xf)
             }
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -429,7 +504,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 Name(CFG0, Package(0x3)
                 {
-                    One,
+                    Zero,
                     Zero,
                     Zero
                 })
@@ -683,7 +758,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             }
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xb)
+                Return(0xf)
             }
         }
         Device(BCL1)
@@ -740,10 +815,6 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 })
                 Return(CFG0)
             }
-            Method(_STA, 0x0, NotSerialized)
-            {
-                Return(0xb)
-            }
         }
         Device(PTCC)
         {
@@ -751,7 +822,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Name(_DEP, Package(One)
             {
-                \_SB_.PMIC
+                \_SB_.PCPD
             })
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -782,7 +853,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x23, 0x00, 0x00, 0x00, 0x08, 0x01, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x50,
 	0x4d, 0x30, 0x31, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x01,
 	0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23,
-	0x00, 0x00, 0x00, 0xda, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x50, 0x4d,
+	0x00, 0x00, 0x00, 0xd9, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x50, 0x4d,
 	0x30, 0x31, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x05, 0x00,
 	0x01, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00,
 	0x00, 0x00, 0xdf, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x50, 0x4d, 0x30,
@@ -793,6 +864,25 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 })
                 Return(RBUF)
             }
+        }
+        Device(PCPD)
+        {
+            Name(_DEP, Package(One)
+            {
+                \_SB_.PMIC
+            })
+            Name(_HID, "QCOM05CE")
+            Alias(\_SB_.PSUB, _SUB)
+        }
+        Device(PCFG)
+        {
+            Name(_DEP, Package(0x2)
+            {
+                \_SB_.PMIC,
+                \_SB_.SPMI
+            })
+            Name(_HID, "QCOM0580")
+            Alias(\_SB_.PSUB, _SUB)
         }
         Device(PEP0)
         {
@@ -1573,7 +1663,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                     Store(Arg1, \_SB_.TZ22.TPSV)
                                                                                     Notify(\_SB_.TZ22, 0x81)
                                                                                 }
-                                                                                Return(\_SB_.TZ22._PSV())
+                                                                                Return(\_SB_.TZ22._PSV)
                                                                             }
                                                                             Else
                                                                             {
@@ -1584,7 +1674,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                         Store(Arg1, \_SB_.TZ22.TTSP)
                                                                                         Notify(\_SB_.TZ22, 0x81)
                                                                                     }
-                                                                                    Return(\_SB_.TZ22._TSP())
+                                                                                    Return(\_SB_.TZ22._TSP)
                                                                                 }
                                                                                 Else
                                                                                 {
@@ -1595,7 +1685,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                             Store(Arg1, \_SB_.TZ22.TTC1)
                                                                                             Notify(\_SB_.TZ22, 0x81)
                                                                                         }
-                                                                                        Return(\_SB_.TZ22._TC1())
+                                                                                        Return(\_SB_.TZ22._TC1)
                                                                                     }
                                                                                     Else
                                                                                     {
@@ -1606,7 +1696,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                 Store(Arg1, \_SB_.TZ22.TTC2)
                                                                                                 Notify(\_SB_.TZ22, 0x81)
                                                                                             }
-                                                                                            Return(\_SB_.TZ22._TC2())
+                                                                                            Return(\_SB_.TZ22._TC2)
                                                                                         }
                                                                                         Else
                                                                                         {
@@ -1633,7 +1723,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                         Store(Arg1, \_SB_.TZ38.TPSV)
                                                                                         Notify(\_SB_.TZ38, 0x81)
                                                                                     }
-                                                                                    Return(\_SB_.TZ38._PSV())
+                                                                                    Return(\_SB_.TZ38._PSV)
                                                                                 }
                                                                                 Else
                                                                                 {
@@ -1644,7 +1734,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                             Store(Arg1, \_SB_.TZ38.TTSP)
                                                                                             Notify(\_SB_.TZ38, 0x81)
                                                                                         }
-                                                                                        Return(\_SB_.TZ38._TSP())
+                                                                                        Return(\_SB_.TZ38._TSP)
                                                                                     }
                                                                                     Else
                                                                                     {
@@ -1655,7 +1745,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                 Store(Arg1, \_SB_.TZ38.TTC1)
                                                                                                 Notify(\_SB_.TZ38, 0x81)
                                                                                             }
-                                                                                            Return(\_SB_.TZ38._TC1())
+                                                                                            Return(\_SB_.TZ38._TC1)
                                                                                         }
                                                                                         Else
                                                                                         {
@@ -1666,7 +1756,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                     Store(Arg1, \_SB_.TZ38.TTC2)
                                                                                                     Notify(\_SB_.TZ38, 0x81)
                                                                                                 }
-                                                                                                Return(\_SB_.TZ38._TC2())
+                                                                                                Return(\_SB_.TZ38._TC2)
                                                                                             }
                                                                                             Else
                                                                                             {
@@ -1740,7 +1830,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                             }
                                                                             Else
                                                                             {
-                                                                                If(LEqual(_T_0, 0x33))
+                                                                                If(LEqual(_T_0, 0x29))
                                                                                 {
                                                                                     While(One)
                                                                                     {
@@ -1750,10 +1840,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                         {
                                                                                             If(Arg2)
                                                                                             {
-                                                                                                Store(Arg1, \_SB_.TZ51.TPSV)
-                                                                                                Notify(\_SB_.TZ51, 0x81)
+                                                                                                Store(Arg1, \_SB_.TZ41.TPSV)
+                                                                                                Notify(\_SB_.TZ41, 0x81)
                                                                                             }
-                                                                                            Return(\_SB_.TZ51._PSV())
+                                                                                            Return(\_SB_.TZ41._PSV)
                                                                                         }
                                                                                         Else
                                                                                         {
@@ -1761,10 +1851,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                             {
                                                                                                 If(Arg2)
                                                                                                 {
-                                                                                                    Store(Arg1, \_SB_.TZ51.TTSP)
-                                                                                                    Notify(\_SB_.TZ51, 0x81)
+                                                                                                    Store(Arg1, \_SB_.TZ41.TTSP)
+                                                                                                    Notify(\_SB_.TZ41, 0x81)
                                                                                                 }
-                                                                                                Return(\_SB_.TZ51._TSP())
+                                                                                                Return(\_SB_.TZ41._TSP)
                                                                                             }
                                                                                             Else
                                                                                             {
@@ -1772,10 +1862,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                 {
                                                                                                     If(Arg2)
                                                                                                     {
-                                                                                                        Store(Arg1, \_SB_.TZ51.TTC1)
-                                                                                                        Notify(\_SB_.TZ51, 0x81)
+                                                                                                        Store(Arg1, \_SB_.TZ41.TTC1)
+                                                                                                        Notify(\_SB_.TZ41, 0x81)
                                                                                                     }
-                                                                                                    Return(\_SB_.TZ51._TC1())
+                                                                                                    Return(\_SB_.TZ41._TC1)
                                                                                                 }
                                                                                                 Else
                                                                                                 {
@@ -1783,10 +1873,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                     {
                                                                                                         If(Arg2)
                                                                                                         {
-                                                                                                            Store(Arg1, \_SB_.TZ51.TTC2)
-                                                                                                            Notify(\_SB_.TZ51, 0x81)
+                                                                                                            Store(Arg1, \_SB_.TZ41.TTC2)
+                                                                                                            Notify(\_SB_.TZ41, 0x81)
                                                                                                         }
-                                                                                                        Return(\_SB_.TZ51._TC2())
+                                                                                                        Return(\_SB_.TZ41._TC2)
                                                                                                     }
                                                                                                     Else
                                                                                                     {
@@ -1800,7 +1890,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                 }
                                                                                 Else
                                                                                 {
-                                                                                    If(LEqual(_T_0, 0x34))
+                                                                                    If(LEqual(_T_0, 0x33))
                                                                                     {
                                                                                         While(One)
                                                                                         {
@@ -1810,10 +1900,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                             {
                                                                                                 If(Arg2)
                                                                                                 {
-                                                                                                    Store(Arg1, \_SB_.TZ52.TPSV)
-                                                                                                    Notify(\_SB_.TZ52, 0x81)
+                                                                                                    Store(Arg1, \_SB_.TZ51.TPSV)
+                                                                                                    Notify(\_SB_.TZ51, 0x81)
                                                                                                 }
-                                                                                                Return(\_SB_.TZ52._PSV())
+                                                                                                Return(\_SB_.TZ51._PSV())
                                                                                             }
                                                                                             Else
                                                                                             {
@@ -1821,10 +1911,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                 {
                                                                                                     If(Arg2)
                                                                                                     {
-                                                                                                        Store(Arg1, \_SB_.TZ52.TTSP)
-                                                                                                        Notify(\_SB_.TZ52, 0x81)
+                                                                                                        Store(Arg1, \_SB_.TZ51.TTSP)
+                                                                                                        Notify(\_SB_.TZ51, 0x81)
                                                                                                     }
-                                                                                                    Return(\_SB_.TZ52._TSP())
+                                                                                                    Return(\_SB_.TZ51._TSP())
                                                                                                 }
                                                                                                 Else
                                                                                                 {
@@ -1832,10 +1922,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                     {
                                                                                                         If(Arg2)
                                                                                                         {
-                                                                                                            Store(Arg1, \_SB_.TZ52.TTC1)
-                                                                                                            Notify(\_SB_.TZ52, 0x81)
+                                                                                                            Store(Arg1, \_SB_.TZ51.TTC1)
+                                                                                                            Notify(\_SB_.TZ51, 0x81)
                                                                                                         }
-                                                                                                        Return(\_SB_.TZ52._TC1())
+                                                                                                        Return(\_SB_.TZ51._TC1())
                                                                                                     }
                                                                                                     Else
                                                                                                     {
@@ -1843,10 +1933,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                         {
                                                                                                             If(Arg2)
                                                                                                             {
-                                                                                                                Store(Arg1, \_SB_.TZ52.TTC2)
-                                                                                                                Notify(\_SB_.TZ52, 0x81)
+                                                                                                                Store(Arg1, \_SB_.TZ51.TTC2)
+                                                                                                                Notify(\_SB_.TZ51, 0x81)
                                                                                                             }
-                                                                                                            Return(\_SB_.TZ52._TC2())
+                                                                                                            Return(\_SB_.TZ51._TC2())
                                                                                                         }
                                                                                                         Else
                                                                                                         {
@@ -1860,7 +1950,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                     }
                                                                                     Else
                                                                                     {
-                                                                                        If(LEqual(_T_0, 0x35))
+                                                                                        If(LEqual(_T_0, 0x34))
                                                                                         {
                                                                                             While(One)
                                                                                             {
@@ -1870,10 +1960,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                 {
                                                                                                     If(Arg2)
                                                                                                     {
-                                                                                                        Store(Arg1, \_SB_.TZ53.TPSV)
-                                                                                                        Notify(\_SB_.TZ53, 0x81)
+                                                                                                        Store(Arg1, \_SB_.TZ52.TPSV)
+                                                                                                        Notify(\_SB_.TZ52, 0x81)
                                                                                                     }
-                                                                                                    Return(\_SB_.TZ53._PSV())
+                                                                                                    Return(\_SB_.TZ52._PSV())
                                                                                                 }
                                                                                                 Else
                                                                                                 {
@@ -1881,10 +1971,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                     {
                                                                                                         If(Arg2)
                                                                                                         {
-                                                                                                            Store(Arg1, \_SB_.TZ53.TTSP)
-                                                                                                            Notify(\_SB_.TZ53, 0x81)
+                                                                                                            Store(Arg1, \_SB_.TZ52.TTSP)
+                                                                                                            Notify(\_SB_.TZ52, 0x81)
                                                                                                         }
-                                                                                                        Return(\_SB_.TZ53._TSP())
+                                                                                                        Return(\_SB_.TZ52._TSP())
                                                                                                     }
                                                                                                     Else
                                                                                                     {
@@ -1892,10 +1982,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                         {
                                                                                                             If(Arg2)
                                                                                                             {
-                                                                                                                Store(Arg1, \_SB_.TZ53.TTC1)
-                                                                                                                Notify(\_SB_.TZ53, 0x81)
+                                                                                                                Store(Arg1, \_SB_.TZ52.TTC1)
+                                                                                                                Notify(\_SB_.TZ52, 0x81)
                                                                                                             }
-                                                                                                            Return(\_SB_.TZ53._TC1())
+                                                                                                            Return(\_SB_.TZ52._TC1())
                                                                                                         }
                                                                                                         Else
                                                                                                         {
@@ -1903,10 +1993,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                             {
                                                                                                                 If(Arg2)
                                                                                                                 {
-                                                                                                                    Store(Arg1, \_SB_.TZ53.TTC2)
-                                                                                                                    Notify(\_SB_.TZ53, 0x81)
+                                                                                                                    Store(Arg1, \_SB_.TZ52.TTC2)
+                                                                                                                    Notify(\_SB_.TZ52, 0x81)
                                                                                                                 }
-                                                                                                                Return(\_SB_.TZ53._TC2())
+                                                                                                                Return(\_SB_.TZ52._TC2())
                                                                                                             }
                                                                                                             Else
                                                                                                             {
@@ -1920,7 +2010,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                         }
                                                                                         Else
                                                                                         {
-                                                                                            If(LEqual(_T_0, 0x36))
+                                                                                            If(LEqual(_T_0, 0x35))
                                                                                             {
                                                                                                 While(One)
                                                                                                 {
@@ -1930,10 +2020,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                     {
                                                                                                         If(Arg2)
                                                                                                         {
-                                                                                                            Store(Arg1, \_SB_.TZ54.TPSV)
-                                                                                                            Notify(\_SB_.TZ54, 0x81)
+                                                                                                            Store(Arg1, \_SB_.TZ53.TPSV)
+                                                                                                            Notify(\_SB_.TZ53, 0x81)
                                                                                                         }
-                                                                                                        Return(\_SB_.TZ54._PSV())
+                                                                                                        Return(\_SB_.TZ53._PSV())
                                                                                                     }
                                                                                                     Else
                                                                                                     {
@@ -1941,10 +2031,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                         {
                                                                                                             If(Arg2)
                                                                                                             {
-                                                                                                                Store(Arg1, \_SB_.TZ54.TTSP)
-                                                                                                                Notify(\_SB_.TZ54, 0x81)
+                                                                                                                Store(Arg1, \_SB_.TZ53.TTSP)
+                                                                                                                Notify(\_SB_.TZ53, 0x81)
                                                                                                             }
-                                                                                                            Return(\_SB_.TZ54._TSP())
+                                                                                                            Return(\_SB_.TZ53._TSP())
                                                                                                         }
                                                                                                         Else
                                                                                                         {
@@ -1952,10 +2042,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                             {
                                                                                                                 If(Arg2)
                                                                                                                 {
-                                                                                                                    Store(Arg1, \_SB_.TZ54.TTC1)
-                                                                                                                    Notify(\_SB_.TZ54, 0x81)
+                                                                                                                    Store(Arg1, \_SB_.TZ53.TTC1)
+                                                                                                                    Notify(\_SB_.TZ53, 0x81)
                                                                                                                 }
-                                                                                                                Return(\_SB_.TZ54._TC1())
+                                                                                                                Return(\_SB_.TZ53._TC1())
                                                                                                             }
                                                                                                             Else
                                                                                                             {
@@ -1963,10 +2053,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                 {
                                                                                                                     If(Arg2)
                                                                                                                     {
-                                                                                                                        Store(Arg1, \_SB_.TZ54.TTC2)
-                                                                                                                        Notify(\_SB_.TZ54, 0x81)
+                                                                                                                        Store(Arg1, \_SB_.TZ53.TTC2)
+                                                                                                                        Notify(\_SB_.TZ53, 0x81)
                                                                                                                     }
-                                                                                                                    Return(\_SB_.TZ54._TC2())
+                                                                                                                    Return(\_SB_.TZ53._TC2())
                                                                                                                 }
                                                                                                                 Else
                                                                                                                 {
@@ -1980,7 +2070,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                             }
                                                                                             Else
                                                                                             {
-                                                                                                If(LEqual(_T_0, 0x37))
+                                                                                                If(LEqual(_T_0, 0x36))
                                                                                                 {
                                                                                                     While(One)
                                                                                                     {
@@ -1990,10 +2080,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                         {
                                                                                                             If(Arg2)
                                                                                                             {
-                                                                                                                Store(Arg1, \_SB_.TZ55.TPSV)
-                                                                                                                Notify(\_SB_.TZ55, 0x81)
+                                                                                                                Store(Arg1, \_SB_.TZ54.TPSV)
+                                                                                                                Notify(\_SB_.TZ54, 0x81)
                                                                                                             }
-                                                                                                            Return(\_SB_.TZ55._PSV())
+                                                                                                            Return(\_SB_.TZ54._PSV())
                                                                                                         }
                                                                                                         Else
                                                                                                         {
@@ -2001,10 +2091,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                             {
                                                                                                                 If(Arg2)
                                                                                                                 {
-                                                                                                                    Store(Arg1, \_SB_.TZ55.TTSP)
-                                                                                                                    Notify(\_SB_.TZ55, 0x81)
+                                                                                                                    Store(Arg1, \_SB_.TZ54.TTSP)
+                                                                                                                    Notify(\_SB_.TZ54, 0x81)
                                                                                                                 }
-                                                                                                                Return(\_SB_.TZ55._TSP())
+                                                                                                                Return(\_SB_.TZ54._TSP())
                                                                                                             }
                                                                                                             Else
                                                                                                             {
@@ -2012,10 +2102,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                 {
                                                                                                                     If(Arg2)
                                                                                                                     {
-                                                                                                                        Store(Arg1, \_SB_.TZ55.TTC1)
-                                                                                                                        Notify(\_SB_.TZ55, 0x81)
+                                                                                                                        Store(Arg1, \_SB_.TZ54.TTC1)
+                                                                                                                        Notify(\_SB_.TZ54, 0x81)
                                                                                                                     }
-                                                                                                                    Return(\_SB_.TZ55._TC1())
+                                                                                                                    Return(\_SB_.TZ54._TC1())
                                                                                                                 }
                                                                                                                 Else
                                                                                                                 {
@@ -2023,10 +2113,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                     {
                                                                                                                         If(Arg2)
                                                                                                                         {
-                                                                                                                            Store(Arg1, \_SB_.TZ55.TTC2)
-                                                                                                                            Notify(\_SB_.TZ55, 0x81)
+                                                                                                                            Store(Arg1, \_SB_.TZ54.TTC2)
+                                                                                                                            Notify(\_SB_.TZ54, 0x81)
                                                                                                                         }
-                                                                                                                        Return(\_SB_.TZ55._TC2())
+                                                                                                                        Return(\_SB_.TZ54._TC2())
                                                                                                                     }
                                                                                                                     Else
                                                                                                                     {
@@ -2040,7 +2130,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                 }
                                                                                                 Else
                                                                                                 {
-                                                                                                    If(LEqual(_T_0, 0x38))
+                                                                                                    If(LEqual(_T_0, 0x37))
                                                                                                     {
                                                                                                         While(One)
                                                                                                         {
@@ -2050,10 +2140,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                             {
                                                                                                                 If(Arg2)
                                                                                                                 {
-                                                                                                                    Store(Arg1, \_SB_.TZ56.TPSV)
-                                                                                                                    Notify(\_SB_.TZ56, 0x81)
+                                                                                                                    Store(Arg1, \_SB_.TZ55.TPSV)
+                                                                                                                    Notify(\_SB_.TZ55, 0x81)
                                                                                                                 }
-                                                                                                                Return(\_SB_.TZ56._PSV())
+                                                                                                                Return(\_SB_.TZ55._PSV())
                                                                                                             }
                                                                                                             Else
                                                                                                             {
@@ -2061,10 +2151,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                 {
                                                                                                                     If(Arg2)
                                                                                                                     {
-                                                                                                                        Store(Arg1, \_SB_.TZ56.TTSP)
-                                                                                                                        Notify(\_SB_.TZ56, 0x81)
+                                                                                                                        Store(Arg1, \_SB_.TZ55.TTSP)
+                                                                                                                        Notify(\_SB_.TZ55, 0x81)
                                                                                                                     }
-                                                                                                                    Return(\_SB_.TZ56._TSP())
+                                                                                                                    Return(\_SB_.TZ55._TSP())
                                                                                                                 }
                                                                                                                 Else
                                                                                                                 {
@@ -2072,10 +2162,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                     {
                                                                                                                         If(Arg2)
                                                                                                                         {
-                                                                                                                            Store(Arg1, \_SB_.TZ56.TTC1)
-                                                                                                                            Notify(\_SB_.TZ56, 0x81)
+                                                                                                                            Store(Arg1, \_SB_.TZ55.TTC1)
+                                                                                                                            Notify(\_SB_.TZ55, 0x81)
                                                                                                                         }
-                                                                                                                        Return(\_SB_.TZ56._TC1())
+                                                                                                                        Return(\_SB_.TZ55._TC1())
                                                                                                                     }
                                                                                                                     Else
                                                                                                                     {
@@ -2083,10 +2173,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                         {
                                                                                                                             If(Arg2)
                                                                                                                             {
-                                                                                                                                Store(Arg1, \_SB_.TZ56.TTC2)
-                                                                                                                                Notify(\_SB_.TZ56, 0x81)
+                                                                                                                                Store(Arg1, \_SB_.TZ55.TTC2)
+                                                                                                                                Notify(\_SB_.TZ55, 0x81)
                                                                                                                             }
-                                                                                                                            Return(\_SB_.TZ56._TC2())
+                                                                                                                            Return(\_SB_.TZ55._TC2())
                                                                                                                         }
                                                                                                                         Else
                                                                                                                         {
@@ -2100,7 +2190,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                     }
                                                                                                     Else
                                                                                                     {
-                                                                                                        If(LEqual(_T_0, 0x39))
+                                                                                                        If(LEqual(_T_0, 0x38))
                                                                                                         {
                                                                                                             While(One)
                                                                                                             {
@@ -2110,10 +2200,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                 {
                                                                                                                     If(Arg2)
                                                                                                                     {
-                                                                                                                        Store(Arg1, \_SB_.TZ57.TPSV)
-                                                                                                                        Notify(\_SB_.TZ57, 0x81)
+                                                                                                                        Store(Arg1, \_SB_.TZ56.TPSV)
+                                                                                                                        Notify(\_SB_.TZ56, 0x81)
                                                                                                                     }
-                                                                                                                    Return(\_SB_.TZ57._PSV())
+                                                                                                                    Return(\_SB_.TZ56._PSV())
                                                                                                                 }
                                                                                                                 Else
                                                                                                                 {
@@ -2121,10 +2211,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                     {
                                                                                                                         If(Arg2)
                                                                                                                         {
-                                                                                                                            Store(Arg1, \_SB_.TZ57.TTSP)
-                                                                                                                            Notify(\_SB_.TZ57, 0x81)
+                                                                                                                            Store(Arg1, \_SB_.TZ56.TTSP)
+                                                                                                                            Notify(\_SB_.TZ56, 0x81)
                                                                                                                         }
-                                                                                                                        Return(\_SB_.TZ57._TSP())
+                                                                                                                        Return(\_SB_.TZ56._TSP())
                                                                                                                     }
                                                                                                                     Else
                                                                                                                     {
@@ -2132,10 +2222,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                         {
                                                                                                                             If(Arg2)
                                                                                                                             {
-                                                                                                                                Store(Arg1, \_SB_.TZ57.TTC1)
-                                                                                                                                Notify(\_SB_.TZ57, 0x81)
+                                                                                                                                Store(Arg1, \_SB_.TZ56.TTC1)
+                                                                                                                                Notify(\_SB_.TZ56, 0x81)
                                                                                                                             }
-                                                                                                                            Return(\_SB_.TZ57._TC1())
+                                                                                                                            Return(\_SB_.TZ56._TC1())
                                                                                                                         }
                                                                                                                         Else
                                                                                                                         {
@@ -2143,10 +2233,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                             {
                                                                                                                                 If(Arg2)
                                                                                                                                 {
-                                                                                                                                    Store(Arg1, \_SB_.TZ57.TTC2)
-                                                                                                                                    Notify(\_SB_.TZ57, 0x81)
+                                                                                                                                    Store(Arg1, \_SB_.TZ56.TTC2)
+                                                                                                                                    Notify(\_SB_.TZ56, 0x81)
                                                                                                                                 }
-                                                                                                                                Return(\_SB_.TZ57._TC2())
+                                                                                                                                Return(\_SB_.TZ56._TC2())
                                                                                                                             }
                                                                                                                             Else
                                                                                                                             {
@@ -2160,7 +2250,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                         }
                                                                                                         Else
                                                                                                         {
-                                                                                                            If(LEqual(_T_0, 0x3a))
+                                                                                                            If(LEqual(_T_0, 0x39))
                                                                                                             {
                                                                                                                 While(One)
                                                                                                                 {
@@ -2170,10 +2260,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                     {
                                                                                                                         If(Arg2)
                                                                                                                         {
-                                                                                                                            Store(Arg1, \_SB_.TZ58.TPSV)
-                                                                                                                            Notify(\_SB_.TZ58, 0x81)
+                                                                                                                            Store(Arg1, \_SB_.TZ57.TPSV)
+                                                                                                                            Notify(\_SB_.TZ57, 0x81)
                                                                                                                         }
-                                                                                                                        Return(\_SB_.TZ58._PSV())
+                                                                                                                        Return(\_SB_.TZ57._PSV())
                                                                                                                     }
                                                                                                                     Else
                                                                                                                     {
@@ -2181,10 +2271,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                         {
                                                                                                                             If(Arg2)
                                                                                                                             {
-                                                                                                                                Store(Arg1, \_SB_.TZ58.TTSP)
-                                                                                                                                Notify(\_SB_.TZ58, 0x81)
+                                                                                                                                Store(Arg1, \_SB_.TZ57.TTSP)
+                                                                                                                                Notify(\_SB_.TZ57, 0x81)
                                                                                                                             }
-                                                                                                                            Return(\_SB_.TZ58._TSP())
+                                                                                                                            Return(\_SB_.TZ57._TSP())
                                                                                                                         }
                                                                                                                         Else
                                                                                                                         {
@@ -2192,10 +2282,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                             {
                                                                                                                                 If(Arg2)
                                                                                                                                 {
-                                                                                                                                    Store(Arg1, \_SB_.TZ58.TTC1)
-                                                                                                                                    Notify(\_SB_.TZ58, 0x81)
+                                                                                                                                    Store(Arg1, \_SB_.TZ57.TTC1)
+                                                                                                                                    Notify(\_SB_.TZ57, 0x81)
                                                                                                                                 }
-                                                                                                                                Return(\_SB_.TZ58._TC1())
+                                                                                                                                Return(\_SB_.TZ57._TC1())
                                                                                                                             }
                                                                                                                             Else
                                                                                                                             {
@@ -2203,10 +2293,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                 {
                                                                                                                                     If(Arg2)
                                                                                                                                     {
-                                                                                                                                        Store(Arg1, \_SB_.TZ58.TTC2)
-                                                                                                                                        Notify(\_SB_.TZ58, 0x81)
+                                                                                                                                        Store(Arg1, \_SB_.TZ57.TTC2)
+                                                                                                                                        Notify(\_SB_.TZ57, 0x81)
                                                                                                                                     }
-                                                                                                                                    Return(\_SB_.TZ58._TC2())
+                                                                                                                                    Return(\_SB_.TZ57._TC2())
                                                                                                                                 }
                                                                                                                                 Else
                                                                                                                                 {
@@ -2220,7 +2310,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                             }
                                                                                                             Else
                                                                                                             {
-                                                                                                                If(LEqual(_T_0, 0x3b))
+                                                                                                                If(LEqual(_T_0, 0x3a))
                                                                                                                 {
                                                                                                                     While(One)
                                                                                                                     {
@@ -2230,10 +2320,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                         {
                                                                                                                             If(Arg2)
                                                                                                                             {
-                                                                                                                                Store(Arg1, \_SB_.TZ59.TPSV)
-                                                                                                                                Notify(\_SB_.TZ59, 0x81)
+                                                                                                                                Store(Arg1, \_SB_.TZ58.TPSV)
+                                                                                                                                Notify(\_SB_.TZ58, 0x81)
                                                                                                                             }
-                                                                                                                            Return(\_SB_.TZ59._PSV())
+                                                                                                                            Return(\_SB_.TZ58._PSV())
                                                                                                                         }
                                                                                                                         Else
                                                                                                                         {
@@ -2241,10 +2331,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                             {
                                                                                                                                 If(Arg2)
                                                                                                                                 {
-                                                                                                                                    Store(Arg1, \_SB_.TZ59.TTSP)
-                                                                                                                                    Notify(\_SB_.TZ59, 0x81)
+                                                                                                                                    Store(Arg1, \_SB_.TZ58.TTSP)
+                                                                                                                                    Notify(\_SB_.TZ58, 0x81)
                                                                                                                                 }
-                                                                                                                                Return(\_SB_.TZ59._TSP())
+                                                                                                                                Return(\_SB_.TZ58._TSP())
                                                                                                                             }
                                                                                                                             Else
                                                                                                                             {
@@ -2252,10 +2342,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                 {
                                                                                                                                     If(Arg2)
                                                                                                                                     {
-                                                                                                                                        Store(Arg1, \_SB_.TZ59.TTC1)
-                                                                                                                                        Notify(\_SB_.TZ59, 0x81)
+                                                                                                                                        Store(Arg1, \_SB_.TZ58.TTC1)
+                                                                                                                                        Notify(\_SB_.TZ58, 0x81)
                                                                                                                                     }
-                                                                                                                                    Return(\_SB_.TZ59._TC1())
+                                                                                                                                    Return(\_SB_.TZ58._TC1())
                                                                                                                                 }
                                                                                                                                 Else
                                                                                                                                 {
@@ -2263,10 +2353,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                     {
                                                                                                                                         If(Arg2)
                                                                                                                                         {
-                                                                                                                                            Store(Arg1, \_SB_.TZ59.TTC2)
-                                                                                                                                            Notify(\_SB_.TZ59, 0x81)
+                                                                                                                                            Store(Arg1, \_SB_.TZ58.TTC2)
+                                                                                                                                            Notify(\_SB_.TZ58, 0x81)
                                                                                                                                         }
-                                                                                                                                        Return(\_SB_.TZ59._TC2())
+                                                                                                                                        Return(\_SB_.TZ58._TC2())
                                                                                                                                     }
                                                                                                                                     Else
                                                                                                                                     {
@@ -2280,7 +2370,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                 }
                                                                                                                 Else
                                                                                                                 {
-                                                                                                                    If(LEqual(_T_0, 0x3c))
+                                                                                                                    If(LEqual(_T_0, 0x3b))
                                                                                                                     {
                                                                                                                         While(One)
                                                                                                                         {
@@ -2290,10 +2380,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                             {
                                                                                                                                 If(Arg2)
                                                                                                                                 {
-                                                                                                                                    Store(Arg1, \_SB_.TZ60.TPSV)
-                                                                                                                                    Notify(\_SB_.TZ60, 0x81)
+                                                                                                                                    Store(Arg1, \_SB_.TZ59.TPSV)
+                                                                                                                                    Notify(\_SB_.TZ59, 0x81)
                                                                                                                                 }
-                                                                                                                                Return(\_SB_.TZ60._PSV())
+                                                                                                                                Return(\_SB_.TZ59._PSV())
                                                                                                                             }
                                                                                                                             Else
                                                                                                                             {
@@ -2301,10 +2391,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                 {
                                                                                                                                     If(Arg2)
                                                                                                                                     {
-                                                                                                                                        Store(Arg1, \_SB_.TZ60.TTSP)
-                                                                                                                                        Notify(\_SB_.TZ60, 0x81)
+                                                                                                                                        Store(Arg1, \_SB_.TZ59.TTSP)
+                                                                                                                                        Notify(\_SB_.TZ59, 0x81)
                                                                                                                                     }
-                                                                                                                                    Return(\_SB_.TZ60._TSP())
+                                                                                                                                    Return(\_SB_.TZ59._TSP())
                                                                                                                                 }
                                                                                                                                 Else
                                                                                                                                 {
@@ -2312,10 +2402,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                     {
                                                                                                                                         If(Arg2)
                                                                                                                                         {
-                                                                                                                                            Store(Arg1, \_SB_.TZ60.TTC1)
-                                                                                                                                            Notify(\_SB_.TZ60, 0x81)
+                                                                                                                                            Store(Arg1, \_SB_.TZ59.TTC1)
+                                                                                                                                            Notify(\_SB_.TZ59, 0x81)
                                                                                                                                         }
-                                                                                                                                        Return(\_SB_.TZ60._TC1())
+                                                                                                                                        Return(\_SB_.TZ59._TC1())
                                                                                                                                     }
                                                                                                                                     Else
                                                                                                                                     {
@@ -2323,10 +2413,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                         {
                                                                                                                                             If(Arg2)
                                                                                                                                             {
-                                                                                                                                                Store(Arg1, \_SB_.TZ60.TTC2)
-                                                                                                                                                Notify(\_SB_.TZ60, 0x81)
+                                                                                                                                                Store(Arg1, \_SB_.TZ59.TTC2)
+                                                                                                                                                Notify(\_SB_.TZ59, 0x81)
                                                                                                                                             }
-                                                                                                                                            Return(\_SB_.TZ60._TC2())
+                                                                                                                                            Return(\_SB_.TZ59._TC2())
                                                                                                                                         }
                                                                                                                                         Else
                                                                                                                                         {
@@ -2340,7 +2430,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                     }
                                                                                                                     Else
                                                                                                                     {
-                                                                                                                        If(LEqual(_T_0, 0x3d))
+                                                                                                                        If(LEqual(_T_0, 0x3c))
                                                                                                                         {
                                                                                                                             While(One)
                                                                                                                             {
@@ -2350,10 +2440,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                 {
                                                                                                                                     If(Arg2)
                                                                                                                                     {
-                                                                                                                                        Store(Arg1, \_SB_.TZ61.TPSV)
-                                                                                                                                        Notify(\_SB_.TZ61, 0x81)
+                                                                                                                                        Store(Arg1, \_SB_.TZ60.TPSV)
+                                                                                                                                        Notify(\_SB_.TZ60, 0x81)
                                                                                                                                     }
-                                                                                                                                    Return(\_SB_.TZ61._PSV())
+                                                                                                                                    Return(\_SB_.TZ60._PSV())
                                                                                                                                 }
                                                                                                                                 Else
                                                                                                                                 {
@@ -2361,10 +2451,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                     {
                                                                                                                                         If(Arg2)
                                                                                                                                         {
-                                                                                                                                            Store(Arg1, \_SB_.TZ61.TTSP)
-                                                                                                                                            Notify(\_SB_.TZ61, 0x81)
+                                                                                                                                            Store(Arg1, \_SB_.TZ60.TTSP)
+                                                                                                                                            Notify(\_SB_.TZ60, 0x81)
                                                                                                                                         }
-                                                                                                                                        Return(\_SB_.TZ61._TSP())
+                                                                                                                                        Return(\_SB_.TZ60._TSP())
                                                                                                                                     }
                                                                                                                                     Else
                                                                                                                                     {
@@ -2372,10 +2462,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                         {
                                                                                                                                             If(Arg2)
                                                                                                                                             {
-                                                                                                                                                Store(Arg1, \_SB_.TZ61.TTC1)
-                                                                                                                                                Notify(\_SB_.TZ61, 0x81)
+                                                                                                                                                Store(Arg1, \_SB_.TZ60.TTC1)
+                                                                                                                                                Notify(\_SB_.TZ60, 0x81)
                                                                                                                                             }
-                                                                                                                                            Return(\_SB_.TZ61._TC1())
+                                                                                                                                            Return(\_SB_.TZ60._TC1())
                                                                                                                                         }
                                                                                                                                         Else
                                                                                                                                         {
@@ -2383,10 +2473,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                             {
                                                                                                                                                 If(Arg2)
                                                                                                                                                 {
-                                                                                                                                                    Store(Arg1, \_SB_.TZ61.TTC2)
-                                                                                                                                                    Notify(\_SB_.TZ61, 0x81)
+                                                                                                                                                    Store(Arg1, \_SB_.TZ60.TTC2)
+                                                                                                                                                    Notify(\_SB_.TZ60, 0x81)
                                                                                                                                                 }
-                                                                                                                                                Return(\_SB_.TZ61._TC2())
+                                                                                                                                                Return(\_SB_.TZ60._TC2())
                                                                                                                                             }
                                                                                                                                             Else
                                                                                                                                             {
@@ -2400,7 +2490,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                         }
                                                                                                                         Else
                                                                                                                         {
-                                                                                                                            If(LEqual(_T_0, 0x3e))
+                                                                                                                            If(LEqual(_T_0, 0x3d))
                                                                                                                             {
                                                                                                                                 While(One)
                                                                                                                                 {
@@ -2410,10 +2500,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                     {
                                                                                                                                         If(Arg2)
                                                                                                                                         {
-                                                                                                                                            Store(Arg1, \_SB_.TZ62.TPSV)
-                                                                                                                                            Notify(\_SB_.TZ62, 0x81)
+                                                                                                                                            Store(Arg1, \_SB_.TZ61.TPSV)
+                                                                                                                                            Notify(\_SB_.TZ61, 0x81)
                                                                                                                                         }
-                                                                                                                                        Return(\_SB_.TZ62._PSV())
+                                                                                                                                        Return(\_SB_.TZ61._PSV())
                                                                                                                                     }
                                                                                                                                     Else
                                                                                                                                     {
@@ -2421,10 +2511,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                         {
                                                                                                                                             If(Arg2)
                                                                                                                                             {
-                                                                                                                                                Store(Arg1, \_SB_.TZ62.TTSP)
-                                                                                                                                                Notify(\_SB_.TZ62, 0x81)
+                                                                                                                                                Store(Arg1, \_SB_.TZ61.TTSP)
+                                                                                                                                                Notify(\_SB_.TZ61, 0x81)
                                                                                                                                             }
-                                                                                                                                            Return(\_SB_.TZ62._TSP())
+                                                                                                                                            Return(\_SB_.TZ61._TSP())
                                                                                                                                         }
                                                                                                                                         Else
                                                                                                                                         {
@@ -2432,10 +2522,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                             {
                                                                                                                                                 If(Arg2)
                                                                                                                                                 {
-                                                                                                                                                    Store(Arg1, \_SB_.TZ62.TTC1)
-                                                                                                                                                    Notify(\_SB_.TZ62, 0x81)
+                                                                                                                                                    Store(Arg1, \_SB_.TZ61.TTC1)
+                                                                                                                                                    Notify(\_SB_.TZ61, 0x81)
                                                                                                                                                 }
-                                                                                                                                                Return(\_SB_.TZ62._TC1())
+                                                                                                                                                Return(\_SB_.TZ61._TC1())
                                                                                                                                             }
                                                                                                                                             Else
                                                                                                                                             {
@@ -2443,10 +2533,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                                 {
                                                                                                                                                     If(Arg2)
                                                                                                                                                     {
-                                                                                                                                                        Store(Arg1, \_SB_.TZ62.TTC2)
-                                                                                                                                                        Notify(\_SB_.TZ62, 0x81)
+                                                                                                                                                        Store(Arg1, \_SB_.TZ61.TTC2)
+                                                                                                                                                        Notify(\_SB_.TZ61, 0x81)
                                                                                                                                                     }
-                                                                                                                                                    Return(\_SB_.TZ62._TC2())
+                                                                                                                                                    Return(\_SB_.TZ61._TC2())
                                                                                                                                                 }
                                                                                                                                                 Else
                                                                                                                                                 {
@@ -2460,7 +2550,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                             }
                                                                                                                             Else
                                                                                                                             {
-                                                                                                                                If(LEqual(_T_0, 0x63))
+                                                                                                                                If(LEqual(_T_0, 0x3e))
                                                                                                                                 {
                                                                                                                                     While(One)
                                                                                                                                     {
@@ -2470,59 +2560,47 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                         {
                                                                                                                                             If(Arg2)
                                                                                                                                             {
-                                                                                                                                                Store(Arg1, \_SB_.TZ99.TPSV)
-                                                                                                                                                Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                Store(Arg1, \_SB_.TZ62.TPSV)
+                                                                                                                                                Notify(\_SB_.TZ62, 0x81)
                                                                                                                                             }
-                                                                                                                                            Return(\_SB_.TZ99._PSV())
+                                                                                                                                            Return(\_SB_.TZ62._PSV())
                                                                                                                                         }
                                                                                                                                         Else
                                                                                                                                         {
-                                                                                                                                            If(LEqual(_T_S, One))
+                                                                                                                                            If(LEqual(_T_S, 0x2))
                                                                                                                                             {
                                                                                                                                                 If(Arg2)
                                                                                                                                                 {
-                                                                                                                                                    Store(Arg1, \_SB_.TZ99.TCRT)
-                                                                                                                                                    Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                    Store(Arg1, \_SB_.TZ62.TTSP)
+                                                                                                                                                    Notify(\_SB_.TZ62, 0x81)
                                                                                                                                                 }
-                                                                                                                                                Return(\_SB_.TZ99._CRT())
+                                                                                                                                                Return(\_SB_.TZ62._TSP())
                                                                                                                                             }
                                                                                                                                             Else
                                                                                                                                             {
-                                                                                                                                                If(LEqual(_T_S, 0x2))
+                                                                                                                                                If(LEqual(_T_S, 0x3))
                                                                                                                                                 {
                                                                                                                                                     If(Arg2)
                                                                                                                                                     {
-                                                                                                                                                        Store(Arg1, \_SB_.TZ99.TTSP)
-                                                                                                                                                        Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                        Store(Arg1, \_SB_.TZ62.TTC1)
+                                                                                                                                                        Notify(\_SB_.TZ62, 0x81)
                                                                                                                                                     }
-                                                                                                                                                    Return(\_SB_.TZ99._TSP())
+                                                                                                                                                    Return(\_SB_.TZ62._TC1())
                                                                                                                                                 }
                                                                                                                                                 Else
                                                                                                                                                 {
-                                                                                                                                                    If(LEqual(_T_S, 0x3))
+                                                                                                                                                    If(LEqual(_T_S, 0x4))
                                                                                                                                                     {
                                                                                                                                                         If(Arg2)
                                                                                                                                                         {
-                                                                                                                                                            Store(Arg1, \_SB_.TZ99.TTC1)
-                                                                                                                                                            Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                            Store(Arg1, \_SB_.TZ62.TTC2)
+                                                                                                                                                            Notify(\_SB_.TZ62, 0x81)
                                                                                                                                                         }
-                                                                                                                                                        Return(\_SB_.TZ99._TC1())
+                                                                                                                                                        Return(\_SB_.TZ62._TC2())
                                                                                                                                                     }
                                                                                                                                                     Else
                                                                                                                                                     {
-                                                                                                                                                        If(LEqual(_T_S, 0x4))
-                                                                                                                                                        {
-                                                                                                                                                            If(Arg2)
-                                                                                                                                                            {
-                                                                                                                                                                Store(Arg1, \_SB_.TZ99.TTC2)
-                                                                                                                                                                Notify(\_SB_.TZ99, 0x81)
-                                                                                                                                                            }
-                                                                                                                                                            Return(\_SB_.TZ99._TC2())
-                                                                                                                                                        }
-                                                                                                                                                        Else
-                                                                                                                                                        {
-                                                                                                                                                            Return(0xffff)
-                                                                                                                                                        }
+                                                                                                                                                        Return(0xffff)
                                                                                                                                                     }
                                                                                                                                                 }
                                                                                                                                             }
@@ -2532,7 +2610,80 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                                                                                                                 }
                                                                                                                                 Else
                                                                                                                                 {
-                                                                                                                                    Return(0xffff)
+                                                                                                                                    If(LEqual(_T_0, 0x63))
+                                                                                                                                    {
+                                                                                                                                        While(One)
+                                                                                                                                        {
+                                                                                                                                            Name(_T_T, 0x0)
+                                                                                                                                            Store(ToInteger(Arg3, ), _T_T)
+                                                                                                                                            If(LEqual(_T_T, Zero))
+                                                                                                                                            {
+                                                                                                                                                If(Arg2)
+                                                                                                                                                {
+                                                                                                                                                    Store(Arg1, \_SB_.TZ99.TPSV)
+                                                                                                                                                    Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                }
+                                                                                                                                                Return(\_SB_.TZ99._PSV())
+                                                                                                                                            }
+                                                                                                                                            Else
+                                                                                                                                            {
+                                                                                                                                                If(LEqual(_T_T, One))
+                                                                                                                                                {
+                                                                                                                                                    If(Arg2)
+                                                                                                                                                    {
+                                                                                                                                                        Store(Arg1, \_SB_.TZ99.TCRT)
+                                                                                                                                                        Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                    }
+                                                                                                                                                    Return(\_SB_.TZ99._CRT())
+                                                                                                                                                }
+                                                                                                                                                Else
+                                                                                                                                                {
+                                                                                                                                                    If(LEqual(_T_T, 0x2))
+                                                                                                                                                    {
+                                                                                                                                                        If(Arg2)
+                                                                                                                                                        {
+                                                                                                                                                            Store(Arg1, \_SB_.TZ99.TTSP)
+                                                                                                                                                            Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                        }
+                                                                                                                                                        Return(\_SB_.TZ99._TSP())
+                                                                                                                                                    }
+                                                                                                                                                    Else
+                                                                                                                                                    {
+                                                                                                                                                        If(LEqual(_T_T, 0x3))
+                                                                                                                                                        {
+                                                                                                                                                            If(Arg2)
+                                                                                                                                                            {
+                                                                                                                                                                Store(Arg1, \_SB_.TZ99.TTC1)
+                                                                                                                                                                Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                            }
+                                                                                                                                                            Return(\_SB_.TZ99._TC1())
+                                                                                                                                                        }
+                                                                                                                                                        Else
+                                                                                                                                                        {
+                                                                                                                                                            If(LEqual(_T_T, 0x4))
+                                                                                                                                                            {
+                                                                                                                                                                If(Arg2)
+                                                                                                                                                                {
+                                                                                                                                                                    Store(Arg1, \_SB_.TZ99.TTC2)
+                                                                                                                                                                    Notify(\_SB_.TZ99, 0x81)
+                                                                                                                                                                }
+                                                                                                                                                                Return(\_SB_.TZ99._TC2())
+                                                                                                                                                            }
+                                                                                                                                                            Else
+                                                                                                                                                            {
+                                                                                                                                                                Return(0xffff)
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                            Break
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                    Else
+                                                                                                                                    {
+                                                                                                                                        Return(0xffff)
+                                                                                                                                    }
                                                                                                                                 }
                                                                                                                             }
                                                                                                                         }
@@ -2588,7 +2739,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     If(LEqual(\_SB_.PSUB, "CLS08150"))
                     {
-                        If(LEqual(_BID(), Zero))
+                        If(LEqual(_BID, Zero))
                         {
                             If(LAnd(LEqual(\_SB_.SOID, 0x169), LEqual(\_SB_.PLST, One)))
                             {
@@ -3312,119 +3463,15 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     {
                         "COMPONENT",
                         0xd,
-                        Package(0x6)
+                        Package(0x2)
                         {
                             "FSTATE",
-                            Zero,
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x7e,
-                                    One,
-                                    One,
-                                    One,
-                                    One,
-                                    0x3
-                                }
-                            },
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x7f,
-                                    One,
-                                    One,
-                                    One,
-                                    One,
-                                    0x3
-                                }
-                            },
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x80,
-                                    One,
-                                    One,
-                                    One,
-                                    One,
-                                    0x3
-                                }
-                            },
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x81,
-                                    One,
-                                    One,
-                                    One,
-                                    One,
-                                    0x3
-                                }
-                            }
+                            Zero
                         },
-                        Package(0x6)
+                        Package(0x2)
                         {
                             "FSTATE",
-                            One,
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x7e,
-                                    Zero,
-                                    Zero,
-                                    Zero,
-                                    One,
-                                    Zero
-                                }
-                            },
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x7f,
-                                    Zero,
-                                    Zero,
-                                    Zero,
-                                    One,
-                                    Zero
-                                }
-                            },
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x80,
-                                    Zero,
-                                    Zero,
-                                    Zero,
-                                    One,
-                                    Zero
-                                }
-                            },
-                            Package(0x2)
-                            {
-                                "TLMMGPIO",
-                                Package(0x6)
-                                {
-                                    0x81,
-                                    Zero,
-                                    Zero,
-                                    Zero,
-                                    One,
-                                    Zero
-                                }
-                            }
+                            One
                         }
                     },
                     Package(0x4)
@@ -35980,6 +36027,24 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     Return(FPCC)
                 }
             }
+            Method(SUMD, 0x0, NotSerialized)
+            {
+                If(LEqual(STOR, One))
+                {
+                    If(LEqual(SUS3, One))
+                    {
+                        Return(EPCC)
+                    }
+                    Else
+                    {
+                        Return(DPCC)
+                    }
+                }
+                Else
+                {
+                    Return(GPCC)
+                }
+            }
             Method(SDMD, 0x0, NotSerialized)
             {
                 Return(SDCC)
@@ -37058,6 +37123,862 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     }
                 }
             })
+            Name(DPCC, Package(0x1)
+            {
+                Package(0x5)
+                {
+                    "DEVICE",
+                    "\\_SB.UFS1",
+                    Package(0x7)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x5)
+                        {
+                            "FSTATE",
+                            Zero,
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    Zero,
+                                    Zero
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    One,
+                                    Zero
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    0x2,
+                                    Zero
+                                }
+                            }
+                        },
+                        Package(0x5)
+                        {
+                            "FSTATE",
+                            One,
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    0x2,
+                                    One
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    One,
+                                    One
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    Zero,
+                                    One
+                                }
+                            }
+                        },
+                        Package(0x4)
+                        {
+                            "PSTATE_SET",
+                            Zero,
+                            Package(0x3)
+                            {
+                                "PSTATE",
+                                Zero,
+                                Package(0x2)
+                                {
+                                    "FOOTSWITCH",
+                                    Package(0x2)
+                                    {
+                                        "ufs_card_2_gdsc",
+                                        One
+                                    }
+                                }
+                            },
+                            Package(0x3)
+                            {
+                                "PSTATE",
+                                One,
+                                Package(0x2)
+                                {
+                                    "FOOTSWITCH",
+                                    Package(0x2)
+                                    {
+                                        "ufs_card_2_gdsc",
+                                        0x2
+                                    }
+                                }
+                            }
+                        },
+                        Package(0x4)
+                        {
+                            "PSTATE_SET",
+                            One,
+                            Package(0xb)
+                            {
+                                "PSTATE",
+                                Zero,
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x4)
+                                    {
+                                        "gcc_ufs_card_2_axi_clk",
+                                        0x8,
+                                        0x11e1a300,
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x4)
+                                    {
+                                        "gcc_ufs_card_2_unipro_core_clk",
+                                        0x8,
+                                        0x11e1a300,
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x4)
+                                    {
+                                        "gcc_ufs_card_2_ice_core_clk",
+                                        0x8,
+                                        0x11e1a300,
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_aggre_ufs_card_2_axi_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_ahb_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_phy_aux_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_tx_symbol_0_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_0_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_1_clk",
+                                        One
+                                    }
+                                }
+                            },
+                            Package(0xb)
+                            {
+                                "PSTATE",
+                                One,
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_aggre_ufs_card_2_axi_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_ahb_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_phy_aux_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_tx_symbol_0_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_0_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_1_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_ice_core_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_unipro_core_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_axi_clk",
+                                        0x2
+                                    }
+                                }
+                            }
+                        },
+                        Package(0x4)
+                        {
+                            "PSTATE_SET",
+                            0x2,
+                            Package(0x4)
+                            {
+                                "PSTATE",
+                                Zero,
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_UFS_GEN4",
+                                        "ICBID_SLAVE_EBI1",
+                                        0x47868c00,
+                                        0x47868c00
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_APPSS_PROC",
+                                        "ICBID_SLAVE_UFS_MEM_1_CFG",
+                                        0x11d260c0,
+                                        Zero
+                                    }
+                                }
+                            },
+                            Package(0x4)
+                            {
+                                "PSTATE",
+                                One,
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_APPSS_PROC",
+                                        "ICBID_SLAVE_UFS_MEM_1_CFG",
+                                        Zero,
+                                        Zero
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_UFS_GEN4",
+                                        "ICBID_SLAVE_EBI1",
+                                        Zero,
+                                        Zero
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    Package(0x6)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                0x2,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "DELAY",
+                            Package(0x1)
+                            {
+                                0x23
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                One,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x5)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                One,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                Zero,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                0x2,
+                                One
+                            }
+                        }
+                    }
+                }
+            })
+            Name(EPCC, Package(0x1)
+            {
+                Package(0x5)
+                {
+                    "DEVICE",
+                    "\\_SB.UFS1",
+                    Package(0x7)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x5)
+                        {
+                            "FSTATE",
+                            Zero,
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    Zero,
+                                    Zero
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    One,
+                                    Zero
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    0x2,
+                                    Zero
+                                }
+                            }
+                        },
+                        Package(0x5)
+                        {
+                            "FSTATE",
+                            One,
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    0x2,
+                                    One
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    One,
+                                    One
+                                }
+                            },
+                            Package(0x2)
+                            {
+                                "PSTATE_ADJUST",
+                                Package(0x2)
+                                {
+                                    Zero,
+                                    One
+                                }
+                            }
+                        },
+                        Package(0x4)
+                        {
+                            "PSTATE_SET",
+                            Zero,
+                            Package(0x3)
+                            {
+                                "PSTATE",
+                                Zero,
+                                Package(0x2)
+                                {
+                                    "FOOTSWITCH",
+                                    Package(0x2)
+                                    {
+                                        "ufs_card_2_gdsc",
+                                        One
+                                    }
+                                }
+                            },
+                            Package(0x3)
+                            {
+                                "PSTATE",
+                                One,
+                                Package(0x2)
+                                {
+                                    "FOOTSWITCH",
+                                    Package(0x2)
+                                    {
+                                        "ufs_card_2_gdsc",
+                                        0x2
+                                    }
+                                }
+                            }
+                        },
+                        Package(0x4)
+                        {
+                            "PSTATE_SET",
+                            One,
+                            Package(0xb)
+                            {
+                                "PSTATE",
+                                Zero,
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x4)
+                                    {
+                                        "gcc_ufs_card_2_axi_clk",
+                                        0x8,
+                                        0x11e1a300,
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x4)
+                                    {
+                                        "gcc_ufs_card_2_unipro_core_clk",
+                                        0x8,
+                                        0x11e1a300,
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x4)
+                                    {
+                                        "gcc_ufs_card_2_ice_core_clk",
+                                        0x8,
+                                        0x11e1a300,
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_aggre_ufs_card_2_axi_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_ahb_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_phy_aux_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_tx_symbol_0_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_0_clk",
+                                        One
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_1_clk",
+                                        One
+                                    }
+                                }
+                            },
+                            Package(0xb)
+                            {
+                                "PSTATE",
+                                One,
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_aggre_ufs_card_2_axi_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_ahb_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_phy_aux_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_tx_symbol_0_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_0_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_rx_symbol_1_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_ice_core_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_unipro_core_clk",
+                                        0x2
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "CLOCK",
+                                    Package(0x2)
+                                    {
+                                        "gcc_ufs_card_2_axi_clk",
+                                        0x2
+                                    }
+                                }
+                            }
+                        },
+                        Package(0x4)
+                        {
+                            "PSTATE_SET",
+                            0x2,
+                            Package(0x4)
+                            {
+                                "PSTATE",
+                                Zero,
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_UFS_GEN4",
+                                        "ICBID_SLAVE_EBI1",
+                                        0x8f0d1800,
+                                        0x8f0d1800
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_APPSS_PROC",
+                                        "ICBID_SLAVE_UFS_MEM_1_CFG",
+                                        0x11d260c0,
+                                        Zero
+                                    }
+                                }
+                            },
+                            Package(0x4)
+                            {
+                                "PSTATE",
+                                One,
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_APPSS_PROC",
+                                        "ICBID_SLAVE_UFS_MEM_1_CFG",
+                                        Zero,
+                                        Zero
+                                    }
+                                },
+                                Package(0x2)
+                                {
+                                    "BUSARB",
+                                    Package(0x5)
+                                    {
+                                        0x3,
+                                        "ICBID_MASTER_UFS_GEN4",
+                                        "ICBID_SLAVE_EBI1",
+                                        Zero,
+                                        Zero
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    Package(0x6)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                0x2,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "DELAY",
+                            Package(0x1)
+                            {
+                                0x23
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                One,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x5)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                One,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                Zero,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE_ADJUST",
+                            Package(0x2)
+                            {
+                                0x2,
+                                One
+                            }
+                        }
+                    }
+                }
+            })
             Name(FPCC, Package(0x1)
             {
                 Package(0x6)
@@ -37119,6 +38040,44 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                 Zero
                             }
                         }
+                    }
+                }
+            })
+            Name(GPCC, Package(0x1)
+            {
+                Package(0x6)
+                {
+                    "DEVICE",
+                    "\\_SB.UFS1",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "PRELOAD_DSTATE",
+                        0x3
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        Zero
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x3
                     }
                 }
             })
@@ -38015,7 +38974,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     }
                 }
             })
-            Name(LPCC, Package(0x8)
+            Name(LPCC, Package(0x9)
             {
                 Package(0x7)
                 {
@@ -40048,45 +41007,15 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "FSTATE",
                             Zero
                         },
-                        Package(0x3)
+                        Package(0x2)
                         {
                             "PSTATE",
-                            Zero,
-                            Package(0x2)
-                            {
-                                "PMICGPIO",
-                                Package(0x8)
-                                {
-                                    "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
-                                    Zero,
-                                    0x9,
-                                    Zero,
-                                    Zero,
-                                    Zero,
-                                    One,
-                                    0x4
-                                }
-                            }
+                            Zero
                         },
-                        Package(0x3)
+                        Package(0x2)
                         {
                             "PSTATE",
-                            One,
-                            Package(0x2)
-                            {
-                                "PMICGPIO",
-                                Package(0x8)
-                                {
-                                    "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
-                                    Zero,
-                                    0x9,
-                                    Zero,
-                                    Zero,
-                                    One,
-                                    0x3,
-                                    0x5
-                                }
-                            }
+                            One
                         }
                     },
                     Package(0x2)
@@ -41389,6 +42318,774 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             {
                                 0x3,
                                 "ICBID_MASTER_USB3_1",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "ABANDON_DSTATE",
+                        0x3
+                    }
+                },
+                Package(0x8)
+                {
+                    "DEVICE",
+                    "\\_SB.USB2",
+                    Package(0x5)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "PRELOAD_PSTATE",
+                            Zero
+                        }
+                    },
+                    Package(0x18)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                0x1b7740,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                0x2ee000,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_sleep_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb30_mp_sleep_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb30_mp_sleep_clk",
+                                0x9,
+                                0xc
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_pipe_0_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb3_mp_phy_pipe_0_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_pipe_1_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb3_mp_phy_pipe_1_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x8,
+                                0xc8,
+                                0x9
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x8,
+                                0xc8,
+                                0x9
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x8,
+                                0xc8,
+                                0x9
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x8,
+                                0x4b00,
+                                0x7
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x8,
+                                0x4b0,
+                                0x7
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x8,
+                                0x4b00,
+                                0x7
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
+                                "ICBID_SLAVE_EBI1",
+                                0x28000000,
+                                0x28000000
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                0x17d78400,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        One,
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x3,
+                                0x2580,
+                                0x5
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                0x1b7740,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                0x2ee000,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x2,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x3,
+                                0x927c00,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                0x1b7740,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                0x2ee000,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x3,
+                                0x927c00,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
                                 "ICBID_SLAVE_EBI1",
                                 Zero,
                                 Zero
@@ -41464,7 +43161,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     }
                 }
             })
-            Name(LPCD, Package(0x8)
+            Name(LPCD, Package(0x9)
             {
                 Package(0x7)
                 {
@@ -44808,6 +46505,846 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             {
                                 0x3,
                                 "ICBID_MASTER_USB3_1",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "ABANDON_DSTATE",
+                        0x3
+                    }
+                },
+                Package(0x8)
+                {
+                    "DEVICE",
+                    "\\_SB.USB2",
+                    Package(0x5)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "PSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "PRELOAD_PSTATE",
+                            Zero
+                        }
+                    },
+                    Package(0x1a)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                0x1b7740,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                0x2ee000,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                0x7,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_sleep_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb30_mp_sleep_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb30_mp_sleep_clk",
+                                0x9,
+                                0xc
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_pipe_0_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb3_mp_phy_pipe_0_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_pipe_1_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb3_mp_phy_pipe_1_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x8,
+                                0xc8,
+                                0x9
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x8,
+                                0xc8,
+                                0x9
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x8,
+                                0xc8,
+                                0x9
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x8,
+                                0x4b00,
+                                0x7
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x8,
+                                0x4b0,
+                                0x7
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x8,
+                                0x4b00,
+                                0x7
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
+                                "ICBID_SLAVE_EBI1",
+                                0x28000000,
+                                0x28000000
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                0x17d78400,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp0_clkref_en",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp1_clkref_en",
+                                One
+                            }
+                        }
+                    },
+                    Package(0x13)
+                    {
+                        "DSTATE",
+                        One,
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x3,
+                                0x2580,
+                                0x5
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp0_clkref_en",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp1_clkref_en",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                0x1b7740,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                0x2ee000,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x13)
+                    {
+                        "DSTATE",
+                        0x2,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x3,
+                                0x927c00,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp0_clkref_en",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp1_clkref_en",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x3)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO12_A",
+                                One,
+                                0x1b7740,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO2_A",
+                                One,
+                                0x2ee000,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                0x4,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                0x4,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x13)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x3,
+                                0x927c00,
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_master_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_cfg_noc_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_usb3_mp_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb30_mp_mock_utmi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp_phy_com_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_USB3_2",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp0_clkref_en",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_usb3_mp1_clkref_en",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "usb30_mp_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_USB3_2",
                                 "ICBID_SLAVE_EBI1",
                                 Zero,
                                 Zero
@@ -44999,7 +47536,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     If(LEqual(\_SB_.PSUB, "CLS08150"))
                     {
-                        If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID(), 0x2), LEqual(BSID(), 0x3))))
+                        If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID, 0x2), LEqual(BSID, 0x3))))
                         {
                             Return(WBRX)
                         }
@@ -45403,7 +47940,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     {
                         If(LEqual(\_SB_.PSUB, "CLS08150"))
                         {
-                            If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID(), 0x2), LEqual(BSID(), 0x3))))
+                            If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID, 0x2), LEqual(BSID, 0x3))))
                             {
                                 Return(PEMH)
                             }
@@ -45423,7 +47960,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     Return(PEMX)
                 }
             }
-            Name(PEMC, Package(0x4)
+            Name(PEMC, Package(0x8)
             {
                 Package(0x9)
                 {
@@ -46258,9 +48795,815 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         "DSTATE",
                         0x3
                     }
+                },
+                Package(0x9)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI2",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_2_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_2_CFG",
+                                0x47868c0,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_2",
+                                "ICBID_SLAVE_EBI1",
+                                0xe9a67400,
+                                0xe9a67400
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_pipe_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_q2a_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_mstr_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_cfg_ahb_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie_2_aux_clk",
+                                0x8,
+                                0x124f800,
+                                0x3
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie2_phy_refgen_clk",
+                                0x8,
+                                0x5f5e100,
+                                0x3
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_q2a_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_mstr_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_cfg_ahb_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie2_phy_refgen_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_pipe_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x10,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_2_CFG",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_2",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_2_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_EXCEPTION",
+                        Package(0x2)
+                        {
+                            "EXECUTE_FUNCTION",
+                            Package(0x1)
+                            {
+                                "ExecuteOcdPCIeExceptions"
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_DSTATE",
+                        Zero
+                    }
+                },
+                Package(0x7)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI2.RP1",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        Zero
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x3
+                    }
+                },
+                Package(0x9)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI3",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_3_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_3_CFG",
+                                0x47868c0,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_3",
+                                "ICBID_SLAVE_EBI1",
+                                0xe9a67400,
+                                0xe9a67400
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_pipe_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_q2a_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_mstr_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_cfg_ahb_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie_3_aux_clk",
+                                0x8,
+                                0x124f800,
+                                0x3
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie3_phy_refgen_clk",
+                                0x8,
+                                0x5f5e100,
+                                0x3
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_q2a_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_mstr_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_cfg_ahb_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie3_phy_refgen_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_pipe_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x10,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_3_CFG",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_3",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_3_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_EXCEPTION",
+                        Package(0x2)
+                        {
+                            "EXECUTE_FUNCTION",
+                            Package(0x1)
+                            {
+                                "ExecuteOcdPCIeExceptions"
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_DSTATE",
+                        Zero
+                    }
+                },
+                Package(0x7)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI3.RP1",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        Zero
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x3
+                    }
                 }
             })
-            Name(PEMX, Package(0x4)
+            Name(PEMX, Package(0x8)
             {
                 Package(0x9)
                 {
@@ -47209,9 +50552,929 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         "DSTATE",
                         0x3
                     }
+                },
+                Package(0x9)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI2",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x17)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_2_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_2_CFG",
+                                0x47868c0,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_2",
+                                "ICBID_SLAVE_EBI1",
+                                0x74d33a00,
+                                0x74d33a00
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_rx2_qlink_clkref_en",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_ufs_mem_clkref_en",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_ufs_card_clkref_en",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_rx2_qlink_clkref_en",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_ufs_mem_clkref_en",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_ufs_card_clkref_en",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_pipe_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_q2a_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_mstr_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_cfg_ahb_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie_2_aux_clk",
+                                0x8,
+                                0x124f800,
+                                0x3
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie2_phy_refgen_clk",
+                                0x8,
+                                0x5f5e100,
+                                0x3
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_q2a_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_mstr_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_cfg_ahb_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie2_phy_refgen_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_pipe_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x10,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_2_CFG",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_2",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_2_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_EXCEPTION",
+                        Package(0x2)
+                        {
+                            "EXECUTE_FUNCTION",
+                            Package(0x1)
+                            {
+                                "ExecuteOcdPCIeExceptions"
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_DSTATE",
+                        Zero
+                    }
+                },
+                Package(0x7)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI2.RP1",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        Zero
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x3
+                    }
+                },
+                Package(0x9)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI3",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x17)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_3_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_3_CFG",
+                                0x47868c0,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_3",
+                                "ICBID_SLAVE_EBI1",
+                                0xe9a67400,
+                                0xe9a67400
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_rx2_qlink_clkref_en",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_ufs_mem_clkref_en",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_ufs_card_clkref_en",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_rx2_qlink_clkref_en",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_ufs_mem_clkref_en",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x3)
+                            {
+                                "gcc_ufs_card_clkref_en",
+                                0x9,
+                                0x8
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_pipe_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_q2a_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_mstr_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_cfg_ahb_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie_3_aux_clk",
+                                0x8,
+                                0x124f800,
+                                0x3
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie3_phy_refgen_clk",
+                                0x8,
+                                0x5f5e100,
+                                0x3
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_q2a_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_mstr_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_cfg_ahb_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie3_phy_refgen_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_pipe_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x10,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_3_CFG",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_3",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_3_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_EXCEPTION",
+                        Package(0x2)
+                        {
+                            "EXECUTE_FUNCTION",
+                            Package(0x1)
+                            {
+                                "ExecuteOcdPCIeExceptions"
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_DSTATE",
+                        Zero
+                    }
+                },
+                Package(0x7)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI3.RP1",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        Zero
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x3
+                    }
                 }
             })
-            Name(PEMH, Package(0x4)
+            Name(PEMH, Package(0x8)
             {
                 Package(0x9)
                 {
@@ -48011,6 +52274,812 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     "DEVICE",
                     "\\_SB.PCI1.RP1",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        Zero
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x3
+                    }
+                },
+                Package(0x9)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI2",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_2_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_2_CFG",
+                                0x47868c0,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_2",
+                                "ICBID_SLAVE_EBI1",
+                                0xe9a67400,
+                                0xe9a67400
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_pipe_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_q2a_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_mstr_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_cfg_ahb_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie_2_aux_clk",
+                                0x8,
+                                0x124f800,
+                                0x3
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie2_phy_refgen_clk",
+                                0x8,
+                                0x5f5e100,
+                                0x3
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_slv_q2a_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_mstr_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_cfg_ahb_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie2_phy_refgen_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_2_pipe_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x10,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_2_CFG",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_2",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_2_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_EXCEPTION",
+                        Package(0x2)
+                        {
+                            "EXECUTE_FUNCTION",
+                            Package(0x1)
+                            {
+                                "ExecuteOcdPCIeExceptions"
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_DSTATE",
+                        Zero
+                    }
+                },
+                Package(0x7)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI2.RP1",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        Zero
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x3
+                    }
+                },
+                Package(0x9)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI3",
+                    Package(0x4)
+                    {
+                        "COMPONENT",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            Zero
+                        },
+                        Package(0x2)
+                        {
+                            "FSTATE",
+                            One
+                        }
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                0x124f80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                0xd6d80,
+                                One,
+                                One,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_3_gdsc",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_3_CFG",
+                                0x47868c0,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_3",
+                                "ICBID_SLAVE_EBI1",
+                                0xe9a67400,
+                                0xe9a67400
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x100,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_pipe_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_q2a_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_mstr_axi_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_cfg_ahb_clk",
+                                One
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie_3_aux_clk",
+                                0x8,
+                                0x124f800,
+                                0x3
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x4)
+                            {
+                                "gcc_pcie3_phy_refgen_clk",
+                                0x8,
+                                0x5f5e100,
+                                0x3
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        One
+                    },
+                    Package(0x2)
+                    {
+                        "DSTATE",
+                        0x2
+                    },
+                    Package(0x11)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_slv_q2a_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_mstr_axi_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_cfg_ahb_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie3_phy_refgen_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_3_pipe_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_pcie_phy_aux_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "CLOCK",
+                            Package(0x2)
+                            {
+                                "gcc_aggre_noc_pcie_tbu_clk",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "NPARESOURCE",
+                            Package(0x4)
+                            {
+                                One,
+                                "/arc/client/rail_cx",
+                                0x10,
+                                "SUPPRESSIBLE"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_APPSS_PROC",
+                                "ICBID_SLAVE_PCIE_3_CFG",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "BUSARB",
+                            Package(0x5)
+                            {
+                                0x3,
+                                "ICBID_MASTER_PCIE_3",
+                                "ICBID_SLAVE_EBI1",
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "FOOTSWITCH",
+                            Package(0x2)
+                            {
+                                "pcie_3_gdsc",
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO3_C",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x6)
+                            {
+                                "PPP_RESOURCE_ID_LDO5_A",
+                                One,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_EXCEPTION",
+                        Package(0x2)
+                        {
+                            "EXECUTE_FUNCTION",
+                            Package(0x1)
+                            {
+                                "ExecuteOcdPCIeExceptions"
+                            }
+                        }
+                    },
+                    Package(0x2)
+                    {
+                        "CRASHDUMP_DSTATE",
+                        Zero
+                    }
+                },
+                Package(0x7)
+                {
+                    "DEVICE",
+                    "\\_SB.PCI3.RP1",
                     Package(0x4)
                     {
                         "COMPONENT",
@@ -52446,7 +57515,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
                     "DEVICE",
                     "\\_SB.CAMS",
-                    Package(0xb)
+                    Package(0xc)
                     {
                         "DSTATE",
                         Zero,
@@ -52507,6 +57576,19 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0x2)
                         {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x16,
+                                Zero,
+                                Zero,
+                                One,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
                             "CLOCK",
                             Package(0x4)
                             {
@@ -52547,7 +57629,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1c,
+                                0x16,
                                 Zero,
                                 Zero,
                                 One,
@@ -52938,11 +58020,11 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "DELAY",
                             Package(0x1)
                             {
-                                0xa
+                                One
                             }
                         }
                     },
-                    Package(0xb)
+                    Package(0xc)
                     {
                         "DSTATE",
                         0x3,
@@ -52952,7 +58034,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             Package(0x6)
                             {
                                 0x17,
-                                Zero,
+                                One,
                                 Zero,
                                 One,
                                 Zero,
@@ -52976,6 +58058,19 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                                 0xc,
                                 Zero,
                                 0x3
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x17,
+                                Zero,
+                                Zero,
+                                One,
+                                Zero,
+                                Zero
                             }
                         },
                         Package(0x2)
@@ -59225,7 +64320,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                             "DELAY",
                             Package(0x1)
                             {
-                                0xfa0
+                                0x1388
                             }
                         }
                     },
@@ -61699,10 +66794,6 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 \_SB_.IPC0
             })
         }
-        Scope(\_SB_.CDSP)
-        {
-            Name(_CID, "QCOMFFE6")
-        }
         Scope(\_SB_.PILC)
         {
             Method(_SUB, 0x0, NotSerialized)
@@ -61901,6 +66992,10 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Name(_UID, One)
         }
+        Device(DISP)
+        {
+            Name(_HID, "MSHW1004")
+        }
         Device(GPU0)
         {
             Name(_HID, "QCOM053A")
@@ -61915,7 +67010,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     Return(Zero)
                 }
             }
-            Name(_DEP, Package(0xa)
+            Name(_DEP, Package(0xb)
             {
                 \_SB_.MMU0,
                 \_SB_.MMU1,
@@ -61926,7 +67021,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 \_SB_.PILC,
                 \_SB_.RPEN,
                 \_SB_.TREE,
-                \_SB_.SCM0
+                \_SB_.SCM0,
+                \_SB_.DISP
             })
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -72020,7 +77116,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             }
             Method(_ROM, 0x3, NotSerialized)
             {
-                Name(PCFG, Buffer(0xe9d)
+                Name(PCFG, Buffer(0xe9e)
                 {
 	0x3c, 0x3f, 0x78, 0x6d, 0x6c, 0x20, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f,
 	0x6e, 0x3d, 0x27, 0x31, 0x2e, 0x30, 0x27, 0x20, 0x65, 0x6e, 0x63, 0x6f,
@@ -72100,240 +77196,240 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x72, 0x64, 0x54, 0x69, 0x6d, 0x69, 0x6e, 0x67, 0x73, 0x37, 0x2f, 0x3e,
 	0x0a, 0x20, 0x3c, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x54, 0x69, 0x6d,
 	0x69, 0x6e, 0x67, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65,
-	0x2f, 0x3e, 0x0a, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f,
-	0x6e, 0x74, 0x61, 0x6c, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x31,
-	0x30, 0x38, 0x30, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e,
-	0x74, 0x61, 0x6c, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x0a, 0x20,
-	0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x41,
-	0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x31, 0x30, 0x38, 0x30, 0x3c, 0x2f,
-	0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x41, 0x63,
-	0x74, 0x69, 0x76, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69,
-	0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x46, 0x72, 0x6f, 0x6e, 0x74, 0x50,
-	0x6f, 0x72, 0x63, 0x68, 0x3e, 0x32, 0x38, 0x3c, 0x2f, 0x48, 0x6f, 0x72,
+	0x2f, 0x3e, 0x0a, 0x20, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a,
+	0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x3e,
+	0x31, 0x30, 0x38, 0x30, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f,
+	0x6e, 0x74, 0x61, 0x6c, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x0a,
+	0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c,
+	0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x31, 0x30, 0x38, 0x30, 0x3c,
+	0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x41,
+	0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72,
 	0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x46, 0x72, 0x6f, 0x6e, 0x74,
+	0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x32, 0x38, 0x3c, 0x2f, 0x48, 0x6f,
+	0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x46, 0x72, 0x6f, 0x6e,
+	0x74, 0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x48, 0x6f,
+	0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x42, 0x61, 0x63, 0x6b,
+	0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x33, 0x36, 0x3c, 0x2f, 0x48, 0x6f,
+	0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x42, 0x61, 0x63, 0x6b,
 	0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72,
-	0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x42, 0x61, 0x63, 0x6b, 0x50,
-	0x6f, 0x72, 0x63, 0x68, 0x3e, 0x33, 0x36, 0x3c, 0x2f, 0x48, 0x6f, 0x72,
-	0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x42, 0x61, 0x63, 0x6b, 0x50,
-	0x6f, 0x72, 0x63, 0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69,
+	0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x50,
+	0x75, 0x6c, 0x73, 0x65, 0x3e, 0x34, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69,
 	0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x50, 0x75,
-	0x6c, 0x73, 0x65, 0x3e, 0x34, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a,
-	0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x50, 0x75, 0x6c,
-	0x73, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f,
-	0x6e, 0x74, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x65, 0x77,
-	0x3e, 0x30, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74,
-	0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x65, 0x77, 0x3e, 0x0a,
-	0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c,
-	0x4c, 0x65, 0x66, 0x74, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e, 0x30,
-	0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c,
-	0x4c, 0x65, 0x66, 0x74, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e, 0x0a,
-	0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61, 0x6c,
-	0x52, 0x69, 0x67, 0x68, 0x74, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e,
+	0x6c, 0x73, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a,
+	0x6f, 0x6e, 0x74, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x65,
+	0x77, 0x3e, 0x30, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e,
+	0x74, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x65, 0x77, 0x3e,
+	0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61,
+	0x6c, 0x4c, 0x65, 0x66, 0x74, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e,
 	0x30, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61,
+	0x6c, 0x4c, 0x65, 0x66, 0x74, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e,
+	0x0a, 0x20, 0x3c, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74, 0x61,
 	0x6c, 0x52, 0x69, 0x67, 0x68, 0x74, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72,
-	0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c,
-	0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x32, 0x32, 0x34, 0x38, 0x3c,
-	0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x41, 0x63, 0x74,
-	0x69, 0x76, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69,
+	0x3e, 0x30, 0x3c, 0x2f, 0x48, 0x6f, 0x72, 0x69, 0x7a, 0x6f, 0x6e, 0x74,
+	0x61, 0x6c, 0x52, 0x69, 0x67, 0x68, 0x74, 0x42, 0x6f, 0x72, 0x64, 0x65,
+	0x72, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61,
+	0x6c, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x3e, 0x32, 0x32, 0x34, 0x38,
+	0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x41, 0x63,
+	0x74, 0x69, 0x76, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74,
+	0x69, 0x63, 0x61, 0x6c, 0x46, 0x72, 0x6f, 0x6e, 0x74, 0x50, 0x6f, 0x72,
+	0x63, 0x68, 0x3e, 0x35, 0x36, 0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69,
 	0x63, 0x61, 0x6c, 0x46, 0x72, 0x6f, 0x6e, 0x74, 0x50, 0x6f, 0x72, 0x63,
-	0x68, 0x3e, 0x35, 0x36, 0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63,
-	0x61, 0x6c, 0x46, 0x72, 0x6f, 0x6e, 0x74, 0x50, 0x6f, 0x72, 0x63, 0x68,
-	0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c,
-	0x42, 0x61, 0x63, 0x6b, 0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x34, 0x3c,
-	0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x42, 0x61, 0x63,
-	0x6b, 0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65,
-	0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x50, 0x75,
-	0x6c, 0x73, 0x65, 0x3e, 0x34, 0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69,
-	0x63, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x50, 0x75, 0x6c, 0x73, 0x65,
-	0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c,
-	0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x65, 0x77, 0x3e, 0x30, 0x3c, 0x2f,
-	0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63,
-	0x53, 0x6b, 0x65, 0x77, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74,
-	0x69, 0x63, 0x61, 0x6c, 0x54, 0x6f, 0x70, 0x42, 0x6f, 0x72, 0x64, 0x65,
-	0x72, 0x3e, 0x30, 0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61,
-	0x6c, 0x54, 0x6f, 0x70, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e, 0x0a,
-	0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x42, 0x6f,
-	0x74, 0x74, 0x6f, 0x6d, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e, 0x30,
-	0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x42, 0x6f,
-	0x74, 0x74, 0x6f, 0x6d, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e, 0x0a,
-	0x20, 0x3c, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x44, 0x61, 0x74, 0x61,
-	0x50, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x74, 0x79, 0x3e, 0x46, 0x61, 0x6c,
-	0x73, 0x65, 0x3c, 0x2f, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x44, 0x61,
-	0x74, 0x61, 0x50, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x74, 0x79, 0x3e, 0x0a,
-	0x20, 0x3c, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x56, 0x73, 0x79, 0x6e,
-	0x63, 0x50, 0x6f, 0x6c, 0x61, 0x69, 0x72, 0x74, 0x79, 0x3e, 0x46, 0x61,
-	0x6c, 0x73, 0x65, 0x3c, 0x2f, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x56,
-	0x73, 0x79, 0x6e, 0x63, 0x50, 0x6f, 0x6c, 0x61, 0x69, 0x72, 0x74, 0x79,
-	0x3e, 0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x48, 0x73,
-	0x79, 0x6e, 0x63, 0x50, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x74, 0x79, 0x3e,
-	0x46, 0x61, 0x6c, 0x73, 0x65, 0x3c, 0x2f, 0x49, 0x6e, 0x76, 0x65, 0x72,
-	0x74, 0x48, 0x73, 0x79, 0x6e, 0x63, 0x50, 0x6f, 0x6c, 0x61, 0x72, 0x69,
-	0x74, 0x79, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72,
-	0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x3e, 0x30, 0x78, 0x30, 0x3c, 0x2f, 0x42,
-	0x6f, 0x72, 0x64, 0x65, 0x72, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x3e, 0x0a,
-	0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x3e, 0x0a, 0x3c, 0x47, 0x72,
-	0x6f, 0x75, 0x70, 0x20, 0x69, 0x64, 0x3d, 0x27, 0x44, 0x69, 0x73, 0x70,
-	0x6c, 0x61, 0x79, 0x20, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63,
-	0x65, 0x27, 0x3e, 0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66,
-	0x61, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x3e, 0x39, 0x3c, 0x2f, 0x49,
-	0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65,
-	0x3e, 0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63,
-	0x65, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74,
-	0x3e, 0x33, 0x3c, 0x2f, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63,
-	0x65, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74,
-	0x3e, 0x0a, 0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x3e, 0x0a, 0x3c,
-	0x47, 0x72, 0x6f, 0x75, 0x70, 0x20, 0x69, 0x64, 0x3d, 0x27, 0x44, 0x53,
-	0x49, 0x20, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x27,
-	0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x43, 0x68, 0x61, 0x6e, 0x6e,
-	0x65, 0x6c, 0x49, 0x64, 0x3e, 0x32, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x43,
-	0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x49, 0x64, 0x3e, 0x0a, 0x20, 0x3c,
-	0x44, 0x53, 0x49, 0x56, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x49, 0x64,
-	0x3e, 0x30, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x56, 0x69, 0x72, 0x74, 0x75,
-	0x61, 0x6c, 0x49, 0x64, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x43,
-	0x6f, 0x6c, 0x6f, 0x72, 0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x3e, 0x33,
-	0x36, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x46,
-	0x6f, 0x72, 0x6d, 0x61, 0x74, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49,
-	0x54, 0x72, 0x61, 0x66, 0x66, 0x69, 0x63, 0x4d, 0x6f, 0x64, 0x65, 0x3e,
-	0x31, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54, 0x72, 0x61, 0x66, 0x66, 0x69,
-	0x63, 0x4d, 0x6f, 0x64, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49,
-	0x4c, 0x61, 0x6e, 0x65, 0x73, 0x3e, 0x34, 0x3c, 0x2f, 0x44, 0x53, 0x49,
-	0x4c, 0x61, 0x6e, 0x65, 0x73, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49,
-	0x43, 0x6c, 0x6f, 0x63, 0x6b, 0x48, 0x53, 0x46, 0x6f, 0x72, 0x63, 0x65,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x3e, 0x30, 0x3c, 0x2f, 0x44,
-	0x53, 0x49, 0x43, 0x6c, 0x6f, 0x63, 0x6b, 0x48, 0x53, 0x46, 0x6f, 0x72,
-	0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x3e, 0x0a, 0x20,
-	0x3c, 0x44, 0x53, 0x49, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x52,
-	0x61, 0x74, 0x65, 0x3e, 0x30, 0x78, 0x33, 0x43, 0x30, 0x30, 0x30, 0x30,
-	0x3c, 0x2f, 0x44, 0x53, 0x49, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68,
-	0x52, 0x61, 0x74, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x43,
-	0x6d, 0x64, 0x53, 0x77, 0x61, 0x70, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66,
-	0x61, 0x63, 0x65, 0x3e, 0x46, 0x61, 0x6c, 0x73, 0x65, 0x3c, 0x2f, 0x44,
-	0x53, 0x49, 0x43, 0x6d, 0x64, 0x53, 0x77, 0x61, 0x70, 0x49, 0x6e, 0x74,
-	0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53,
-	0x49, 0x43, 0x6d, 0x64, 0x55, 0x73, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x69,
-	0x67, 0x67, 0x65, 0x72, 0x3e, 0x46, 0x61, 0x6c, 0x73, 0x65, 0x3c, 0x2f,
-	0x44, 0x53, 0x49, 0x43, 0x6d, 0x64, 0x55, 0x73, 0x69, 0x6e, 0x67, 0x54,
-	0x72, 0x69, 0x67, 0x67, 0x65, 0x72, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53,
-	0x49, 0x45, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x41, 0x75, 0x74, 0x6f, 0x52,
-	0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x3e, 0x54, 0x72, 0x75, 0x65, 0x3c,
-	0x2f, 0x44, 0x53, 0x49, 0x45, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x41, 0x75,
-	0x74, 0x6f, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x3e, 0x0a, 0x20,
-	0x3c, 0x44, 0x53, 0x49, 0x41, 0x75, 0x74, 0x6f, 0x52, 0x65, 0x66, 0x72,
-	0x65, 0x73, 0x68, 0x46, 0x72, 0x61, 0x6d, 0x65, 0x4e, 0x75, 0x6d, 0x44,
-	0x69, 0x76, 0x3e, 0x31, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x41, 0x75, 0x74,
-	0x6f, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x46, 0x72, 0x61, 0x6d,
-	0x65, 0x4e, 0x75, 0x6d, 0x44, 0x69, 0x76, 0x3e, 0x0a, 0x20, 0x3c, 0x44,
-	0x53, 0x49, 0x4c, 0x50, 0x31, 0x31, 0x41, 0x74, 0x49, 0x6e, 0x69, 0x74,
-	0x3e, 0x54, 0x72, 0x75, 0x65, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x4c, 0x50,
-	0x31, 0x31, 0x41, 0x74, 0x49, 0x6e, 0x69, 0x74, 0x3e, 0x0a, 0x20, 0x3c,
+	0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61,
+	0x6c, 0x42, 0x61, 0x63, 0x6b, 0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x34,
+	0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x42, 0x61,
+	0x63, 0x6b, 0x50, 0x6f, 0x72, 0x63, 0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x56,
+	0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x50,
+	0x75, 0x6c, 0x73, 0x65, 0x3e, 0x34, 0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74,
+	0x69, 0x63, 0x61, 0x6c, 0x53, 0x79, 0x6e, 0x63, 0x50, 0x75, 0x6c, 0x73,
+	0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61,
+	0x6c, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x65, 0x77, 0x3e, 0x30, 0x3c,
+	0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x53, 0x79, 0x6e,
+	0x63, 0x53, 0x6b, 0x65, 0x77, 0x3e, 0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72,
+	0x74, 0x69, 0x63, 0x61, 0x6c, 0x54, 0x6f, 0x70, 0x42, 0x6f, 0x72, 0x64,
+	0x65, 0x72, 0x3e, 0x30, 0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63,
+	0x61, 0x6c, 0x54, 0x6f, 0x70, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e,
+	0x0a, 0x20, 0x3c, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x42,
+	0x6f, 0x74, 0x74, 0x6f, 0x6d, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e,
+	0x30, 0x3c, 0x2f, 0x56, 0x65, 0x72, 0x74, 0x69, 0x63, 0x61, 0x6c, 0x42,
+	0x6f, 0x74, 0x74, 0x6f, 0x6d, 0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x3e,
+	0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x44, 0x61, 0x74,
+	0x61, 0x50, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x74, 0x79, 0x3e, 0x46, 0x61,
+	0x6c, 0x73, 0x65, 0x3c, 0x2f, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x44,
+	0x61, 0x74, 0x61, 0x50, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x74, 0x79, 0x3e,
+	0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x56, 0x73, 0x79,
+	0x6e, 0x63, 0x50, 0x6f, 0x6c, 0x61, 0x69, 0x72, 0x74, 0x79, 0x3e, 0x46,
+	0x61, 0x6c, 0x73, 0x65, 0x3c, 0x2f, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74,
+	0x56, 0x73, 0x79, 0x6e, 0x63, 0x50, 0x6f, 0x6c, 0x61, 0x69, 0x72, 0x74,
+	0x79, 0x3e, 0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x76, 0x65, 0x72, 0x74, 0x48,
+	0x73, 0x79, 0x6e, 0x63, 0x50, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x74, 0x79,
+	0x3e, 0x46, 0x61, 0x6c, 0x73, 0x65, 0x3c, 0x2f, 0x49, 0x6e, 0x76, 0x65,
+	0x72, 0x74, 0x48, 0x73, 0x79, 0x6e, 0x63, 0x50, 0x6f, 0x6c, 0x61, 0x72,
+	0x69, 0x74, 0x79, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x6f, 0x72, 0x64, 0x65,
+	0x72, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x3e, 0x30, 0x78, 0x30, 0x3c, 0x2f,
+	0x42, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x3e,
+	0x0a, 0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x3e, 0x0a, 0x3c, 0x47,
+	0x72, 0x6f, 0x75, 0x70, 0x20, 0x69, 0x64, 0x3d, 0x27, 0x44, 0x69, 0x73,
+	0x70, 0x6c, 0x61, 0x79, 0x20, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61,
+	0x63, 0x65, 0x27, 0x3e, 0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x74, 0x65, 0x72,
+	0x66, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70, 0x65, 0x3e, 0x39, 0x3c, 0x2f,
+	0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61,
+	0x63, 0x65, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x46, 0x6f, 0x72, 0x6d, 0x61,
+	0x74, 0x3e, 0x33, 0x3c, 0x2f, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61,
+	0x63, 0x65, 0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x46, 0x6f, 0x72, 0x6d, 0x61,
+	0x74, 0x3e, 0x0a, 0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x3e, 0x0a,
+	0x3c, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x20, 0x69, 0x64, 0x3d, 0x27, 0x44,
+	0x53, 0x49, 0x20, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65,
+	0x27, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x43, 0x68, 0x61, 0x6e,
+	0x6e, 0x65, 0x6c, 0x49, 0x64, 0x3e, 0x32, 0x3c, 0x2f, 0x44, 0x53, 0x49,
+	0x43, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x49, 0x64, 0x3e, 0x0a, 0x20,
+	0x3c, 0x44, 0x53, 0x49, 0x56, 0x69, 0x72, 0x74, 0x75, 0x61, 0x6c, 0x49,
+	0x64, 0x3e, 0x30, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x56, 0x69, 0x72, 0x74,
+	0x75, 0x61, 0x6c, 0x49, 0x64, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49,
+	0x43, 0x6f, 0x6c, 0x6f, 0x72, 0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x3e,
+	0x33, 0x36, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x43, 0x6f, 0x6c, 0x6f, 0x72,
+	0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53,
+	0x49, 0x54, 0x72, 0x61, 0x66, 0x66, 0x69, 0x63, 0x4d, 0x6f, 0x64, 0x65,
+	0x3e, 0x31, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54, 0x72, 0x61, 0x66, 0x66,
+	0x69, 0x63, 0x4d, 0x6f, 0x64, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53,
+	0x49, 0x4c, 0x61, 0x6e, 0x65, 0x73, 0x3e, 0x34, 0x3c, 0x2f, 0x44, 0x53,
+	0x49, 0x4c, 0x61, 0x6e, 0x65, 0x73, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53,
+	0x49, 0x43, 0x6c, 0x6f, 0x63, 0x6b, 0x48, 0x53, 0x46, 0x6f, 0x72, 0x63,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x3e, 0x30, 0x3c, 0x2f,
+	0x44, 0x53, 0x49, 0x43, 0x6c, 0x6f, 0x63, 0x6b, 0x48, 0x53, 0x46, 0x6f,
+	0x72, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x3e, 0x0a,
+	0x20, 0x3c, 0x44, 0x53, 0x49, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68,
+	0x52, 0x61, 0x74, 0x65, 0x3e, 0x30, 0x78, 0x33, 0x43, 0x30, 0x30, 0x30,
+	0x30, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73,
+	0x68, 0x52, 0x61, 0x74, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49,
+	0x43, 0x6d, 0x64, 0x53, 0x77, 0x61, 0x70, 0x49, 0x6e, 0x74, 0x65, 0x72,
+	0x66, 0x61, 0x63, 0x65, 0x3e, 0x46, 0x61, 0x6c, 0x73, 0x65, 0x3c, 0x2f,
+	0x44, 0x53, 0x49, 0x43, 0x6d, 0x64, 0x53, 0x77, 0x61, 0x70, 0x49, 0x6e,
+	0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44,
+	0x53, 0x49, 0x43, 0x6d, 0x64, 0x55, 0x73, 0x69, 0x6e, 0x67, 0x54, 0x72,
+	0x69, 0x67, 0x67, 0x65, 0x72, 0x3e, 0x46, 0x61, 0x6c, 0x73, 0x65, 0x3c,
+	0x2f, 0x44, 0x53, 0x49, 0x43, 0x6d, 0x64, 0x55, 0x73, 0x69, 0x6e, 0x67,
+	0x54, 0x72, 0x69, 0x67, 0x67, 0x65, 0x72, 0x3e, 0x0a, 0x20, 0x3c, 0x44,
+	0x53, 0x49, 0x45, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x41, 0x75, 0x74, 0x6f,
+	0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x3e, 0x54, 0x72, 0x75, 0x65,
+	0x3c, 0x2f, 0x44, 0x53, 0x49, 0x45, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x41,
+	0x75, 0x74, 0x6f, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x3e, 0x0a,
+	0x20, 0x3c, 0x44, 0x53, 0x49, 0x41, 0x75, 0x74, 0x6f, 0x52, 0x65, 0x66,
+	0x72, 0x65, 0x73, 0x68, 0x46, 0x72, 0x61, 0x6d, 0x65, 0x4e, 0x75, 0x6d,
+	0x44, 0x69, 0x76, 0x3e, 0x31, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x41, 0x75,
+	0x74, 0x6f, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x46, 0x72, 0x61,
+	0x6d, 0x65, 0x4e, 0x75, 0x6d, 0x44, 0x69, 0x76, 0x3e, 0x0a, 0x20, 0x3c,
+	0x44, 0x53, 0x49, 0x4c, 0x50, 0x31, 0x31, 0x41, 0x74, 0x49, 0x6e, 0x69,
+	0x74, 0x3e, 0x54, 0x72, 0x75, 0x65, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x4c,
+	0x50, 0x31, 0x31, 0x41, 0x74, 0x49, 0x6e, 0x69, 0x74, 0x3e, 0x0a, 0x20,
+	0x3c, 0x44, 0x53, 0x49, 0x54, 0x45, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x45,
+	0x6e, 0x61, 0x62, 0x6c, 0x65, 0x3e, 0x54, 0x72, 0x75, 0x65, 0x3c, 0x2f,
 	0x44, 0x53, 0x49, 0x54, 0x45, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x45, 0x6e,
-	0x61, 0x62, 0x6c, 0x65, 0x3e, 0x54, 0x72, 0x75, 0x65, 0x3c, 0x2f, 0x44,
-	0x53, 0x49, 0x54, 0x45, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x45, 0x6e, 0x61,
-	0x62, 0x6c, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x54, 0x45,
-	0x55, 0x73, 0x69, 0x6e, 0x67, 0x44, 0x65, 0x64, 0x69, 0x63, 0x61, 0x74,
-	0x65, 0x64, 0x54, 0x45, 0x50, 0x69, 0x6e, 0x3e, 0x54, 0x72, 0x75, 0x65,
-	0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54, 0x45, 0x55, 0x73, 0x69, 0x6e, 0x67,
-	0x44, 0x65, 0x64, 0x69, 0x63, 0x61, 0x74, 0x65, 0x64, 0x54, 0x45, 0x50,
-	0x69, 0x6e, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x54, 0x45, 0x76,
-	0x53, 0x79, 0x6e, 0x63, 0x53, 0x74, 0x61, 0x72, 0x74, 0x50, 0x6f, 0x73,
-	0x3e, 0x32, 0x32, 0x34, 0x38, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54, 0x45,
+	0x61, 0x62, 0x6c, 0x65, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x54,
+	0x45, 0x55, 0x73, 0x69, 0x6e, 0x67, 0x44, 0x65, 0x64, 0x69, 0x63, 0x61,
+	0x74, 0x65, 0x64, 0x54, 0x45, 0x50, 0x69, 0x6e, 0x3e, 0x54, 0x72, 0x75,
+	0x65, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54, 0x45, 0x55, 0x73, 0x69, 0x6e,
+	0x67, 0x44, 0x65, 0x64, 0x69, 0x63, 0x61, 0x74, 0x65, 0x64, 0x54, 0x45,
+	0x50, 0x69, 0x6e, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x54, 0x45,
 	0x76, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x74, 0x61, 0x72, 0x74, 0x50, 0x6f,
-	0x73, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x54, 0x45, 0x76, 0x53,
-	0x79, 0x6e, 0x63, 0x49, 0x6e, 0x69, 0x74, 0x56, 0x61, 0x6c, 0x3e, 0x32,
-	0x32, 0x34, 0x38, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54, 0x45, 0x76, 0x53,
-	0x79, 0x6e, 0x63, 0x49, 0x6e, 0x69, 0x74, 0x56, 0x61, 0x6c, 0x3e, 0x0a,
-	0x20, 0x3c, 0x44, 0x53, 0x49, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c,
-	0x6c, 0x65, 0x72, 0x4d, 0x61, 0x70, 0x70, 0x69, 0x6e, 0x67, 0x3e, 0x0a,
-	0x20, 0x20, 0x30, 0x30, 0x0a, 0x20, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x43,
-	0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x4d, 0x61, 0x70,
-	0x70, 0x69, 0x6e, 0x67, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x69, 0x73, 0x70,
-	0x6c, 0x61, 0x79, 0x52, 0x65, 0x73, 0x65, 0x74, 0x49, 0x6e, 0x66, 0x6f,
-	0x3e, 0x30, 0x20, 0x32, 0x30, 0x30, 0x30, 0x20, 0x31, 0x30, 0x30, 0x30,
-	0x20, 0x31, 0x30, 0x30, 0x30, 0x30, 0x20, 0x30, 0x3c, 0x2f, 0x44, 0x69,
-	0x73, 0x70, 0x6c, 0x61, 0x79, 0x52, 0x65, 0x73, 0x65, 0x74, 0x49, 0x6e,
-	0x66, 0x6f, 0x3e, 0x0a, 0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x3e,
-	0x0a, 0x3c, 0x44, 0x53, 0x49, 0x49, 0x6e, 0x69, 0x74, 0x53, 0x65, 0x71,
-	0x75, 0x65, 0x6e, 0x63, 0x65, 0x3e, 0x0a, 0x31, 0x35, 0x20, 0x46, 0x45,
-	0x20, 0x30, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x35, 0x41, 0x20, 0x30, 0x42,
-	0x0a, 0x31, 0x35, 0x20, 0x35, 0x43, 0x20, 0x30, 0x30, 0x0a, 0x31, 0x35,
-	0x20, 0x46, 0x45, 0x20, 0x38, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x30,
-	0x20, 0x34, 0x46, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x38, 0x20, 0x45, 0x30,
-	0x0a, 0x31, 0x35, 0x20, 0x30, 0x39, 0x20, 0x30, 0x30, 0x0a, 0x31, 0x35,
-	0x20, 0x30, 0x41, 0x20, 0x45, 0x44, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x42,
-	0x20, 0x30, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x43, 0x20, 0x30, 0x30,
-	0x0a, 0x31, 0x35, 0x20, 0x30, 0x44, 0x20, 0x30, 0x30, 0x0a, 0x31, 0x35,
-	0x20, 0x30, 0x45, 0x20, 0x43, 0x44, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x46,
-	0x20, 0x30, 0x46, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x34, 0x20, 0x30, 0x30,
-	0x0a, 0x31, 0x35, 0x20, 0x31, 0x35, 0x20, 0x41, 0x36, 0x0a, 0x31, 0x35,
-	0x20, 0x31, 0x36, 0x20, 0x46, 0x35, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x37,
-	0x20, 0x30, 0x39, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x38, 0x20, 0x37, 0x45,
-	0x0a, 0x31, 0x35, 0x20, 0x31, 0x39, 0x20, 0x30, 0x30, 0x0a, 0x31, 0x35,
-	0x20, 0x31, 0x41, 0x20, 0x36, 0x38, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x42,
-	0x20, 0x30, 0x33, 0x0a, 0x31, 0x35, 0x20, 0x46, 0x45, 0x20, 0x34, 0x30,
-	0x0a, 0x31, 0x35, 0x20, 0x37, 0x39, 0x20, 0x31, 0x30, 0x0a, 0x31, 0x35,
-	0x20, 0x30, 0x45, 0x20, 0x35, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x34, 0x44,
-	0x20, 0x37, 0x37, 0x0a, 0x31, 0x35, 0x20, 0x36, 0x45, 0x20, 0x44, 0x30,
-	0x0a, 0x31, 0x35, 0x20, 0x30, 0x44, 0x20, 0x39, 0x38, 0x0a, 0x31, 0x35,
-	0x20, 0x32, 0x44, 0x20, 0x32, 0x39, 0x0a, 0x31, 0x35, 0x20, 0x33, 0x30,
-	0x20, 0x33, 0x32, 0x0a, 0x31, 0x35, 0x20, 0x36, 0x34, 0x20, 0x30, 0x32,
-	0x0a, 0x31, 0x35, 0x20, 0x46, 0x45, 0x20, 0x37, 0x30, 0x0a, 0x31, 0x35,
-	0x20, 0x43, 0x42, 0x20, 0x30, 0x35, 0x0a, 0x31, 0x35, 0x20, 0x46, 0x45,
-	0x20, 0x44, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x34, 0x33, 0x20, 0x43, 0x30,
-	0x0a, 0x31, 0x35, 0x20, 0x46, 0x45, 0x20, 0x30, 0x30, 0x0a, 0x31, 0x35,
-	0x20, 0x43, 0x32, 0x20, 0x30, 0x38, 0x0a, 0x30, 0x35, 0x20, 0x33, 0x35,
-	0x0a, 0x31, 0x35, 0x20, 0x35, 0x33, 0x20, 0x45, 0x30, 0x0a, 0x30, 0x35,
-	0x20, 0x31, 0x31, 0x0a, 0x46, 0x46, 0x20, 0x37, 0x38, 0x0a, 0x30, 0x35,
-	0x20, 0x32, 0x39, 0x0a, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x49, 0x6e, 0x69,
-	0x74, 0x53, 0x65, 0x71, 0x75, 0x65, 0x6e, 0x63, 0x65, 0x3e, 0x0a, 0x0a,
-	0x3c, 0x44, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x48, 0x65, 0x69, 0x67,
-	0x68, 0x74, 0x3e, 0x0a, 0x32, 0x32, 0x34, 0x38, 0x0a, 0x3c, 0x2f, 0x44,
-	0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74,
-	0x3e, 0x0a, 0x3c, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x20, 0x69, 0x64, 0x3d,
-	0x27, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x20, 0x43,
-	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x27, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67,
-	0x68, 0x74, 0x44, 0x65, 0x66, 0x61, 0x75, 0x6c, 0x74, 0x3e, 0x32, 0x34,
-	0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x44,
-	0x65, 0x66, 0x61, 0x75, 0x6c, 0x74, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61,
-	0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x42, 0x69, 0x74, 0x57, 0x69,
-	0x64, 0x74, 0x68, 0x3e, 0x31, 0x30, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b,
-	0x6c, 0x69, 0x67, 0x68, 0x74, 0x42, 0x69, 0x74, 0x57, 0x69, 0x64, 0x74,
-	0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67,
-	0x68, 0x74, 0x44, 0x43, 0x53, 0x45, 0x6e, 0x64, 0x69, 0x61, 0x6e, 0x3e,
-	0x54, 0x52, 0x55, 0x45, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x73, 0x3e, 0x32, 0x32, 0x34, 0x38, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54,
+	0x45, 0x76, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x74, 0x61, 0x72, 0x74, 0x50,
+	0x6f, 0x73, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x54, 0x45, 0x76,
+	0x53, 0x79, 0x6e, 0x63, 0x49, 0x6e, 0x69, 0x74, 0x56, 0x61, 0x6c, 0x3e,
+	0x32, 0x32, 0x34, 0x38, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x54, 0x45, 0x76,
+	0x53, 0x79, 0x6e, 0x63, 0x49, 0x6e, 0x69, 0x74, 0x56, 0x61, 0x6c, 0x3e,
+	0x0a, 0x20, 0x3c, 0x44, 0x53, 0x49, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f,
+	0x6c, 0x6c, 0x65, 0x72, 0x4d, 0x61, 0x70, 0x70, 0x69, 0x6e, 0x67, 0x3e,
+	0x0a, 0x20, 0x20, 0x30, 0x30, 0x0a, 0x20, 0x3c, 0x2f, 0x44, 0x53, 0x49,
+	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x4d, 0x61,
+	0x70, 0x70, 0x69, 0x6e, 0x67, 0x3e, 0x0a, 0x20, 0x3c, 0x44, 0x69, 0x73,
+	0x70, 0x6c, 0x61, 0x79, 0x52, 0x65, 0x73, 0x65, 0x74, 0x49, 0x6e, 0x66,
+	0x6f, 0x3e, 0x30, 0x20, 0x32, 0x30, 0x30, 0x30, 0x20, 0x31, 0x30, 0x30,
+	0x30, 0x20, 0x31, 0x30, 0x30, 0x30, 0x30, 0x20, 0x30, 0x3c, 0x2f, 0x44,
+	0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x52, 0x65, 0x73, 0x65, 0x74, 0x49,
+	0x6e, 0x66, 0x6f, 0x3e, 0x0a, 0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70,
+	0x3e, 0x0a, 0x3c, 0x44, 0x53, 0x49, 0x49, 0x6e, 0x69, 0x74, 0x53, 0x65,
+	0x71, 0x75, 0x65, 0x6e, 0x63, 0x65, 0x3e, 0x0a, 0x31, 0x35, 0x20, 0x46,
+	0x45, 0x20, 0x30, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x35, 0x41, 0x20, 0x30,
+	0x42, 0x0a, 0x31, 0x35, 0x20, 0x35, 0x43, 0x20, 0x30, 0x30, 0x0a, 0x31,
+	0x35, 0x20, 0x46, 0x45, 0x20, 0x38, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x30,
+	0x30, 0x20, 0x34, 0x46, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x38, 0x20, 0x45,
+	0x30, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x39, 0x20, 0x30, 0x30, 0x0a, 0x31,
+	0x35, 0x20, 0x30, 0x41, 0x20, 0x45, 0x44, 0x0a, 0x31, 0x35, 0x20, 0x30,
+	0x42, 0x20, 0x30, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x43, 0x20, 0x30,
+	0x30, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x44, 0x20, 0x30, 0x30, 0x0a, 0x31,
+	0x35, 0x20, 0x30, 0x45, 0x20, 0x43, 0x44, 0x0a, 0x31, 0x35, 0x20, 0x30,
+	0x46, 0x20, 0x30, 0x46, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x34, 0x20, 0x30,
+	0x30, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x35, 0x20, 0x41, 0x36, 0x0a, 0x31,
+	0x35, 0x20, 0x31, 0x36, 0x20, 0x46, 0x35, 0x0a, 0x31, 0x35, 0x20, 0x31,
+	0x37, 0x20, 0x30, 0x39, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x38, 0x20, 0x37,
+	0x45, 0x0a, 0x31, 0x35, 0x20, 0x31, 0x39, 0x20, 0x30, 0x30, 0x0a, 0x31,
+	0x35, 0x20, 0x31, 0x41, 0x20, 0x36, 0x38, 0x0a, 0x31, 0x35, 0x20, 0x31,
+	0x42, 0x20, 0x30, 0x33, 0x0a, 0x31, 0x35, 0x20, 0x46, 0x45, 0x20, 0x34,
+	0x30, 0x0a, 0x31, 0x35, 0x20, 0x37, 0x39, 0x20, 0x31, 0x30, 0x0a, 0x31,
+	0x35, 0x20, 0x30, 0x45, 0x20, 0x35, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x34,
+	0x44, 0x20, 0x37, 0x37, 0x0a, 0x31, 0x35, 0x20, 0x36, 0x45, 0x20, 0x44,
+	0x30, 0x0a, 0x31, 0x35, 0x20, 0x30, 0x44, 0x20, 0x39, 0x38, 0x0a, 0x31,
+	0x35, 0x20, 0x32, 0x44, 0x20, 0x32, 0x39, 0x0a, 0x31, 0x35, 0x20, 0x33,
+	0x30, 0x20, 0x33, 0x32, 0x0a, 0x31, 0x35, 0x20, 0x36, 0x34, 0x20, 0x30,
+	0x32, 0x0a, 0x31, 0x35, 0x20, 0x46, 0x45, 0x20, 0x37, 0x30, 0x0a, 0x31,
+	0x35, 0x20, 0x43, 0x42, 0x20, 0x30, 0x35, 0x0a, 0x31, 0x35, 0x20, 0x46,
+	0x45, 0x20, 0x44, 0x30, 0x0a, 0x31, 0x35, 0x20, 0x34, 0x33, 0x20, 0x43,
+	0x30, 0x0a, 0x31, 0x35, 0x20, 0x46, 0x45, 0x20, 0x30, 0x30, 0x0a, 0x31,
+	0x35, 0x20, 0x43, 0x32, 0x20, 0x30, 0x38, 0x0a, 0x30, 0x35, 0x20, 0x33,
+	0x35, 0x0a, 0x31, 0x35, 0x20, 0x35, 0x33, 0x20, 0x45, 0x30, 0x0a, 0x30,
+	0x35, 0x20, 0x31, 0x31, 0x0a, 0x46, 0x46, 0x20, 0x37, 0x38, 0x0a, 0x30,
+	0x35, 0x20, 0x32, 0x39, 0x0a, 0x3c, 0x2f, 0x44, 0x53, 0x49, 0x49, 0x6e,
+	0x69, 0x74, 0x53, 0x65, 0x71, 0x75, 0x65, 0x6e, 0x63, 0x65, 0x3e, 0x0a,
+	0x0a, 0x3c, 0x44, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x48, 0x65, 0x69,
+	0x67, 0x68, 0x74, 0x3e, 0x0a, 0x32, 0x32, 0x34, 0x38, 0x0a, 0x3c, 0x2f,
+	0x44, 0x69, 0x73, 0x70, 0x6c, 0x61, 0x79, 0x48, 0x65, 0x69, 0x67, 0x68,
+	0x74, 0x3e, 0x0a, 0x3c, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x20, 0x69, 0x64,
+	0x3d, 0x27, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x20,
+	0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x27, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69,
+	0x67, 0x68, 0x74, 0x44, 0x65, 0x66, 0x61, 0x75, 0x6c, 0x74, 0x3e, 0x32,
+	0x34, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74,
+	0x44, 0x65, 0x66, 0x61, 0x75, 0x6c, 0x74, 0x3e, 0x0a, 0x20, 0x3c, 0x42,
+	0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x42, 0x69, 0x74, 0x57,
+	0x69, 0x64, 0x74, 0x68, 0x3e, 0x31, 0x30, 0x3c, 0x2f, 0x42, 0x61, 0x63,
+	0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x42, 0x69, 0x74, 0x57, 0x69, 0x64,
+	0x74, 0x68, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69,
 	0x67, 0x68, 0x74, 0x44, 0x43, 0x53, 0x45, 0x6e, 0x64, 0x69, 0x61, 0x6e,
-	0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68,
-	0x74, 0x44, 0x49, 0x4d, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65,
-	0x73, 0x73, 0x3e, 0x33, 0x32, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c,
-	0x69, 0x67, 0x68, 0x74, 0x44, 0x49, 0x4d, 0x42, 0x72, 0x69, 0x67, 0x68,
-	0x74, 0x6e, 0x65, 0x73, 0x73, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61, 0x63,
-	0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x54, 0x79, 0x70, 0x65, 0x3e, 0x33,
-	0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x54,
-	0x79, 0x70, 0x65, 0x3e, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x3c, 0x42, 0x61,
-	0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x53, 0x74, 0x65, 0x70, 0x73,
-	0x3e, 0x31, 0x30, 0x30, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69,
-	0x67, 0x68, 0x74, 0x53, 0x74, 0x65, 0x70, 0x73, 0x3e, 0x0a, 0x20, 0x20,
-	0x20, 0x20, 0x3c, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73,
-	0x73, 0x4d, 0x69, 0x6e, 0x4c, 0x75, 0x6d, 0x69, 0x6e, 0x61, 0x6e, 0x63,
-	0x65, 0x3e, 0x30, 0x3c, 0x2f, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e,
-	0x65, 0x73, 0x73, 0x4d, 0x69, 0x6e, 0x4c, 0x75, 0x6d, 0x69, 0x6e, 0x61,
-	0x6e, 0x63, 0x65, 0x3e, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x3c, 0x42, 0x72,
-	0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x4d, 0x61, 0x78, 0x4c,
-	0x75, 0x6d, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x3e, 0x31, 0x30, 0x30,
-	0x30, 0x30, 0x30, 0x3c, 0x2f, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e,
-	0x65, 0x73, 0x73, 0x4d, 0x61, 0x78, 0x4c, 0x75, 0x6d, 0x69, 0x6e, 0x61,
-	0x6e, 0x63, 0x65, 0x3e, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x3c, 0x42, 0x72,
-	0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x52, 0x61, 0x6e, 0x67,
-	0x65, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x30, 0x3e, 0x30, 0x20, 0x31, 0x30,
-	0x30, 0x30, 0x30, 0x30, 0x20, 0x31, 0x30, 0x30, 0x20, 0x30, 0x3c, 0x2f,
-	0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x52, 0x61,
-	0x6e, 0x67, 0x65, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x30, 0x3e, 0x0a, 0x20,
-	0x20, 0x20, 0x20, 0x3c, 0x41, 0x64, 0x61, 0x70, 0x74, 0x69, 0x76, 0x65,
-	0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x46, 0x65,
-	0x61, 0x74, 0x75, 0x72, 0x65, 0x3e, 0x31, 0x3c, 0x2f, 0x41, 0x64, 0x61,
-	0x70, 0x74, 0x69, 0x76, 0x65, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e,
-	0x65, 0x73, 0x73, 0x46, 0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x3e, 0x0a,
-	0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x3e, 0x00
+	0x3e, 0x54, 0x52, 0x55, 0x45, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c,
+	0x69, 0x67, 0x68, 0x74, 0x44, 0x43, 0x53, 0x45, 0x6e, 0x64, 0x69, 0x61,
+	0x6e, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67,
+	0x68, 0x74, 0x44, 0x49, 0x4d, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e,
+	0x65, 0x73, 0x73, 0x3e, 0x33, 0x32, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b,
+	0x6c, 0x69, 0x67, 0x68, 0x74, 0x44, 0x49, 0x4d, 0x42, 0x72, 0x69, 0x67,
+	0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x3e, 0x0a, 0x20, 0x3c, 0x42, 0x61,
+	0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x54, 0x79, 0x70, 0x65, 0x3e,
+	0x33, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74,
+	0x54, 0x79, 0x70, 0x65, 0x3e, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x3c, 0x42,
+	0x61, 0x63, 0x6b, 0x6c, 0x69, 0x67, 0x68, 0x74, 0x53, 0x74, 0x65, 0x70,
+	0x73, 0x3e, 0x31, 0x30, 0x30, 0x3c, 0x2f, 0x42, 0x61, 0x63, 0x6b, 0x6c,
+	0x69, 0x67, 0x68, 0x74, 0x53, 0x74, 0x65, 0x70, 0x73, 0x3e, 0x0a, 0x20,
+	0x20, 0x20, 0x20, 0x3c, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65,
+	0x73, 0x73, 0x4d, 0x69, 0x6e, 0x4c, 0x75, 0x6d, 0x69, 0x6e, 0x61, 0x6e,
+	0x63, 0x65, 0x3e, 0x30, 0x3c, 0x2f, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74,
+	0x6e, 0x65, 0x73, 0x73, 0x4d, 0x69, 0x6e, 0x4c, 0x75, 0x6d, 0x69, 0x6e,
+	0x61, 0x6e, 0x63, 0x65, 0x3e, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x3c, 0x42,
+	0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x4d, 0x61, 0x78,
+	0x4c, 0x75, 0x6d, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x3e, 0x31, 0x30,
+	0x30, 0x30, 0x30, 0x30, 0x3c, 0x2f, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74,
+	0x6e, 0x65, 0x73, 0x73, 0x4d, 0x61, 0x78, 0x4c, 0x75, 0x6d, 0x69, 0x6e,
+	0x61, 0x6e, 0x63, 0x65, 0x3e, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x3c, 0x42,
+	0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x52, 0x61, 0x6e,
+	0x67, 0x65, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x30, 0x3e, 0x30, 0x20, 0x31,
+	0x30, 0x30, 0x30, 0x30, 0x30, 0x20, 0x31, 0x30, 0x30, 0x20, 0x30, 0x3c,
+	0x2f, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x52,
+	0x61, 0x6e, 0x67, 0x65, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x30, 0x3e, 0x0a,
+	0x20, 0x20, 0x20, 0x20, 0x3c, 0x41, 0x64, 0x61, 0x70, 0x74, 0x69, 0x76,
+	0x65, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x46,
+	0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x3e, 0x31, 0x3c, 0x2f, 0x41, 0x64,
+	0x61, 0x70, 0x74, 0x69, 0x76, 0x65, 0x42, 0x72, 0x69, 0x67, 0x68, 0x74,
+	0x6e, 0x65, 0x73, 0x73, 0x46, 0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x3e,
+	0x0a, 0x3c, 0x2f, 0x47, 0x72, 0x6f, 0x75, 0x70, 0x3e, 0x00
                 })
                 Store(PCFG, Local2)
                 If(LNot(LLess(Arg0, SizeOf(Local2))))
@@ -73156,7 +78252,6 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         Device(GIO0)
         {
             Name(_HID, "QCOM050D")
-            Name(_CID, "QCOMFFE3")
             Name(_UID, Zero)
             Alias(\_SB_.PSUB, _SUB)
             Method(_CRS, 0x0, NotSerialized)
@@ -73166,7 +78261,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x86, 0x09, 0x00, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0xc0, 0xdd, 0x00,
 	0x89, 0x06, 0x00, 0x09, 0x01, 0xf0, 0x00, 0x00, 0x00, 0x89, 0x06, 0x00,
 	0x09, 0x01, 0xf0, 0x00, 0x00, 0x00, 0x89, 0x06, 0x00, 0x09, 0x01, 0xf0,
-	0x00, 0x00, 0x00, 0x89, 0x06, 0x00, 0x09, 0x01, 0x49, 0x02, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x89, 0x06, 0x00, 0x09, 0x01, 0x33, 0x02, 0x00, 0x00,
 	0x89, 0x06, 0x00, 0x0b, 0x01, 0x5b, 0x02, 0x00, 0x00, 0x89, 0x06, 0x00,
 	0x09, 0x01, 0x59, 0x02, 0x00, 0x00, 0x89, 0x06, 0x00, 0x03, 0x01, 0x2c,
 	0x02, 0x00, 0x00, 0x89, 0x06, 0x00, 0x03, 0x01, 0x4e, 0x02, 0x00, 0x00,
@@ -73634,7 +78729,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             }
             Method(_CRS, 0x0, Serialized)
             {
-                Name(RBUF, Buffer(0x56)
+                Name(RBUF, Buffer(0x9e)
                 {
 	0x86, 0x09, 0x00, 0x01, 0x04, 0xc0, 0xfe, 0x01, 0x04, 0x00, 0x00, 0x00,
 	0x8c, 0x21, 0x00, 0x01, 0x01, 0x01, 0x00, 0x08, 0x00, 0x03, 0x00, 0x00,
@@ -73642,6 +78737,12 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x01,
 	0x8c, 0x21, 0x00, 0x01, 0x01, 0x01, 0x00, 0x08, 0x00, 0x03, 0x00, 0x00,
 	0x00, 0x00, 0x17, 0x00, 0x01, 0x19, 0x00, 0x23, 0x00, 0x01, 0x00, 0xaf,
+	0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x01,
+	0x8c, 0x21, 0x00, 0x01, 0x01, 0x01, 0x00, 0x08, 0x00, 0x03, 0x00, 0x00,
+	0x00, 0x00, 0x17, 0x00, 0x02, 0x19, 0x00, 0x23, 0x00, 0x01, 0x00, 0x66,
+	0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x01,
+	0x8c, 0x21, 0x00, 0x01, 0x01, 0x01, 0x00, 0x08, 0x00, 0x03, 0x00, 0x00,
+	0x00, 0x00, 0x17, 0x00, 0x03, 0x19, 0x00, 0x23, 0x00, 0x01, 0x00, 0xb2,
 	0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x01,
 	0x79, 0x00
                 })
@@ -73651,16 +78752,20 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 If(LEqual(\_SB_.PSUB, "CLS08150"))
                 {
-                    Return(Package(0x2)
+                    Return(Package(0x4)
                     {
                         Zero,
+                        One,
+                        One,
                         One
                     })
                 }
                 Else
                 {
-                    Return(Package(0x2)
+                    Return(Package(0x4)
                     {
+                        One,
+                        One,
                         One,
                         One
                     })
@@ -73745,7 +78850,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         {
                             If(LEqual(\_SB_.PSUB, "CLS08150"))
                             {
-                                If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID(), 0x2), LEqual(BSID(), 0x3))))
+                                If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID, 0x2), LEqual(BSID, 0x3))))
                                 {
                                     Store(Zero, \_SB_.QPPX.WLEN)
                                     Sleep(0x5)
@@ -73758,25 +78863,37 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     {
                         If(LEqual(_T_0, One))
                         {
-                            If(LEqual(\_SB_.PSUB, "CLS08150"))
-                            {
-                                If(LEqual(BREV(), Zero))
-                                {
-                                    Store(Zero, \_SB_.QPPX.PMON)
-                                    Store(Zero, \_SB_.QPPX.PMDR)
-                                    Store(Zero, \_SB_.QPPX.MPON)
-                                    Sleep(0x190)
-                                    Store(One, \_SB_.QPPX.MPON)
-                                    Store(One, \_SB_.QPPX.PMDR)
-                                    Sleep(0x64)
-                                    Store(One, \_SB_.QPPX.PMON)
-                                    Sleep(0x1e)
-                                }
-                            }
                         }
                         Else
                         {
-                            Store("Invalid PCIe port number passed to QPPX reset helper", Debug)
+                            If(LEqual(_T_0, 0x2))
+                            {
+                            }
+                            Else
+                            {
+                                If(LEqual(_T_0, 0x3))
+                                {
+                                    If(LEqual(\_SB_.PSUB, "CLS08150"))
+                                    {
+                                        If(LEqual(BREV, Zero))
+                                        {
+                                            Store(Zero, \_SB_.QPPX.PMON)
+                                            Store(Zero, \_SB_.QPPX.PMDR)
+                                            Store(Zero, \_SB_.QPPX.MPON)
+                                            Sleep(0x190)
+                                            Store(One, \_SB_.QPPX.MPON)
+                                            Store(One, \_SB_.QPPX.PMDR)
+                                            Sleep(0x64)
+                                            Store(One, \_SB_.QPPX.PMON)
+                                            Sleep(0x1e)
+                                        }
+                                    }
+                                }
+                                Else
+                                {
+                                    Store("Invalid PCIe port number passed to QPPX reset helper", Debug)
+                                }
+                            }
                         }
                     }
                     Break
@@ -73802,28 +78919,28 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     0xffff,
                     Zero,
                     Zero,
-                    0x1d2
+                    0x30b
                 },
                 Package(0x4)
                 {
                     0xffff,
                     One,
                     Zero,
-                    0x1d3
+                    0x30a
                 },
                 Package(0x4)
                 {
                     0xffff,
                     0x2,
                     Zero,
-                    0x1d6
+                    0x309
                 },
                 Package(0x4)
                 {
                     0xffff,
                     0x3,
                     Zero,
-                    0x1d7
+                    0x308
                 }
             })
             Method(_CCA, 0x0, NotSerialized)
@@ -73849,7 +78966,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 Name(RBUF, Buffer(0x1e)
                 {
-	0x86, 0x09, 0x00, 0x01, 0x00, 0x00, 0x20, 0x40, 0x00, 0x00, 0xdf, 0x01,
+	0x86, 0x09, 0x00, 0x01, 0x00, 0x00, 0x20, 0x68, 0x00, 0x00, 0xdf, 0x01,
 	0x88, 0x0d, 0x00, 0x02, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
 	0x00, 0x00, 0x02, 0x00, 0x79, 0x00
                 })
@@ -74191,6 +79308,822 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             {
             }
         }
+        Device(PCI2)
+        {
+            Name(_DEP, Package(0x2)
+            {
+                \_SB_.PEP0,
+                \_SB_.QPPX
+            })
+            Name(_HID, 0x80ad041)
+            Name(_CID, 0x30ad041)
+            Name(_UID, 0x2)
+            Name(_SEG, 0x2)
+            Name(_BBN, Zero)
+            Name(_PRT, Package(0x4)
+            {
+                Package(0x4)
+                {
+                    0xffff,
+                    Zero,
+                    Zero,
+                    0x2b7
+                },
+                Package(0x4)
+                {
+                    0xffff,
+                    One,
+                    Zero,
+                    0x2b6
+                },
+                Package(0x4)
+                {
+                    0xffff,
+                    0x2,
+                    Zero,
+                    0x2b5
+                },
+                Package(0x4)
+                {
+                    0xffff,
+                    0x3,
+                    Zero,
+                    0x2b4
+                }
+            })
+            Method(_CCA, 0x0, NotSerialized)
+            {
+                Return(One)
+            }
+            Method(_STA, 0x0, NotSerialized)
+            {
+                If(LEqual(PRP2, One))
+                {
+                    Return(0xf)
+                }
+                Else
+                {
+                    Return(Zero)
+                }
+            }
+            Method(_PSC, 0x0, NotSerialized)
+            {
+                Return(Zero)
+            }
+            Method(_CRS, 0x0, NotSerialized)
+            {
+                Name(RBUF, Buffer(0x1e)
+                {
+	0x86, 0x09, 0x00, 0x01, 0x00, 0x00, 0x20, 0x70, 0x00, 0x00, 0xdf, 0x01,
+	0x88, 0x0d, 0x00, 0x02, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
+	0x00, 0x00, 0x02, 0x00, 0x79, 0x00
+                })
+                Return(RBUF)
+            }
+            Name(SUPP, Zero)
+            Name(CTRL, Zero)
+            Method(_DSW, 0x3, NotSerialized)
+            {
+            }
+            Method(_OSC, 0x4, NotSerialized)
+            {
+                If(LEqual(Arg0, Buffer(0x10)
+                {
+	0x5b, 0x4d, 0xdb, 0x33, 0xf7, 0x1f, 0x1c, 0x40, 0x96, 0x57, 0x74, 0x41,
+	0xc0, 0x3d, 0xd7, 0x66
+                }))
+                {
+                    CreateDWordField(Arg3, Zero, CDW1)
+                    CreateDWordField(Arg3, 0x4, CDW2)
+                    CreateDWordField(Arg3, 0x8, CDW3)
+                    Store(CDW2, SUPP)
+                    Store(CDW3, CTRL)
+                    If(LNot(LEqual(And(SUPP, 0x16, ), 0x16)))
+                    {
+                        And(CTRL, 0x1e, CTRL)
+                    }
+                    And(CTRL, 0x15, CTRL)
+                    If(LNot(LEqual(Arg1, One)))
+                    {
+                        Or(CDW1, 0x8, CDW1)
+                    }
+                    If(LNot(LEqual(CDW3, CTRL)))
+                    {
+                        Or(CDW1, 0x10, CDW1)
+                    }
+                    Store(CTRL, CDW3)
+                    Return(Arg3)
+                }
+                Else
+                {
+                    Or(CDW1, 0x4, CDW1)
+                    Return(Arg3)
+                }
+            }
+            Method(_DSM, 0x4, NotSerialized)
+            {
+                If(LEqual(Arg0, Buffer(0x10)
+                {
+	0xd0, 0x37, 0xc9, 0xe5, 0x53, 0x35, 0x7a, 0x4d, 0x91, 0x17, 0xea, 0x4d,
+	0x19, 0xc3, 0x43, 0x4d
+                }))
+                {
+                    While(One)
+                    {
+                        Name(_T_0, 0x0)
+                        Store(ToInteger(Arg2, ), _T_0)
+                        If(LEqual(_T_0, Zero))
+                        {
+                            Return(Buffer(0x2)
+                            {
+	0xff, 0x03
+                            })
+                        }
+                        Else
+                        {
+                            If(LEqual(_T_0, One))
+                            {
+                                Return(Package(0x2)
+                                {
+                                    Package(One)
+                                    {
+                                        One
+                                    },
+                                    Package(0x3)
+                                    {
+                                        Zero,
+                                        One,
+                                        One
+                                    }
+                                })
+                            }
+                            Else
+                            {
+                                If(LEqual(_T_0, 0x2))
+                                {
+                                    Return(Package(One)
+                                    {
+                                        Package(0x4)
+                                        {
+                                            One,
+                                            0x3,
+                                            Zero,
+                                            0x7
+                                        }
+                                    })
+                                }
+                                Else
+                                {
+                                    If(LEqual(_T_0, 0x3))
+                                    {
+                                        Return(Package(One)
+                                        {
+                                            Zero
+                                        })
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(_T_0, 0x4))
+                                        {
+                                            Return(Package(0x2)
+                                            {
+                                                Package(One)
+                                                {
+                                                    Zero
+                                                },
+                                                Package(0x4)
+                                                {
+                                                    One,
+                                                    0x3,
+                                                    Zero,
+                                                    0x7
+                                                }
+                                            })
+                                        }
+                                        Else
+                                        {
+                                            If(LEqual(_T_0, 0x5))
+                                            {
+                                                Return(Package(One)
+                                                {
+                                                    One
+                                                })
+                                            }
+                                            Else
+                                            {
+                                                If(LEqual(_T_0, 0x6))
+                                                {
+                                                    Return(Package(0x4)
+                                                    {
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        },
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        },
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        },
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        }
+                                                    })
+                                                }
+                                                Else
+                                                {
+                                                    If(LEqual(_T_0, 0x7))
+                                                    {
+                                                        Return(Package(One)
+                                                        {
+                                                            0x3
+                                                        })
+                                                    }
+                                                    Else
+                                                    {
+                                                        If(LEqual(_T_0, 0x8))
+                                                        {
+                                                            Return(Package(One)
+                                                            {
+                                                                One
+                                                            })
+                                                        }
+                                                        Else
+                                                        {
+                                                            If(LEqual(_T_0, 0x9))
+                                                            {
+                                                                Return(Package(0x5)
+                                                                {
+                                                                    0xffffffff,
+                                                                    0xffffffff,
+                                                                    0xffffffff,
+                                                                    Zero,
+                                                                    0xffffffff
+                                                                })
+                                                            }
+                                                            Else
+                                                            {
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Break
+                    }
+                }
+            }
+            Name(_S0W, 0x4)
+            Name(_PR0, Package(0x1)
+            {
+                \_SB_.P2RR
+            })
+            Name(_PR3, Package(0x1)
+            {
+                \_SB_.P2RR
+            })
+            Device(RP1_)
+            {
+                Method(_ADR, 0x0, Serialized)
+                {
+                    Return(Zero)
+                }
+                Name(_PR0, Package(0x1)
+                {
+                    \_SB_.R2RR
+                })
+                Name(_PR3, Package(0x1)
+                {
+                    \_SB_.R2RR
+                })
+                Name(_PRR, Package(0x1)
+                {
+                    \_SB_.R2RR
+                })
+                Name(_S0W, 0x4)
+                Name(_DSD, Package(0x2)
+                {
+                    Buffer(0x10)
+                    {
+	0xc0, 0xe2, 0x11, 0x62, 0xa3, 0x58, 0xf3, 0x4a, 0x90, 0xe1, 0x92, 0x7a,
+	0x4e, 0x0c, 0x55, 0xa4
+                    },
+                    Package(0x1)
+                    {
+                        Package(0x2)
+                        {
+                            "HotPlugSupportInD3",
+                            One
+                        }
+                    }
+                })
+                Method(_CRS, 0x0, NotSerialized)
+                {
+                    Name(RBUF, Buffer(0x25)
+                    {
+	0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x13, 0x00, 0x01, 0x00, 0x00,
+	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00,
+	0x02, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79,
+	0x00
+                    })
+                    Return(RBUF)
+                }
+                Method(_DSM, 0x4, NotSerialized)
+                {
+                    If(LEqual(Arg0, Buffer(0x10)
+                    {
+	0xd0, 0x37, 0xc9, 0xe5, 0x53, 0x35, 0x7a, 0x4d, 0x91, 0x17, 0xea, 0x4d,
+	0x19, 0xc3, 0x43, 0x4d
+                    }))
+                    {
+                        While(One)
+                        {
+                            Name(_T_0, 0x0)
+                            Store(ToInteger(Arg2, ), _T_0)
+                            If(LEqual(_T_0, Zero))
+                            {
+                                Return(Buffer(0x2)
+                                {
+	0x01, 0x03
+                                })
+                            }
+                            Else
+                            {
+                                If(LEqual(_T_0, 0x8))
+                                {
+                                    Return(Package(One)
+                                    {
+                                        One
+                                    })
+                                }
+                                Else
+                                {
+                                    If(LEqual(_T_0, 0x9))
+                                    {
+                                        Return(Package(0x5)
+                                        {
+                                            0xffffffff,
+                                            0xffffffff,
+                                            0xffffffff,
+                                            Zero,
+                                            0xffffffff
+                                        })
+                                    }
+                                    Else
+                                    {
+                                    }
+                                }
+                            }
+                            Break
+                        }
+                    }
+                }
+            }
+        }
+        PowerResource(P2RR, 0x5, 0x0)
+        {
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(Zero)
+            }
+            Method(_ON_, 0x0, NotSerialized)
+            {
+            }
+            Method(_OFF, 0x0, NotSerialized)
+            {
+            }
+        }
+        PowerResource(R2RR, 0x5, 0x0)
+        {
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(Zero)
+            }
+            Method(_ON_, 0x0, NotSerialized)
+            {
+            }
+            Method(_OFF, 0x0, NotSerialized)
+            {
+            }
+            Method(_RST, 0x0, NotSerialized)
+            {
+            }
+        }
+        Device(PCI3)
+        {
+            Name(_DEP, Package(0x2)
+            {
+                \_SB_.PEP0,
+                \_SB_.QPPX
+            })
+            Name(_HID, 0x80ad041)
+            Name(_CID, 0x30ad041)
+            Name(_UID, 0x3)
+            Name(_SEG, 0x3)
+            Name(_BBN, Zero)
+            Name(_PRT, Package(0x4)
+            {
+                Package(0x4)
+                {
+                    0xffff,
+                    Zero,
+                    Zero,
+                    0x1d2
+                },
+                Package(0x4)
+                {
+                    0xffff,
+                    One,
+                    Zero,
+                    0x1d3
+                },
+                Package(0x4)
+                {
+                    0xffff,
+                    0x2,
+                    Zero,
+                    0x1d6
+                },
+                Package(0x4)
+                {
+                    0xffff,
+                    0x3,
+                    Zero,
+                    0x1d7
+                }
+            })
+            Method(_CCA, 0x0, NotSerialized)
+            {
+                Return(One)
+            }
+            Method(_STA, 0x0, NotSerialized)
+            {
+                If(LEqual(PRP3, One))
+                {
+                    Return(0xf)
+                }
+                Else
+                {
+                    Return(Zero)
+                }
+            }
+            Method(_PSC, 0x0, NotSerialized)
+            {
+                Return(Zero)
+            }
+            Method(_CRS, 0x0, NotSerialized)
+            {
+                Name(RBUF, Buffer(0x1e)
+                {
+	0x86, 0x09, 0x00, 0x01, 0x00, 0x00, 0x20, 0x40, 0x00, 0x00, 0xdf, 0x01,
+	0x88, 0x0d, 0x00, 0x02, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
+	0x00, 0x00, 0x02, 0x00, 0x79, 0x00
+                })
+                Return(RBUF)
+            }
+            Name(SUPP, Zero)
+            Name(CTRL, Zero)
+            Method(_DSW, 0x3, NotSerialized)
+            {
+            }
+            Method(_OSC, 0x4, NotSerialized)
+            {
+                If(LEqual(Arg0, Buffer(0x10)
+                {
+	0x5b, 0x4d, 0xdb, 0x33, 0xf7, 0x1f, 0x1c, 0x40, 0x96, 0x57, 0x74, 0x41,
+	0xc0, 0x3d, 0xd7, 0x66
+                }))
+                {
+                    CreateDWordField(Arg3, Zero, CDW1)
+                    CreateDWordField(Arg3, 0x4, CDW2)
+                    CreateDWordField(Arg3, 0x8, CDW3)
+                    Store(CDW2, SUPP)
+                    Store(CDW3, CTRL)
+                    If(LNot(LEqual(And(SUPP, 0x16, ), 0x16)))
+                    {
+                        And(CTRL, 0x1e, CTRL)
+                    }
+                    And(CTRL, 0x15, CTRL)
+                    If(LNot(LEqual(Arg1, One)))
+                    {
+                        Or(CDW1, 0x8, CDW1)
+                    }
+                    If(LNot(LEqual(CDW3, CTRL)))
+                    {
+                        Or(CDW1, 0x10, CDW1)
+                    }
+                    Store(CTRL, CDW3)
+                    Return(Arg3)
+                }
+                Else
+                {
+                    Or(CDW1, 0x4, CDW1)
+                    Return(Arg3)
+                }
+            }
+            Method(_DSM, 0x4, NotSerialized)
+            {
+                If(LEqual(Arg0, Buffer(0x10)
+                {
+	0xd0, 0x37, 0xc9, 0xe5, 0x53, 0x35, 0x7a, 0x4d, 0x91, 0x17, 0xea, 0x4d,
+	0x19, 0xc3, 0x43, 0x4d
+                }))
+                {
+                    While(One)
+                    {
+                        Name(_T_0, 0x0)
+                        Store(ToInteger(Arg2, ), _T_0)
+                        If(LEqual(_T_0, Zero))
+                        {
+                            Return(Buffer(0x2)
+                            {
+	0xff, 0x03
+                            })
+                        }
+                        Else
+                        {
+                            If(LEqual(_T_0, One))
+                            {
+                                Return(Package(0x2)
+                                {
+                                    Package(One)
+                                    {
+                                        One
+                                    },
+                                    Package(0x3)
+                                    {
+                                        Zero,
+                                        One,
+                                        One
+                                    }
+                                })
+                            }
+                            Else
+                            {
+                                If(LEqual(_T_0, 0x2))
+                                {
+                                    Return(Package(One)
+                                    {
+                                        Package(0x4)
+                                        {
+                                            One,
+                                            0x3,
+                                            Zero,
+                                            0x7
+                                        }
+                                    })
+                                }
+                                Else
+                                {
+                                    If(LEqual(_T_0, 0x3))
+                                    {
+                                        Return(Package(One)
+                                        {
+                                            Zero
+                                        })
+                                    }
+                                    Else
+                                    {
+                                        If(LEqual(_T_0, 0x4))
+                                        {
+                                            Return(Package(0x2)
+                                            {
+                                                Package(One)
+                                                {
+                                                    Zero
+                                                },
+                                                Package(0x4)
+                                                {
+                                                    One,
+                                                    0x3,
+                                                    Zero,
+                                                    0x7
+                                                }
+                                            })
+                                        }
+                                        Else
+                                        {
+                                            If(LEqual(_T_0, 0x5))
+                                            {
+                                                Return(Package(One)
+                                                {
+                                                    One
+                                                })
+                                            }
+                                            Else
+                                            {
+                                                If(LEqual(_T_0, 0x6))
+                                                {
+                                                    Return(Package(0x4)
+                                                    {
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        },
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        },
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        },
+                                                        Package(One)
+                                                        {
+                                                            Zero
+                                                        }
+                                                    })
+                                                }
+                                                Else
+                                                {
+                                                    If(LEqual(_T_0, 0x7))
+                                                    {
+                                                        Return(Package(One)
+                                                        {
+                                                            0x4
+                                                        })
+                                                    }
+                                                    Else
+                                                    {
+                                                        If(LEqual(_T_0, 0x8))
+                                                        {
+                                                            Return(Package(One)
+                                                            {
+                                                                One
+                                                            })
+                                                        }
+                                                        Else
+                                                        {
+                                                            If(LEqual(_T_0, 0x9))
+                                                            {
+                                                                Return(Package(0x5)
+                                                                {
+                                                                    0xffffffff,
+                                                                    0xffffffff,
+                                                                    0xffffffff,
+                                                                    Zero,
+                                                                    0xffffffff
+                                                                })
+                                                            }
+                                                            Else
+                                                            {
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Break
+                    }
+                }
+            }
+            Name(_S0W, 0x4)
+            Name(_PR0, Package(0x1)
+            {
+                \_SB_.P3RR
+            })
+            Name(_PR3, Package(0x1)
+            {
+                \_SB_.P3RR
+            })
+            Device(RP1_)
+            {
+                Method(_ADR, 0x0, Serialized)
+                {
+                    Return(Zero)
+                }
+                Name(_PR0, Package(0x1)
+                {
+                    \_SB_.R3RR
+                })
+                Name(_PR3, Package(0x1)
+                {
+                    \_SB_.R3RR
+                })
+                Name(_PRR, Package(0x1)
+                {
+                    \_SB_.R3RR
+                })
+                Name(_S0W, 0x4)
+                Name(_DSD, Package(0x2)
+                {
+                    Buffer(0x10)
+                    {
+	0xc0, 0xe2, 0x11, 0x62, 0xa3, 0x58, 0xf3, 0x4a, 0x90, 0xe1, 0x92, 0x7a,
+	0x4e, 0x0c, 0x55, 0xa4
+                    },
+                    Package(0x1)
+                    {
+                        Package(0x2)
+                        {
+                            "HotPlugSupportInD3",
+                            One
+                        }
+                    }
+                })
+                Method(_CRS, 0x0, NotSerialized)
+                {
+                    Name(RBUF, Buffer(0x25)
+                    {
+	0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x13, 0x00, 0x01, 0x00, 0x00,
+	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x40,
+	0x02, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79,
+	0x00
+                    })
+                    Return(RBUF)
+                }
+                Method(_DSM, 0x4, NotSerialized)
+                {
+                    If(LEqual(Arg0, Buffer(0x10)
+                    {
+	0xd0, 0x37, 0xc9, 0xe5, 0x53, 0x35, 0x7a, 0x4d, 0x91, 0x17, 0xea, 0x4d,
+	0x19, 0xc3, 0x43, 0x4d
+                    }))
+                    {
+                        While(One)
+                        {
+                            Name(_T_0, 0x0)
+                            Store(ToInteger(Arg2, ), _T_0)
+                            If(LEqual(_T_0, Zero))
+                            {
+                                Return(Buffer(0x2)
+                                {
+	0x01, 0x03
+                                })
+                            }
+                            Else
+                            {
+                                If(LEqual(_T_0, 0x8))
+                                {
+                                    Return(Package(One)
+                                    {
+                                        One
+                                    })
+                                }
+                                Else
+                                {
+                                    If(LEqual(_T_0, 0x9))
+                                    {
+                                        Return(Package(0x5)
+                                        {
+                                            0xffffffff,
+                                            0xffffffff,
+                                            0xffffffff,
+                                            Zero,
+                                            0xffffffff
+                                        })
+                                    }
+                                    Else
+                                    {
+                                    }
+                                }
+                            }
+                            Break
+                        }
+                    }
+                }
+            }
+        }
+        PowerResource(P3RR, 0x5, 0x0)
+        {
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(Zero)
+            }
+            Method(_ON_, 0x0, NotSerialized)
+            {
+            }
+            Method(_OFF, 0x0, NotSerialized)
+            {
+            }
+        }
+        PowerResource(R3RR, 0x5, 0x0)
+        {
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(Zero)
+            }
+            Method(_ON_, 0x0, NotSerialized)
+            {
+            }
+            Method(_OFF, 0x0, NotSerialized)
+            {
+            }
+            Method(_RST, 0x0, NotSerialized)
+            {
+            }
+        }
         Device(IPC0)
         {
             Name(_DEP, Package(One)
@@ -74408,7 +80341,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     0x20,
                     Zero,
                     Zero,
-                    0xc300,
+                    0xa300,
                     Buffer(0x11)
                     {
 	0x82, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -74539,8 +80472,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x762,
-                            0x1cd,
+                            0xf0a,
+                            0x35c,
                             One,
                             One,
                             Zero,
@@ -74564,8 +80497,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0xf5e,
-                            0x38d,
+                            0xf6e,
+                            0x38e,
                             One,
                             One,
                             Zero,
@@ -74654,8 +80587,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x762,
-                            0x1cd,
+                            0xf0a,
+                            0x35c,
                             One,
                             One,
                             Zero,
@@ -74679,8 +80612,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0xf5e,
-                            0x38d,
+                            0xf6e,
+                            0x38e,
                             One,
                             One,
                             Zero,
@@ -74769,8 +80702,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x762,
-                            0x1cd,
+                            0xf0a,
+                            0x35c,
                             One,
                             One,
                             Zero,
@@ -74794,8 +80727,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0xf5e,
-                            0x38d,
+                            0xf6e,
+                            0x38e,
                             One,
                             One,
                             Zero,
@@ -74884,8 +80817,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x762,
-                            0x1cd,
+                            0xf0a,
+                            0x35c,
                             One,
                             One,
                             Zero,
@@ -74909,8 +80842,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0xf5e,
-                            0x38d,
+                            0xf6e,
+                            0x38e,
                             One,
                             One,
                             Zero,
@@ -74999,8 +80932,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x3b8,
-                            0x26d,
+                            0xf96,
+                            0x3e8,
                             One,
                             One,
                             Zero,
@@ -75024,8 +80957,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x1188,
-                            0x5b5,
+                            0x118a,
+                            0x5dc,
                             One,
                             One,
                             Zero,
@@ -75114,8 +81047,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x3b8,
-                            0x26d,
+                            0xf96,
+                            0x3e8,
                             One,
                             One,
                             Zero,
@@ -75139,8 +81072,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x1188,
-                            0x5b5,
+                            0x118a,
+                            0x5dc,
                             One,
                             One,
                             Zero,
@@ -75229,8 +81162,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x3b8,
-                            0x26d,
+                            0xf96,
+                            0x3e8,
                             One,
                             One,
                             Zero,
@@ -75254,8 +81187,8 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         },
                         Package(0xa)
                         {
-                            0x1188,
-                            0x5b5,
+                            0x118a,
+                            0x5dc,
                             One,
                             One,
                             Zero,
@@ -75315,7 +81248,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x82, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x79, 0x00
                             },
-                            "KryoPrime0.C1"
+                            "KryoGold3.C1"
                         },
                         Package(0xa)
                         {
@@ -75340,7 +81273,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x82, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x79, 0x00
                             },
-                            "KryoPrime0.C2"
+                            "KryoGold3.C2"
                         },
                         Package(0xa)
                         {
@@ -75365,7 +81298,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x82, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x79, 0x00
                             },
-                            "KryoPrime0.C3"
+                            "KryoGold3.C3"
                         },
                         Package(0xa)
                         {
@@ -75390,7 +81323,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x82, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x79, 0x00
                             },
-                            "KryoPrime0.C4"
+                            "KryoGold3.C4"
                         }
                     })
                 }
@@ -75476,6 +81409,30 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 Return(RBUF)
             }
         }
+        Scope(\_SB_.ADSP.SLM1.ADCM.AUDD)
+        {
+            Device(SPK1)
+            {
+                Name(_HID, "GTFA9872")
+                Name(_UID, Zero)
+                Alias(\_SB_.PSUB, _SUB)
+                Name(_DEP, Package(0x2)
+                {
+                    \_SB_.GIO0,
+                    \_SB_.I2C5
+                })
+                Method(_CRS, 0x0, NotSerialized)
+                {
+                    Name(RBUF, Buffer(0x1e)
+                    {
+	0x8e, 0x19, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x01, 0x06, 0x00,
+	0x80, 0x1a, 0x06, 0x00, 0x34, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x49,
+	0x32, 0x43, 0x35, 0x00, 0x79, 0x00
+                    })
+                    Return(RBUF)
+                }
+            }
+        }
         Device(CSEC)
         {
             Name(_HID, "QCOM05AE")
@@ -75503,6 +81460,11 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x79, 0x00
                 })
             }
+        }
+        Device(SARM)
+        {
+            Name(_HID, "QCOM05B0")
+            Alias(\_SB_.PSUB, _SUB)
         }
         Device(SOCP)
         {
@@ -75705,7 +81667,19 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xf)
+                OperationRegion(USBC, SystemMemory, 0x9ff90080, One)
+                Field(USBC, ByteAcc, NoLock, Preserve)
+                {
+                    UCAM, 8
+                }
+                If(LAnd(LEqual(UCAM, Zero), LEqual(\_SB_.PLST, One)))
+                {
+                    Return(Zero)
+                }
+                Else
+                {
+                    Return(0xf)
+                }
             }
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -75733,7 +81707,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         Package(0x9)
                         {
                             0x7,
-                            0x100,
+                            Zero,
                             0x210012,
                             0x1310010,
                             Zero,
@@ -75751,7 +81725,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         Package(0x9)
                         {
                             0x7,
-                            0x100,
+                            Zero,
                             0x210010,
                             0x1310010,
                             Zero,
@@ -76210,7 +82184,19 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xf)
+                OperationRegion(USBC, SystemMemory, 0x9ff90080, One)
+                Field(USBC, ByteAcc, NoLock, Preserve)
+                {
+                    UCAM, 8
+                }
+                If(LAnd(LEqual(\_SB_.PLST, One), LEqual(UCAM, One)))
+                {
+                    Return(Zero)
+                }
+                Else
+                {
+                    Return(0xf)
+                }
             }
             Method(SCFG, 0x0, Serialized)
             {
@@ -76284,7 +82270,19 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xf)
+                OperationRegion(USBC, SystemMemory, 0x9ff90080, One)
+                Field(USBC, ByteAcc, NoLock, Preserve)
+                {
+                    UCAM, 8
+                }
+                If(LAnd(LEqual(\_SB_.PLST, One), LEqual(UCAM, One)))
+                {
+                    Return(Zero)
+                }
+                Else
+                {
+                    Return(0xf)
+                }
             }
             Method(SCFG, 0x0, Serialized)
             {
@@ -76358,7 +82356,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                Return(0xf)
+                Return(Zero)
             }
             Method(_CRS, 0x0, NotSerialized)
             {
@@ -77123,25 +83121,9 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Name(_CID, "QCOM056C")
         }
-        Device(DISP)
-        {
-            Name(_HID, "TODO1004")
-        }
         Method(PPID, 0x0, Serialized)
         {
             Return(Zero)
-        }
-        Method(_BID, 0x0, Serialized)
-        {
-            Return(0x3)
-        }
-        Method(BSID, 0x0, Serialized)
-        {
-            Return(0x3)
-        }
-        Method(BREV, 0x0, Serialized)
-        {
-            Return(0x3)
         }
         Name(QUFN, Zero)
         Name(HPDB, Zero)
@@ -77176,18 +83158,6 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
 	0x00
         })
         Name(DPP0, Buffer(One)
-        {
-	0x00
-        })
-        Name(DPP1, Buffer(One)
-        {
-	0x00
-        })
-        Name(MPP0, Buffer(One)
-        {
-	0x00
-        })
-        Name(MPP1, Buffer(One)
         {
 	0x00
         })
@@ -77628,7 +83598,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 }
                 Method(DPM0, 0x1, NotSerialized)
                 {
-                    Store(Arg0, \_SB_.DPP1)
+                    Store(Arg0, \_SB_.DPP0)
                     Notify(\_SB_.PEP0, 0xa0)
                 }
                 Method(CCVL, 0x0, NotSerialized)
@@ -79455,35 +85425,13 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         {
             Name(_HID, "QCOM0563")
             Name(_UID, Zero)
-            Name(_TZD, Package(0x5)
+            Name(_TZD, Package(0x4)
             {
                 \_SB_.SYSM.CLUS.CPU4,
                 \_SB_.SYSM.CLUS.CPU5,
                 \_SB_.SYSM.CLUS.CPU6,
-                \_SB_.SYSM.CLUS.CPU7,
-                \_SB_.GPU0
+                \_SB_.SYSM.CLUS.CPU7
             })
-            Name(TPSV, 0xcb2)
-            Method(_PSV, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ22.TPSV)
-            }
-            Name(TTC1, 0x4)
-            Method(_TC1, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ22.TTC1)
-            }
-            Name(TTC2, 0x3)
-            Method(_TC2, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ22.TTC2)
-            }
-            Name(TTSP, 0x32)
-            Method(_TSP, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ22.TTSP)
-            }
-            Name(_TZP, Zero)
             Method(_DEP, 0x0, NotSerialized)
             {
                 Return(Package(0x4)
@@ -79514,46 +85462,6 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                     \_SB_.ADC1,
                     \_SB_.ADC2,
                     \_SB_.ADC3
-                })
-            }
-        }
-        ThermalZone(TZ38)
-        {
-            Name(_HID, "QCOM054E")
-            Name(_UID, Zero)
-            Name(_TZD, Package(0x4)
-            {
-                \_SB_.SYSM.CLUS.CPU4,
-                \_SB_.SYSM.CLUS.CPU5,
-                \_SB_.SYSM.CLUS.CPU6,
-                \_SB_.SYSM.CLUS.CPU7
-            })
-            Name(TPSV, 0xe60)
-            Method(_PSV, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ38.TPSV)
-            }
-            Name(TTC1, Zero)
-            Method(_TC1, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ38.TTC1)
-            }
-            Name(TTC2, One)
-            Method(_TC2, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ38.TTC2)
-            }
-            Name(TTSP, One)
-            Method(_TSP, 0x0, NotSerialized)
-            {
-                Return(\_SB_.TZ38.TTSP)
-            }
-            Name(_TZP, Zero)
-            Method(_DEP, 0x0, NotSerialized)
-            {
-                Return(Package(0x1)
-                {
-                    \_SB_.PEP0
                 })
             }
         }
@@ -79731,7 +85639,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
         }
         Device(TSC1)
         {
-            Name(_HID, "TODO1003")
+            Name(_HID, "MSHW1003")
             Alias(\_SB_.PSUB, _SUB)
             Name(_DEP, Package(0x3)
             {
@@ -79745,7 +85653,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                 {
 	0x8e, 0x19, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x01, 0x06, 0x00,
 	0x80, 0x1a, 0x06, 0x00, 0x20, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x49,
-	0x43, 0x31, 0x38, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02,
+	0x43, 0x31, 0x38, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x12,
 	0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23,
 	0x00, 0x00, 0x00, 0x7a, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49,
 	0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00,
@@ -79885,7 +85793,7 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
                         "DBUS\\QCOM05D0",
                         Zero,
                         0x9,
-                        One
+                        0x9
                     }
                 })
             }
@@ -79968,14 +85876,51 @@ DefinitionBlock("dsdt.aml", "DSDT", 0x02, "QCOMM ", "SDM8150 ", 0x00000003)
             Name(_S0W, 0x2)
             Method(_CRS, 0x0, NotSerialized)
             {
-                Name(PBUF, Buffer(0x22)
+                If(LEqual(\_SB_.PSUB, "MTP08150"))
                 {
+                    If(LOr(LEqual(\_SB_.PLST, One), LEqual(\_SB_.PLST, 0x4)))
+                    {
+                        Return(PBUF)
+                    }
+                    Else
+                    {
+                        Return(PBUP)
+                    }
+                }
+                Else
+                {
+                    If(LEqual(\_SB_.PSUB, "CLS08150"))
+                    {
+                        If(LAnd(LEqual(\_SB_.SOID, 0x169), LOr(LEqual(BSID, 0x2), LEqual(BSID, 0x3))))
+                        {
+                            Return(PBUF)
+                        }
+                        Else
+                        {
+                            Return(PBUP)
+                        }
+                    }
+                    Else
+                    {
+                        Return(PBUP)
+                    }
+                }
+            }
+            Name(PBUF, Buffer(0x45)
+            {
+	0x8e, 0x1d, 0x00, 0x01, 0x00, 0x03, 0x02, 0x35, 0x00, 0x01, 0x0a, 0x00,
+	0x00, 0xc2, 0x01, 0x00, 0x20, 0x00, 0x20, 0x00, 0x00, 0xc0, 0x5c, 0x5f,
+	0x53, 0x42, 0x2e, 0x55, 0x52, 0x31, 0x38, 0x00, 0x8c, 0x20, 0x00, 0x01,
+	0x01, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00,
+	0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0xaa, 0x00, 0x5c, 0x5f, 0x53,
+	0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79, 0x00
+            })
+            Name(PBUP, Buffer(0x22)
+            {
 	0x8e, 0x1d, 0x00, 0x01, 0x00, 0x03, 0x02, 0x35, 0x00, 0x01, 0x0a, 0x00,
 	0x00, 0xc2, 0x01, 0x00, 0x20, 0x00, 0x20, 0x00, 0x00, 0xc0, 0x5c, 0x5f,
 	0x53, 0x42, 0x2e, 0x55, 0x52, 0x31, 0x38, 0x00, 0x79, 0x00
-                })
-                Return(PBUF)
-            }
+            })
             Method(_STA, 0x0, NotSerialized)
             {
                 Return(0xf)
