@@ -10,7 +10,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8350 ", 3)
         //
         // Internal Storage (UFS)
         //
-        // Include ("ufs.asl")
+        Include ("ufs.asl")
 
         //
         // CPU Cores & Clusters
