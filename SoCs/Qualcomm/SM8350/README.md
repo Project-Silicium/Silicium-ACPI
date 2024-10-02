@@ -7,3 +7,7 @@ This Folder Contains all ACPI Tables needed for Snapdragon 888 SoCs to Boot an O
 ## Source
 
 Based on Downstream DTS from Xiaomi 11T Pro and SM8350 Tables from [SurfaceDuo-ACPI](https://github.com/WOA-Project/SurfaceDuo-ACPI).
+
+## Notes
+
+Don'T Recompile DBG2 Table as it breaks Debuging otherwise.
