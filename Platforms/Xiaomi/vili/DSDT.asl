@@ -18,6 +18,8 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8350 ", 3)
     External (_SB_.TZ52.TTC1, UnknownObj)
     External (_SB_.TZ52.TTC2, UnknownObj)
     External (_SB_.TZ52.TTSP, UnknownObj)
+
+    // MARKED
     External (_SB_.ADSP, UnknownObj)
     External (_SB_.ADSP._STA, IntObj)
     External (_SB_.SCSS, UnknownObj)
@@ -74,7 +76,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8350 ", 3)
             Name (_HID, "QCOM24A5")
             Name (_UID, 0)
             Name (_CCA, 1)
-            //Name (_DEP, Package () { \_SB.PEP0 })
+            Name (_DEP, Package () { \_SB.PEP0 })
 
             Name (_CRS, ResourceTemplate ()
             {
