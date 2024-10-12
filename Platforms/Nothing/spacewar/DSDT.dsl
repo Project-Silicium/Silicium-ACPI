@@ -1,8 +1,8 @@
-DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM660 ", 3)
+DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8450 ", 0x00000003)
 {
-    Scope(\_SB_) 
+    Scope (_SB)
     {
-        Name (PSUB, "MTP00660")
+        Name (PSUB, "MTP08450")
         Name (SOID, 0xFFFFFFFF)
         Name (STOR, 0xABCABCAB)
         Name (SIDS, "899800000000000")
@@ -36,8 +36,11 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM660 ", 3)
         Name (PRP4, 0xFFFFFFFF)
         Name (PRP5, 0xFFFFFFFF)
         Name (PRP6, 0xFFFFFFFF)
+        
+        Include("ufs.dsl");
 
-        Include("pep_lpi.asl")
-        Include("usb.asl")
+        Include("pep_lpi.dsl");
+
+        Include("usb.dsl");
     }
 }
