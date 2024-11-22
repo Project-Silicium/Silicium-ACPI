@@ -30,7 +30,7 @@ Name (TCML, 0xBEEFDEAD)         // Holds TrEE Carveout Memory Length
         // Storage - UFS/SD 
         //
         Include("ufs.asl")
-        //Include("sdc.asl") 
+        Include("sdc.asl")
 
         //
         //
