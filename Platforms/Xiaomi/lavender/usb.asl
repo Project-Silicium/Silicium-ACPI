@@ -57,8 +57,8 @@ Device (URS0)
         })
 
         Method (_STA, 0, NotSerialized) { Return (0x0F) }                                                                               // Status
-        Method (CCVL, 0, NotSerialized) { Return (Buffer () { 2 }) }
-        Method (HSEN, 0, NotSerialized) { Return (Buffer () { 0 }) }
+        //Method (CCVL, 0, NotSerialized) { Return (Buffer () { 2 }) }
+        //Method (HSEN, 0, NotSerialized) { Return (Buffer () { 0 }) }
 
         Method (_DSM, 4, Serialized)                                                                                                    // Device-Specific Method
         {
@@ -131,7 +131,7 @@ Device (URS0)
     //
     Device (UFN0)
     {
-        Name (_ADR, 0)                                                                                                                  // Address
+        Name (_ADR, 1)                                                                                                                  // Address
         Name (_S0W, 0)                                                                                                                  // S0 Device Wake State
 
         Name (_UPC, Package ()                                                                                                          // USB Port Capabilities
@@ -164,7 +164,7 @@ Device (URS0)
         })
 
         Method (_STA, 0, NotSerialized) { Return (0x0F) }                                                                               // Status
-        Method (CCVL, 0, NotSerialized) { Return (Buffer () { 2 }) }
+        //Method (CCVL, 0, NotSerialized) { Return (Buffer () { 2 }) }
 
         Method (_DSM, 4, Serialized)                                                                                                    // Device-Specific Method
         {
