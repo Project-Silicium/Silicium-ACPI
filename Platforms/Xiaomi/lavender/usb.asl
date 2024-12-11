@@ -15,7 +15,7 @@ Device (URS0)
         Memory32Fixed (ReadWrite, 0x0A800000, 0x00100000)                                                                               // USB Base Address & Length
     })
 
-    Method (_STA, 0, NotSerialized) { Return (0x0F) }                                                                                   // Status
+    Method (_STA, 0, NotSerialized) { Return (0xF) }                                                                                   // Status
 
     //
     // USB Host Mode
@@ -118,8 +118,11 @@ Device (URS0)
 
         Method (PHYC, 0, Serialized)
         {
-            // TODO: Add Proper PHYC here.
-            Return ( Package () {} )
+            Name (CFG0, Package()
+           {
+
+           })
+           Return (CFG0)
         }
     }
 
@@ -244,8 +247,11 @@ Device (URS0)
 
         Method (PHYC, 0, Serialized)
         {
-            // TODO: Add Proper PHYC here.
-            Return ( Package () {} )
+            Name (CFG0, Package()
+           {
+
+           })
+           Return (CFG0)
         }
     }
 }
