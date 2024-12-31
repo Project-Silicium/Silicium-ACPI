@@ -1,17 +1,4 @@
-/*
- * Disassembling to symbolic ASL+ operators
- *
- * Disassembly of DSDT.aml
- *
- * Original Table Header:
- *     Signature        "DSDT"
- *     Length           0x000604F1 (394481)
- *     Revision         0x02
- *     Checksum         0xB3
- *     OEM ID           "QCOMM "
- *     OEM Table ID     "SDM8150 "
- *     OEM Revision     0x00000003 (3)
- */
+
 DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
 {
     Scope (\_SB)
