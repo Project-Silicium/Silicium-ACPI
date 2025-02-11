@@ -789,7 +789,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
             Name (_CRS, ResourceTemplate ()
             {
-                Memory32Fixed (ReadWrite, 0x0A600000, 0x000FFFFF)
+                Memory32Fixed (ReadWrite, 0x0A600000, 0x00100000)
             })
 
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
@@ -801,11 +801,11 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
                 Name (_CRS, ResourceTemplate ()
                 {
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, ) { 0xA5 }
+                    Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, )        { 0xA5 }
                     Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0xA3 }
                     Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0x211 }
-                    Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, ) { 0x20F }
-                    Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, ) { 0x20E }
+                    Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, )  { 0x20F }
+                    Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, )  { 0x20E }
                 })
 
                 Method (_DSM, 4, NotSerialized)
@@ -1033,3 +1033,4 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
         }
     }
 }
+
