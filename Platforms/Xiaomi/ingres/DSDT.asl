@@ -2,7 +2,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 {
     Scope (\_SB)
     {
-        Name (PSUB, "MTP08350")
+        Name (PSUB, "MTP08450")
         Name (SOID, 0xFFFFFFFF)
         Name (STOR, 0xABCABCAB)
         Name (SIDS, "899800000000000")
@@ -801,10 +801,10 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
                 Name (_CRS, ResourceTemplate ()
                 {
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, ) { 0xA5 }
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0xA3 }
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0x211 }
-                    Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, ) { 0x20F }
+                    Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, ) { 0xA5 }
+                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0xA3 }
+                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0x211 }
+                    Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, ) { 0x20F }
                     Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, ) { 0x20E }
                 })
 
