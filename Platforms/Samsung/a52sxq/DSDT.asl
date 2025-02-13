@@ -1,6 +1,3 @@
-// CreatorID=MSFT	CreatorRev=5.0.0
-// FileLength=85083	FileChkSum=0xc7
-
 DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7325 ", 0x00000003)
 {
     Scope(\_SB_)
