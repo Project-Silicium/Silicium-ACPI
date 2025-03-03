@@ -1,5 +1,7 @@
 DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
 {
+    External (_SB_.CFSA, UnknownObj)
+
     Scope (\_SB)
     {
         Name (PSUB, "MTP08150")
@@ -2548,31 +2550,17 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                         Return ("MTP08150")
                     }
                 }
-                ElseIf ((\_SB.PSUB == "CLS08150"))
-                {
-                    If ((_BID () == Zero))
-                    {
-                        If (((\_SB.SOID == 0x0169) && (\_SB.PLST == One)))
-                        {
-                            Return ("CLS28150")
-                        }
-                        Else
-                        {
-                            Return ("CLS08150")
-                        }
-                    }
-                    ElseIf (((\_SB.SOID == 0x0169) && (\_SB.PLST == One)))
-                    {
-                        Return ("CLS38150")
-                    }
-                    Else
-                    {
-                        Return ("CLS18150")
-                    }
-                }
                 ElseIf ((\_SB.PSUB == "CDP08150"))
                 {
                     Return ("CDP08150")
+                }
+                ElseIf ((\_SB.PSUB == "QRD08150"))
+                {
+                    Return ("QRD08150")
+                }
+                ElseIf ((\_SB.PSUB == "HDK08150"))
+                {
+                    Return ("HDK08150")
                 }
             }
 
@@ -64490,6 +64478,255 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                 Package (0x07)
                 {
                     "DEVICE", 
+                    "\\_SB.SPI4", 
+                    Package (0x04)
+                    {
+                        "COMPONENT", 
+                        Zero, 
+                        Package (0x02)
+                        {
+                            "FSTATE", 
+                            Zero
+                        }, 
+
+                        Package (0x03)
+                        {
+                            "DISCOVERABLE_PSTATE", 
+                            "CLOCK", 
+                            "gcc_qupv3_wrap0_s3_clk"
+                        }
+                    }, 
+
+                    Package (0x0A)
+                    {
+                        "DSTATE", 
+                        Zero, 
+                        Package (0x02)
+                        {
+                            "BUSARB", 
+                            Package (0x05)
+                            {
+                                0x03, 
+                                "ICBID_MASTER_QUP_0", 
+                                "ICBID_SLAVE_EBI1", 
+                                0x0927C000, 
+                                0x0682
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "BUSARB", 
+                            Package (0x05)
+                            {
+                                0x03, 
+                                "ICBID_MASTER_APPSS_PROC", 
+                                "ICBID_SLAVE_QUP_0", 
+                                0x08D24D00, 
+                                0x02FAF080
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "CLOCK", 
+                            Package (0x02)
+                            {
+                                "gcc_qupv3_wrap_0_m_ahb_clk", 
+                                One
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "CLOCK", 
+                            Package (0x02)
+                            {
+                                "gcc_qupv3_wrap0_s3_clk", 
+                                One
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x90, 
+                                One, 
+                                0x02, 
+                                Zero, 
+                                One, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x91, 
+                                One, 
+                                0x02, 
+                                One, 
+                                One, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x92, 
+                                One, 
+                                0x02, 
+                                One, 
+                                One, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x93, 
+                                One, 
+                                0x02, 
+                                One, 
+                                One, 
+                                Zero
+                            }
+                        }
+                    }, 
+
+                    Package (0x02)
+                    {
+                        "DSTATE", 
+                        One
+                    }, 
+
+                    Package (0x02)
+                    {
+                        "DSTATE", 
+                        0x02
+                    }, 
+
+                    Package (0x0A)
+                    {
+                        "DSTATE", 
+                        0x03, 
+                        Package (0x02)
+                        {
+                            "CLOCK", 
+                            Package (0x02)
+                            {
+                                "gcc_qupv3_wrap0_s3_clk", 
+                                0x02
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "CLOCK", 
+                            Package (0x02)
+                            {
+                                "gcc_qupv3_wrap_0_m_ahb_clk", 
+                                0x02
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "BUSARB", 
+                            Package (0x05)
+                            {
+                                0x03, 
+                                "ICBID_MASTER_APPSS_PROC", 
+                                "ICBID_SLAVE_QUP_0", 
+                                Zero, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "BUSARB", 
+                            Package (0x05)
+                            {
+                                0x03, 
+                                "ICBID_MASTER_QUP_0", 
+                                "ICBID_SLAVE_EBI1", 
+                                Zero, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x90, 
+                                Zero, 
+                                0x02, 
+                                Zero, 
+                                One, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x91, 
+                                Zero, 
+                                0x02, 
+                                Zero, 
+                                One, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x92, 
+                                Zero, 
+                                0x02, 
+                                Zero, 
+                                One, 
+                                Zero
+                            }
+                        }, 
+
+                        Package (0x02)
+                        {
+                            "TLMMGPIO", 
+                            Package (0x06)
+                            {
+                                0x93, 
+                                Zero, 
+                                0x02, 
+                                Zero, 
+                                One, 
+                                Zero
+                            }
+                        }
+                    }
+                }, 
+
+                Package (0x07)
+                {
+                    "DEVICE", 
                     "\\_SB.I2C8", 
                     Package (0x03)
                     {
@@ -64857,255 +65094,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                                 Zero, 
                                 Zero, 
                                 0x03, 
-                                Zero
-                            }
-                        }
-                    }
-                }, 
-
-                Package (0x07)
-                {
-                    "DEVICE", 
-                    "\\_SB.SPI4", 
-                    Package (0x04)
-                    {
-                        "COMPONENT", 
-                        Zero, 
-                        Package (0x02)
-                        {
-                            "FSTATE", 
-                            Zero
-                        }, 
-
-                        Package (0x03)
-                        {
-                            "DISCOVERABLE_PSTATE", 
-                            "CLOCK", 
-                            "gcc_qupv3_wrap0_s3_clk"
-                        }
-                    }, 
-
-                    Package (0x0A)
-                    {
-                        "DSTATE", 
-                        Zero, 
-                        Package (0x02)
-                        {
-                            "BUSARB", 
-                            Package (0x05)
-                            {
-                                0x03, 
-                                "ICBID_MASTER_QUP_0", 
-                                "ICBID_SLAVE_EBI1", 
-                                0x0927C000, 
-                                0x0682
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "BUSARB", 
-                            Package (0x05)
-                            {
-                                0x03, 
-                                "ICBID_MASTER_APPSS_PROC", 
-                                "ICBID_SLAVE_QUP_0", 
-                                0x08D24D00, 
-                                0x02FAF080
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "CLOCK", 
-                            Package (0x02)
-                            {
-                                "gcc_qupv3_wrap_0_m_ahb_clk", 
-                                One
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "CLOCK", 
-                            Package (0x02)
-                            {
-                                "gcc_qupv3_wrap0_s3_clk", 
-                                One
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x90, 
-                                One, 
-                                0x02, 
-                                Zero, 
-                                One, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x91, 
-                                One, 
-                                0x02, 
-                                One, 
-                                One, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x92, 
-                                One, 
-                                0x02, 
-                                One, 
-                                One, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x93, 
-                                One, 
-                                0x02, 
-                                One, 
-                                One, 
-                                Zero
-                            }
-                        }
-                    }, 
-
-                    Package (0x02)
-                    {
-                        "DSTATE", 
-                        One
-                    }, 
-
-                    Package (0x02)
-                    {
-                        "DSTATE", 
-                        0x02
-                    }, 
-
-                    Package (0x0A)
-                    {
-                        "DSTATE", 
-                        0x03, 
-                        Package (0x02)
-                        {
-                            "CLOCK", 
-                            Package (0x02)
-                            {
-                                "gcc_qupv3_wrap0_s3_clk", 
-                                0x02
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "CLOCK", 
-                            Package (0x02)
-                            {
-                                "gcc_qupv3_wrap_0_m_ahb_clk", 
-                                0x02
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "BUSARB", 
-                            Package (0x05)
-                            {
-                                0x03, 
-                                "ICBID_MASTER_APPSS_PROC", 
-                                "ICBID_SLAVE_QUP_0", 
-                                Zero, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "BUSARB", 
-                            Package (0x05)
-                            {
-                                0x03, 
-                                "ICBID_MASTER_QUP_0", 
-                                "ICBID_SLAVE_EBI1", 
-                                Zero, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x90, 
-                                Zero, 
-                                0x02, 
-                                Zero, 
-                                One, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x91, 
-                                Zero, 
-                                0x02, 
-                                Zero, 
-                                One, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x92, 
-                                Zero, 
-                                0x02, 
-                                Zero, 
-                                One, 
-                                Zero
-                            }
-                        }, 
-
-                        Package (0x02)
-                        {
-                            "TLMMGPIO", 
-                            Package (0x06)
-                            {
-                                0x93, 
-                                Zero, 
-                                0x02, 
-                                Zero, 
-                                One, 
                                 Zero
                             }
                         }
@@ -79623,6 +79611,11 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                 Return (\_SB.PINA)
             }
 
+            Method (_LID, 0, NotSerialized)  // _LID: Lid Status
+            {
+                Return (One)
+            }
+
             Method (REGR, 0, NotSerialized)
             {
                 Name (RBUF, Package (0x1A)
@@ -82834,10 +82827,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     {
                         0x00000115,
                     }
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
-                    {
-                        0x00000117,
-                    }
                 })
                 Return (RBUF) /* \_SB_.QGP0._CRS.RBUF */
             }
@@ -82926,202 +82915,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                         0x00070000,         // Address Length
                         )
                 })
-            }
-        }
-
-        Device (NFCD)
-        {
-            Name (_HID, "NXP1001")  // _HID: Hardware ID
-            Name (_CID, "ACPINXP1001")  // _CID: Compatible ID
-            Alias (\_SB.PSUB, _SUB)
-            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-            {
-                I2cSerialBusV2 (0x0028, ControllerInitiated, 0x00061A80,
-                    AddressingMode7Bit, "\\_SB.IC10",
-                    0x00, ResourceConsumer, , Exclusive,
-                    )
-                GpioInt (Level, ActiveHigh, Exclusive, PullDefault, 0x0000,
-                    "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x002F
-                    }
-            })
-            Name (NFCP, ResourceTemplate ()
-            {
-                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionNone,
-                    "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0067
-                    }
-            })
-            Scope (GIO0)
-            {
-                OperationRegion (NFPO, GeneralPurposeIo, Zero, One)
-            }
-
-            Field (\_SB.GIO0.NFPO, ByteAcc, NoLock, Preserve)
-            {
-                Connection (\_SB.NFCD.NFCP), 
-                MGPE,   1
-            }
-
-            Method (POON, 0, NotSerialized)
-            {
-                MGPE = One
-            }
-
-            Method (POOF, 0, NotSerialized)
-            {
-                MGPE = Zero
-            }
-
-            Name (NFCF, ResourceTemplate ()
-            {
-                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionNone,
-                    "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                    )
-                    {   // Pin list
-                        0x0030
-                    }
-            })
-            Scope (GIO0)
-            {
-                OperationRegion (NFFO, GeneralPurposeIo, Zero, One)
-            }
-
-            Field (\_SB.GIO0.NFFO, ByteAcc, NoLock, Preserve)
-            {
-                Connection (\_SB.NFCD.NFCF), 
-                MGFE,   1
-            }
-
-            Method (FWON, 0, NotSerialized)
-            {
-                MGFE = One
-            }
-
-            Method (FWOF, 0, NotSerialized)
-            {
-                MGFE = Zero
-            }
-
-            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
-            {
-                Debug = "Method NFC _DSM begin"
-                If ((Arg0 == ToUUID ("a2e7f6c4-9638-4485-9f12-6b4e20b60d63") /* Unknown UUID */))
-                {
-                    If ((Arg2 == Zero))
-                    {
-                        Debug = "Method NFC _DSM QUERY"
-                        If ((Arg1 == One))
-                        {
-                            \_SB.NFCD.POOF ()
-                            Sleep (0x14)
-                            Return (Buffer (One)
-                            {
-                                 0x0F                                             // .
-                            })
-                        }
-                    }
-
-                    If ((Arg2 == 0x02))
-                    {
-                        Debug = "Method NFC _DSM SETPOWERMODE"
-                        If ((Arg3 == One))
-                        {
-                            \_SB.NFCD.POON ()
-                            Sleep (0x14)
-                        }
-
-                        If ((Arg3 == Zero))
-                        {
-                            \_SB.NFCD.POOF ()
-                            Sleep (0x14)
-                        }
-                    }
-
-                    If ((Arg2 == One))
-                    {
-                        Debug = "Method NFC _DSM SETFWMODE"
-                        If ((Arg3 == One))
-                        {
-                            \_SB.NFCD.FWON ()
-                            Sleep (0x14)
-                            \_SB.NFCD.POOF ()
-                            Sleep (0x14)
-                            \_SB.NFCD.POON ()
-                            Sleep (0x14)
-                        }
-
-                        If ((Arg3 == Zero))
-                        {
-                            \_SB.NFCD.FWOF ()
-                            Sleep (0x14)
-                            \_SB.NFCD.POOF ()
-                            Sleep (0x14)
-                            \_SB.NFCD.POON ()
-                            Sleep (0x14)
-                        }
-                    }
-
-                    If ((Arg2 == 0x03))
-                    {
-                        Debug = "Method NFC _DSM EEPROM Config"
-                        Return (Buffer (0x13)
-                        {
-                            /* 0000 */  0x9C, 0x1F, 0x38, 0x19, 0xA8, 0xB9, 0x4B, 0xAB,  // ..8...K.
-                            /* 0008 */  0xA1, 0xBA, 0xD0, 0x20, 0x76, 0x88, 0x2A, 0xE0,  // ... v.*.
-                            /* 0010 */  0x03, 0x01, 0x11                                 // ...
-                        })
-                    }
-                }
-            }
-
-            Name (PGID, Buffer (0x0A)
-            {
-                "\\_SB.NFCD"
-            })
-            Name (DBUF, Buffer (DBFL){})
-            CreateByteField (DBUF, Zero, STAT)
-            CreateByteField (DBUF, 0x02, DVAL)
-            CreateField (DBUF, 0x18, 0xA0, DEID)
-            Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
-            {
-                Return (0x03)
-            }
-
-            Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-            {
-                Return (0x03)
-            }
-
-            Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-            {
-                Return (0x03)
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                DEID = Buffer (ESNL){}
-                DVAL = Zero
-                DEID = PGID /* \_SB_.NFCD.PGID */
-                If (\_SB.ABD.AVBL)
-                {
-                    \_SB.PEP0.FLD0 = DBUF /* \_SB_.NFCD.DBUF */
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                DEID = Buffer (ESNL){}
-                DVAL = 0x03
-                DEID = PGID /* \_SB_.NFCD.PGID */
-                If (\_SB.ABD.AVBL)
-                {
-                    \_SB.PEP0.FLD0 = DBUF /* \_SB_.NFCD.DBUF */
-                }
             }
         }
 
@@ -84940,33 +84733,17 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
 
         Name (QUFN, Zero)
         Name (HPDB, Zero)
-        Name (HPDS, Buffer (One)
-        {
-             0x00                                             // .
-        })
         Name (PINA, Zero)
-        Name (DPPN, 0x0D)
         Name (CCST, Buffer (One)
         {
              0x02                                             // .
         })
-        Name (PORT, Buffer (One)
-        {
-             0x02                                             // .
-        })
-        Name (HIRQ, Buffer (One)
-        {
-             0x00                                             // .
-        })
+        Name (CCS2, 0x02)
         Name (USBC, Buffer (One)
         {
              0x0B                                             // .
         })
         Name (HSFL, Buffer (One)
-        {
-             0x00                                             // .
-        })
-        Name (MUXC, Buffer (One)
         {
              0x00                                             // .
         })
@@ -85445,6 +85222,12 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     0x0A800000,         // Address Base
                     0x000FFFFF,         // Address Length
                     )
+                GpioInt (Edge, ActiveBoth, Exclusive, PullUp, 0x0000,
+                    "\\_SB.GIO0", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0065
+                    }
             })
             Device (USB1)
             {
@@ -85462,7 +85245,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     }
                     Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, )
                     {
-                        0x00000228,
+                        0x00000207,
                     }
                     Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, )
                     {
@@ -85482,7 +85265,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                         Name (_UPC, Package (0x04)  // _UPC: USB Port Capabilities
                         {
                             One, 
-                            0x09, 
+                            0x06, 
                             Zero, 
                             Zero
                         })
@@ -85505,7 +85288,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                                 PLD_Shape              = "VERTICALRECTANGLE",
                                 PLD_GroupOrientation   = 0x0,
                                 PLD_GroupToken         = 0x0,
-                                PLD_GroupPosition      = 0x1,
+                                PLD_GroupPosition      = 0x3,
                                 PLD_Bay                = 0x0,
                                 PLD_Ejectable          = 0x0,
                                 PLD_EjectRequired      = 0x0,
@@ -85527,20 +85310,10 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     Return (STVL) /* \_SB_.URS1.USB1.STVL */
                 }
 
-                Method (DPM0, 1, NotSerialized)
+                Method (DPM1, 1, NotSerialized)
                 {
                     \_SB.DPP1 = Arg0
-                    Notify (\_SB.PEP0, 0xA0) // Device-Specific
-                }
-
-                Method (CCVL, 0, NotSerialized)
-                {
-                    Return (\_SB.CCST)
-                }
-
-                Method (HSEN, 0, NotSerialized)
-                {
-                    Return (\_SB.HSFL)
+                    Notify (\_SB.PEP0, 0xA1) // Device-Specific
                 }
 
                 Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
@@ -85568,7 +85341,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                                         {
                                             Return (Buffer (One)
                                             {
-                                                 0x1D                                             // .
+                                                 0x0D                                             // .
                                             })
                                             Break
                                         }
@@ -85600,11 +85373,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                                     Return (Zero)
                                     Break
                                 }
-                                ElseIf ((_T_1 == 0x04))
-                                {
-                                    Return (0x02)
-                                    Break
-                                }
                                 Else
                                 {
                                     Return (Buffer (One)
@@ -85630,22 +85398,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     }
                 }
 
-                Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
-                {
-                }
-
-                Method (REMD, 0, NotSerialized)
-                {
-                    STVL = Zero
-                    Notify (\_SB.URS1.USB1, One) // Device Check
-                }
-
-                Method (ADDD, 0, NotSerialized)
-                {
-                    STVL = 0x0F
-                    Notify (\_SB.URS1.USB1, One) // Device Check
-                }
-
                 Method (PHYC, 0, NotSerialized)
                 {
                     Name (CFG0, Package (0x00){})
@@ -85666,7 +85418,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                         Name (_UPC, Package (0x04)  // _UPC: USB Port Capabilities
                         {
                             One, 
-                            0x09, 
+                            0x06, 
                             Zero, 
                             Zero
                         })
@@ -85689,7 +85441,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                                 PLD_Shape              = "VERTICALRECTANGLE",
                                 PLD_GroupOrientation   = 0x0,
                                 PLD_GroupToken         = 0x0,
-                                PLD_GroupPosition      = 0x1,
+                                PLD_GroupPosition      = 0x3,
                                 PLD_Bay                = 0x0,
                                 PLD_Ejectable          = 0x0,
                                 PLD_EjectRequired      = 0x0,
@@ -85715,12 +85467,16 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                     {
                         0x000000A7,
                     }
+                    GpioInt (Edge, ActiveBoth, ExclusiveAndWake, PullNone, 0x0000,
+                        "\\_SB.PM01", 0x00, ResourceConsumer, ,
+                        RawDataBuffer (0x04)  // Vendor Data
+                        {
+                            0x00, 0x00, 0x00, 0x00
+                        })
+                        {   // Pin list
+                            0x0089
+                        }
                 })
-                Method (CCVL, 0, NotSerialized)
-                {
-                    Return (\_SB.CCST)
-                }
-
                 Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
                 {
                     While (One)
@@ -85825,7 +85581,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
                                 }
                                 ElseIf ((_T_3 == One))
                                 {
-                                    Return (0x39)
+                                    Return (0x33)
                                     Break
                                 }
                                 Else
@@ -86102,6 +85858,8 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
             {
                 \_SB.CCST = Arg0
                 \_SB.HSFL = Arg1
+                \_SB.CCS2 = Arg0
+                Notify (\_SB.CFSA, \_SB.CCS2)
             }
 
             Method (CCVL, 0, NotSerialized)
