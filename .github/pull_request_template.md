@@ -1,16 +1,15 @@
-### What Changed
+### Changes
 
-<!-- Describe what you changed. (Write below this Commend) -->
+<!-- Describe what you Changed. (Write below this Comment) -->
 
 ### Reason
 
-<!-- The Reason why you did these Changes. (Write below this Commend) -->
+<!-- Explain why you made these Changes. (Write below this Comment) -->
 
 ### Checklist
 
-<!-- Place a 'x' inside the '[ ]' to Check the Box. -->
+<!-- Replace the Space with an 'x' inside the '[ ]' to Check the Box. -->
 
-* [ ] Is what you changed Tested?                (Required)
-* [ ] Is all the ACPI Source based on your DTS?
-* [ ] Are the Correct Compiler Versions used?    (Required)
-* [ ] Are there no References from the Compiler? (Required)
+* [ ] Have the Changes been Tested?
+* [ ] Were the Correct Compiler Versions used?
+* [ ] Have the Compiler References been Removed?
