@@ -7,3 +7,7 @@ This Folder Contains all ACPI Tables needed for Snapdragon 8 Gen 1 SoCs to Boot 
 ## Source
 
 Based on Downstream DTS from Samsung Galaxy Tab S8 and SM8350 Tables from [SurfaceDuo-ACPI](https://github.com/WOA-Project/SurfaceDuo-ACPI).
+
+## Notes
+
+Don't Recompile DBG2 Table as it breaks Debuging otherwise.
