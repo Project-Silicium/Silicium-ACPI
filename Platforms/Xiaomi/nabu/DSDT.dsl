@@ -1,6 +1,8 @@
 
 DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
 {
+    External (_SB_.CFSA, UnknownObj)
+
     Scope (\_SB)
     {
         Name (PSUB, "MTP08150")
@@ -90811,38 +90813,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8150 ", 0x00000003)
             })
             Name (_HID, "QCOM0590")  // _HID: Hardware ID
             Alias (\_SB.PSUB, _SUB)
-        }
-
-        Device (CFSA)
-        {
-            Name (_HID, "FSA04480")  // _HID: Hardware ID
-            Alias (\_SB.PSUB, _SUB)
-            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-            {
-                Name (RBUF, ResourceTemplate ()
-                {
-                    I2cSerialBusV2 (0x0043, ControllerInitiated, 0x000186A0,
-                        AddressingMode7Bit, "\\_SB.I2C5",
-                        0x00, ResourceConsumer, , Exclusive,
-                        )
-                    GpioIo (Shared, PullNone, 0x0000, 0x0000, IoRestrictionNone,
-                        "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                        RawDataBuffer (0x01)  // Vendor Data
-                        {
-                            0x01
-                        })
-                        {   // Pin list
-                            0x0026
-                        }
-                    GpioIo (Exclusive, PullUp, 0x0000, 0x0000, IoRestrictionNone,
-                        "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                        )
-                        {   // Pin list
-                            0x0054
-                        }
-                })
-                Return (RBUF) /* \_SB_.CFSA._CRS.RBUF */
-            }
         }
 
         Device (MPA)
