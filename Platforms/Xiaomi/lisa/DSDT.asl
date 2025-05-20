@@ -1,5 +1,5 @@
 // CreatorID=MSFT	CreatorRev=5.0.0
-// FileLength=85477	FileChkSum=0x66
+// FileLength=85617	FileChkSum=0xf1
 
 DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7280 ", 0x00000003)
 {
@@ -11800,6 +11800,81 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7280 ", 0x00000003)
                 }
             })
         }
+        Scope(\_SB_.PEP0)
+        {
+            Method(HPMX, 0x0, NotSerialized)
+            {
+                Return(HPXC)
+            }
+            Name(HPXC, Package(0x1)
+            {
+                Package(0x3)
+                {
+                    "DEVICE",
+                    "\\_SB.HWN0",
+                    Package(0x7)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x23,
+                                Zero,
+                                Zero,
+                                One,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "DELAY",
+                            Package(One)
+                            {
+                                0x64
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x23,
+                                One,
+                                Zero,
+                                One,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "DELAY",
+                            Package(One)
+                            {
+                                0x64
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x12,
+                                One,
+                                Zero,
+                                Zero,
+                                0x3,
+                                Zero
+                            }
+                        }
+                    }
+                }
+            })
+        }
         Device(BAM1)
         {
             Name(_HID, "QCOM0A0A")
@@ -11888,6 +11963,34 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7280 ", 0x00000003)
                 {
 	0x86, 0x09, 0x00, 0x01, 0x00, 0x40, 0x98, 0x00, 0x00, 0x40, 0x00, 0x00,
 	0x89, 0x06, 0x00, 0x01, 0x01, 0x7a, 0x02, 0x00, 0x00, 0x79, 0x00
+                })
+                Return(RBUF)
+            }
+        }
+        Device(I2C5)
+        {
+            Name(_HID, "QCOM0A10")
+            Alias(\_SB_.PSUB, _SUB)
+            Name(_UID, 0x5)
+            Name(_DEP, Package(0x3)
+            {
+                \_SB_.PEP0,
+                \_SB_.QGP0,
+                \_SB_.MMU0
+            })
+            Name(_CCA, Zero)
+            Name(_STR, Buffer(0x24)
+            {
+	0x51, 0x00, 0x55, 0x00, 0x50, 0x00, 0x5f, 0x00, 0x30, 0x00, 0x5f, 0x00,
+	0x53, 0x00, 0x45, 0x00, 0x5f, 0x00, 0x34, 0x00, 0x2c, 0x00, 0x53, 0x00,
+	0x68, 0x00, 0x61, 0x00, 0x72, 0x00, 0x65, 0x00, 0x64, 0x00, 0x00, 0x00
+            })
+            Method(_CRS, 0x0, NotSerialized)
+            {
+                Name(RBUF, Buffer(0x17)
+                {
+	0x86, 0x09, 0x00, 0x01, 0x00, 0x00, 0x99, 0x00, 0x00, 0x40, 0x00, 0x00,
+	0x89, 0x06, 0x00, 0x01, 0x01, 0x7d, 0x02, 0x00, 0x00, 0x79, 0x00
                 })
                 Return(RBUF)
             }
@@ -15738,45 +15841,27 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7280 ", 0x00000003)
                 Return(0xf)
             }
         }
-        Name(HWNL, One)
         Device(HWN0)
         {
-            Name(_HID, "QCOM0A68")
+            Name(_HID, "AWNC8624")
             Name(_UID, Zero)
             Alias(\_SB_.PSUB, _SUB)
             Method(_STA, 0x0, NotSerialized)
             {
-                If(LEqual(\_SB_.HWNL, Zero))
-                {
-                    Return(Zero)
-                }
-                Else
-                {
-                    Return(Zero)
-                }
+                Return(0xf)
             }
-            Method(HWNL, 0x0, NotSerialized)
+            Method(_CRS, 0x0, NotSerialized)
             {
-                Name(CFG0, Package(0x10)
+                Name(RBUF, Buffer(0x41)
                 {
-                    0x2,
-                    0x3,
-                    0x19b,
-                    0x14,
-                    Zero,
-                    Zero,
-                    One,
-                    One,
-                    0x2,
-                    0x2,
-                    One,
-                    One,
-                    One,
-                    0x3,
-                    0x6,
-                    One
+	0x8e, 0x19, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x01, 0x06, 0x00,
+	0x80, 0x1a, 0x06, 0x00, 0x5a, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x49,
+	0x32, 0x43, 0x35, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x13,
+	0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23,
+	0x00, 0x00, 0x00, 0x12, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49,
+	0x4f, 0x30, 0x00, 0x79, 0x00
                 })
-                Return(CFG0)
+                Return(RBUF)
             }
         }
         Device(CAMP)
@@ -18276,78 +18361,6 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7280 ", 0x00000003)
             Method(_TSP, 0x0, NotSerialized)
             {
                 Return(\_SB_.TZ33.TTSP)
-            }
-        }
-        Name(HWNH, Zero)
-        Device(HWN1)
-        {
-            Name(_HID, "QCOM0A69")
-            Name(_UID, One)
-            Alias(\_SB_.PSUB, _SUB)
-            Method(_STA, 0x0, NotSerialized)
-            {
-                If(LEqual(\_SB_.HWNH, Zero))
-                {
-                    Return(Zero)
-                }
-                Else
-                {
-                    Return(Zero)
-                }
-            }
-            Name(_DEP, Package(One)
-            {
-                \_SB_.PMIC
-            })
-            Method(_CRS, 0x0, NotSerialized)
-            {
-                Name(RBUF, Buffer(0x25)
-                {
-	0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00,
-	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00,
-	0x0e, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x50, 0x4d, 0x30, 0x32, 0x00, 0x79,
-	0x00
-                })
-                Return(RBUF)
-            }
-            Method(HAPI, 0x0, NotSerialized)
-            {
-                Name(CFG0, Package(0x3)
-                {
-                    One,
-                    One,
-                    One
-                })
-                Return(CFG0)
-            }
-            Method(HAPC, 0x0, NotSerialized)
-            {
-                Name(CFG0, Package(0x16)
-                {
-                    Zero,
-                    0x984,
-                    Zero,
-                    One,
-                    One,
-                    One,
-                    One,
-                    Zero,
-                    0x4,
-                    One,
-                    0x3,
-                    0x14,
-                    One,
-                    0x3,
-                    Zero,
-                    Zero,
-                    0x6,
-                    Zero,
-                    Zero,
-                    0x535,
-                    0x3,
-                    One
-                })
-                Return(CFG0)
             }
         }
         Device(TSC1)
