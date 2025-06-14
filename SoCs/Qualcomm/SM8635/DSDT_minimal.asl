@@ -1,4 +1,4 @@
-DefinitionBlock ("DSDT_minimal.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
+DefinitionBlock ("DSDT_minimal.aml", "DSDT", 2, "QCOMM ", "SM8635 ", 3)
 {
     Scope (\_SB)
     {
