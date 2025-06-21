@@ -1,4 +1,7 @@
-DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
+// CreatorID=MSFT	CreatorRev=5.0.0
+// FileLength=217642	FileChkSum=0x12
+
+DefinitionBlock("DSDT_7125_MIATOLL.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
 {
     Scope(\_SB_)
     {
@@ -27,10 +30,11 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
         Name(TCMA, 0xdeadbeef)
         Name(TCML, 0xbeefdead)
         Name(SOSI, 0xdeadbeefffffffff)
-        Name(PRP0, 0xffffffff)
-        Name(PRP1, 0xffffffff)
-        Name(PRP2, 0xffffffff)
-        Name(PRP3, 0xffffffff)
+        Device(AUDS)
+        {
+            Name(_HID, "QCOM08D2")
+            Name(_UID, Zero)
+        }
         Device(UFS0)
         {
             Name(_HID, "QCOM24A5")
@@ -116,16 +120,16 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Method(_CRS, 0x0, NotSerialized)
             {
-                Name(RBUF, Buffer(0x5d)
+                Name(RBUF, Buffer(0x5e)
                 {
 	0x86, 0x09, 0x00, 0x01, 0x00, 0x40, 0x80, 0x08, 0x00, 0x10, 0x00, 0x00,
 	0x89, 0x06, 0x00, 0x01, 0x01, 0xec, 0x00, 0x00, 0x00, 0x8c, 0x20, 0x00,
-	0x01, 0x00, 0x01, 0x00, 0x1d, 0x00, 0x02, 0x00, 0x00, 0x88, 0x13, 0x17,
+	0x01, 0x00, 0x01, 0x00, 0x1d, 0x00, 0x03, 0x00, 0x00, 0x88, 0x13, 0x17,
 	0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x5c, 0x5f,
-	0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01,
-	0x01, 0x01, 0x00, 0x08, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00,
-	0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x45, 0x00, 0x5c, 0x5f, 0x53,
-	0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79, 0x00
+	0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x21, 0x00, 0x01,
+	0x01, 0x01, 0x00, 0x08, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00,
+	0x00, 0x19, 0x00, 0x23, 0x00, 0x01, 0x00, 0x45, 0x00, 0x5c, 0x5f, 0x53,
+	0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x01, 0x79, 0x00
                 })
                 Return(RBUF)
             }
@@ -400,27 +404,6 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                 Return(CFG0)
             }
         }
-        Device(PMBM)
-        {
-            Name(_HID, "QCOM082D")
-            Alias(\_SB_.PSUB, _SUB)
-            Name(_DEP, Package(One)
-            {
-                \_SB_.PMGK
-            })
-            Method(_STA, 0x0, NotSerialized)
-            {
-                Return(Zero)
-            }
-            Method(_CRS, 0x0, NotSerialized)
-            {
-                Name(RBUF, Buffer(0x2)
-                {
-	0x79, 0x00
-                })
-                Return(RBUF)
-            }
-        }
         Device(BCL1)
         {
             Name(_HID, "QCOM087F")
@@ -462,194 +445,6 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                     "PM3_BCLBIG_BAN"
                 })
                 Return(CFG0)
-            }
-        }
-        Device(PMGK)
-        {
-            Name(_HID, "QCOM089A")
-            Alias(\_SB_.PSUB, _SUB)
-            Name(_DEP, Package(0x2)
-            {
-                \_SB_.GLNK,
-                \_SB_.ABD_
-            })
-            Name(LKUP, Zero)
-            Method(_STA, 0x0, NotSerialized)
-            {
-                Return(Zero)
-            }
-            Method(GEPT, 0x0, NotSerialized)
-            {
-                Name(BUFF, Buffer(0x4)
-                {
-                })
-                CreateByteField(BUFF, Zero, STAT)
-                CreateWordField(BUFF, 0x2, DATA)
-                Store(0x3, DATA)
-                Return(DATA)
-            }
-            Name(BUFF, Buffer(0x32)
-            {
-            })
-            CreateField(BUFF, Zero, 0x8, BSTA)
-            CreateField(BUFF, 0x8, 0x8, BSIZ)
-            CreateField(BUFF, 0x10, 0x10, BVER)
-            CreateField(BUFF, 0x30, 0x20, BCCI)
-            CreateField(BUFF, 0x50, 0x40, BCTL)
-            CreateField(BUFF, 0x90, 0x80, BMGI)
-            CreateField(BUFF, 0x110, 0x80, BMGO)
-            Method(USBN, 0x1, NotSerialized)
-            {
-                Store(UCSI, BUFF)
-                Store(BVER, \_SB_.UCSI.VERS)
-                Store(BCCI, \_SB_.UCSI.CCI_)
-                Store(BMGI, \_SB_.UCSI.MSGI)
-                Notify(\_SB_.UCSI, Arg0)
-                Return(Zero)
-            }
-            Method(UPAN, 0x1, NotSerialized)
-            {
-                Name(VNTF, 0xffffffff)
-                Name(VPRT, 0x4)
-                Name(VMUX, Zero)
-                Name(VCCS, 0x2)
-                Name(VDPP, Zero)
-                Name(VHPD, Zero)
-                Name(VHSF, 0x2)
-                Name(VHIQ, Zero)
-                Name(BCCX, Zero)
-                Name(BDIX, Zero)
-                Store(Arg0, VNTF)
-                And(VNTF, 0xff, VPRT)
-                ShiftRight(VNTF, 0x8, VNTF)
-                And(VNTF, 0xff, VCCS)
-                ShiftRight(VNTF, 0x8, VNTF)
-                And(VNTF, 0xff, VMUX)
-                While(One)
-                {
-                    Name(_T_0, 0x0)
-                    Store(VMUX, _T_0)
-                    If(LEqual(_T_0, Zero))
-                    {
-                        Store(Zero, VHSF)
-                        Break
-                    }
-                    Else
-                    {
-                        If(LEqual(_T_0, One))
-                        {
-                            Store(Zero, VHSF)
-                            Break
-                        }
-                        Else
-                        {
-                            If(LEqual(_T_0, 0x2))
-                            {
-                                Store(One, VHSF)
-                                Break
-                            }
-                            Else
-                            {
-                                If(LEqual(_T_0, 0x3))
-                                {
-                                    Store(Zero, VHSF)
-                                    Break
-                                }
-                            }
-                        }
-                    }
-                    Break
-                }
-                ShiftRight(VNTF, 0x8, VNTF)
-                And(VNTF, 0x80, VHIQ)
-                If(LEqual(VHIQ, Zero))
-                {
-                    Store(Zero, VHIQ)
-                }
-                Else
-                {
-                    Store(One, VHIQ)
-                }
-                And(VNTF, 0x40, VHPD)
-                If(LEqual(VHPD, Zero))
-                {
-                    Store(Zero, VHPD)
-                }
-                Else
-                {
-                    Store(One, VHPD)
-                }
-                And(VNTF, 0x3f, VDPP)
-                If(LEqual(VDPP, Zero))
-                {
-                    Store(Zero, VDPP)
-                }
-                Else
-                {
-                    If(LEqual(VCCS, One))
-                    {
-                        Add(VDPP, 0x6, VDPP)
-                    }
-                }
-                Store(VCCS, BCCX)
-                ShiftLeft(VMUX, 0x2, VMUX)
-                Or(VMUX, BCCX, BCCX)
-                ShiftLeft(VHSF, 0x4, VHSF)
-                Or(VHSF, BCCX, BCCX)
-                Store(VDPP, BDIX)
-                ShiftLeft(VHPD, 0x4, VHPD)
-                Or(VHPD, BDIX, BDIX)
-                ShiftLeft(VHIQ, 0x5, VHIQ)
-                Or(VHIQ, BDIX, BDIX)
-                Store(0x2, \_SB_.UCS0.EINF)
-                While(One)
-                {
-                    Name(_T_1, 0x0)
-                    Store(VPRT, _T_1)
-                    If(LEqual(_T_1, Zero))
-                    {
-                        Or(One, \_SB_.UCS0.EUPD, \_SB_.UCS0.EUPD)
-                        Store(BCCX, \_SB_.UCS0.ECC0)
-                        Store(BDIX, \_SB_.UCS0.EDI0)
-                        \_SB_.UCS0.USBR
-                        Break
-                    }
-                    Else
-                    {
-                        If(LEqual(_T_1, One))
-                        {
-                            Or(0x2, \_SB_.UCS0.EUPD, \_SB_.UCS0.EUPD)
-                            Store(BCCX, \_SB_.UCS0.ECC1)
-                            Store(BDIX, \_SB_.UCS0.EDI1)
-                            \_SB_.UCS0.USBR
-                            Break
-                        }
-                    }
-                    Break
-                }
-                Return(Zero)
-            }
-            Method(_CRS, 0x0, NotSerialized)
-            {
-                Name(RBUF, Buffer(0x2)
-                {
-	0x79, 0x00
-                })
-                Return(RBUF)
-            }
-            Method(LKST, 0x1, NotSerialized)
-            {
-                Store(Arg0, LKUP)
-                Notify(\_SB_.UCSI, Zero)
-                Return(Zero)
-            }
-            Field(\_SB_.ABD_.ROP1, BufferAcc, NoLock, Preserve)
-            {
-                Connection(
-                    I2CSerialBus(0x3, ControllerInitiated, 0, AddressingMode7Bit, "\\_SB.ABD", 0, ResourceConsumer, , )
-                ),
-                AccessAs(BufferAcc, AttribRawBytes(48)),
-                UCSI, 384
             }
         }
         Device(PEP0)
@@ -3215,7 +3010,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                         {
                             "PSTATE_SET",
                             Zero,
-                            Package(0x6)
+                            Package(0x5)
                             {
                                 "PSTATE",
                                 Zero,
@@ -3226,22 +3021,9 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                                     {
                                         0x41,
                                         One,
+                                        0x2,
                                         One,
-                                        One,
-                                        One,
-                                        Zero
-                                    }
-                                },
-                                Package(0x2)
-                                {
-                                    "TLMMGPIO",
-                                    Package(0x6)
-                                    {
-                                        0x42,
-                                        One,
-                                        One,
-                                        One,
-                                        One,
+                                        Zero,
                                         Zero
                                     }
                                 },
@@ -3252,9 +3034,9 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                                     {
                                         0x3f,
                                         One,
+                                        0x3,
                                         One,
-                                        One,
-                                        One,
+                                        Zero,
                                         Zero
                                     }
                                 },
@@ -3265,14 +3047,14 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                                     {
                                         0x40,
                                         One,
+                                        0x2,
                                         One,
-                                        One,
-                                        One,
+                                        Zero,
                                         Zero
                                     }
                                 }
                             },
-                            Package(0x6)
+                            Package(0x5)
                             {
                                 "PSTATE",
                                 One,
@@ -3282,19 +3064,6 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                                     Package(0x6)
                                     {
                                         0x41,
-                                        Zero,
-                                        Zero,
-                                        Zero,
-                                        One,
-                                        Zero
-                                    }
-                                },
-                                Package(0x2)
-                                {
-                                    "TLMMGPIO",
-                                    Package(0x6)
-                                    {
-                                        0x42,
                                         Zero,
                                         Zero,
                                         Zero,
@@ -20678,6 +20447,57 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
         }
         Scope(\_SB_.PEP0)
         {
+            Method(OPMD, 0x0, NotSerialized)
+            {
+                Return(OPCC)
+            }
+            Name(OPCC, Package(0x1)
+            {
+                Package(0x4)
+                {
+                    "DEVICE",
+                    "\\_SB.ADSP.ADCM.AUDD.SPK1",
+                    Package(0x3)
+                    {
+                        "DSTATE",
+                        Zero,
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x33,
+                                One,
+                                Zero,
+                                One,
+                                0x3,
+                                0x2
+                            }
+                        }
+                    },
+                    Package(0x3)
+                    {
+                        "DSTATE",
+                        0x3,
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x33,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero,
+                                Zero
+                            }
+                        }
+                    }
+                }
+            })
+        }
+        Scope(\_SB_.PEP0)
+        {
             Method(LPMD, 0x0, NotSerialized)
             {
                 Return(LPCD)
@@ -29168,651 +28988,195 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                         {
                             "PSTATE_SET",
                             0x2,
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                Zero,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x2cb417800,
-                                        0x2cb417800
-                                    }
-                                }
+                                Zero
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                One,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x2ad741300,
-                                        0x2ad741300
-                                    }
-                                }
+                                One
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x2,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x28fa6ae00,
-                                        0x28fa6ae00
-                                    }
-                                }
+                                0x2
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x3,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x271d94900,
-                                        0x271d94900
-                                    }
-                                }
+                                0x3
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x4,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x2540be400,
-                                        0x2540be400
-                                    }
-                                }
+                                0x4
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x5,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x2363e7f00,
-                                        0x2363e7f00
-                                    }
-                                }
+                                0x5
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x6,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x218711a00,
-                                        0x218711a00
-                                    }
-                                }
+                                0x6
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x7,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x1faa3b500,
-                                        0x1faa3b500
-                                    }
-                                }
+                                0x7
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x8,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x1dcd65000,
-                                        0x1dcd65000
-                                    }
-                                }
+                                0x8
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x9,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x1bf08eb00,
-                                        0x1bf08eb00
-                                    }
-                                }
+                                0x9
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0xa,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x1a13b8600,
-                                        0x1a13b8600
-                                    }
-                                }
+                                0xa
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0xb,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x1836e2100,
-                                        0x1836e2100
-                                    }
-                                }
+                                0xb
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0xc,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x165a0bc00,
-                                        0x165a0bc00
-                                    }
-                                }
+                                0xc
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0xd,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x147d35700,
-                                        0x147d35700
-                                    }
-                                }
+                                0xd
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0xe,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x12a05f200,
-                                        0x12a05f200
-                                    }
-                                }
+                                0xe
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0xf,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x10c388d00,
-                                        0x10c388d00
-                                    }
-                                }
+                                0xf
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x10,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0xee6b2800,
-                                        0xee6b2800
-                                    }
-                                }
+                                0x10
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x11,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0xd09dc300,
-                                        0xd09dc300
-                                    }
-                                }
+                                0x11
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x12,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0xc4b20100,
-                                        0xc4b20100
-                                    }
-                                }
+                                0x12
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x13,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0xb8c63f00,
-                                        0xb8c63f00
-                                    }
-                                }
+                                0x13
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x14,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0xacda7d00,
-                                        0xacda7d00
-                                    }
-                                }
+                                0x14
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x15,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0xa0eebb00,
-                                        0xa0eebb00
-                                    }
-                                }
+                                0x15
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x16,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x9502f900,
-                                        0x9502f900
-                                    }
-                                }
+                                0x16
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x17,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x89173700,
-                                        0x89173700
-                                    }
-                                }
+                                0x17
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x18,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x7d2b7500,
-                                        0x7d2b7500
-                                    }
-                                }
+                                0x18
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x19,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x713fb300,
-                                        0x713fb300
-                                    }
-                                }
+                                0x19
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x1a,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x6553f100,
-                                        0x6553f100
-                                    }
-                                }
+                                0x1a
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x1b,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x59682f00,
-                                        0x59682f00
-                                    }
-                                }
+                                0x1b
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x1c,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x4d7c6d00,
-                                        0x4d7c6d00
-                                    }
-                                }
+                                0x1c
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x1d,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x4190ab00,
-                                        0x4190ab00
-                                    }
-                                }
+                                0x1d
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x1e,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x35a4e900,
-                                        0x35a4e900
-                                    }
-                                }
+                                0x1e
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x1f,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x29b92700,
-                                        0x29b92700
-                                    }
-                                }
+                                0x1f
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x20,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x1dcd6500,
-                                        0x1dcd6500
-                                    }
-                                }
+                                0x20
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x21,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x17d78400,
-                                        0x17d78400
-                                    }
-                                }
+                                0x21
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x22,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x11e1a300,
-                                        0x11e1a300
-                                    }
-                                }
+                                0x22
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x23,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0xbebc200,
-                                        0xbebc200
-                                    }
-                                }
+                                0x23
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x24,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        0x5f5e100,
-                                        0x5f5e100
-                                    }
-                                }
+                                0x24
                             },
-                            Package(0x3)
+                            Package(0x2)
                             {
                                 "PSTATE",
-                                0x25,
-                                Package(0x2)
-                                {
-                                    "BUSARB",
-                                    Package(0x5)
-                                    {
-                                        0x3,
-                                        "ICBID_MASTER_CAMNOC_SF_UNCOMP",
-                                        "ICBID_SLAVE_CAMNOC_UNCOMP",
-                                        Zero,
-                                        Zero
-                                    }
-                                }
+                                0x25
                             }
                         }
                     },
@@ -30013,7 +29377,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                 {
                     "DEVICE",
                     "\\_SB.CAMS",
-                    Package(0x14)
+                    Package(0x15)
                     {
                         "DSTATE",
                         Zero,
@@ -30085,7 +29449,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1e,
+                                0x18,
                                 Zero,
                                 Zero,
                                 One,
@@ -30103,63 +29467,83 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                         },
                         Package(0x2)
                         {
-                            "CAM_PMIC_CNTRL_VOTE",
-                            Package(0x2)
+                            "PMICGPIO",
+                            Package(0x8)
                             {
-                                "PPP_RESOURCE_ID_FIXED_VREG1",
-                                One
+                                "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
+                                Zero,
+                                0x5,
+                                Zero,
+                                Zero,
+                                One,
+                                0x3,
+                                0x4
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICGPIO",
+                            Package(0x8)
+                            {
+                                "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
+                                Zero,
+                                0x7,
+                                Zero,
+                                Zero,
+                                One,
+                                0x3,
+                                0x4
                             }
                         },
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
+                            Package(0x8)
+                            {
+                                "PPP_RESOURCE_ID_SMPS5_A",
+                                0x2,
+                                0x1f20c0,
+                                One,
+                                0x7,
+                                Zero,
+                                "HLOS_DRV",
+                                "REQUIRED"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
                             Package(0x6)
                             {
-                                "PPP_RESOURCE_ID_LDO5_P",
+                                0x48,
+                                One,
+                                Zero,
+                                One,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x8)
+                            {
+                                "PPP_RESOURCE_ID_LDO13_A",
                                 One,
                                 0x1b7740,
                                 One,
                                 0x7,
-                                Zero
+                                Zero,
+                                "HLOS_DRV",
+                                "REQUIRED"
                             }
                         },
                         Package(0x2)
                         {
-                            "PMICVREGVOTE",
-                            Package(0x6)
+                            "DELAY",
+                            Package(0x1)
                             {
-                                "PPP_RESOURCE_ID_LDO4_P",
-                                One,
-                                0x2ab980,
-                                One,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO1_P",
-                                One,
-                                0x100590,
-                                One,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO6_P",
-                                One,
-                                0x2b7cd0,
-                                One,
-                                0x7,
-                                Zero
+                                One
                             }
                         },
                         Package(0x2)
@@ -30167,9 +29551,9 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "CLOCK",
                             Package(0x4)
                             {
-                                "cam_cc_mclk0_clk",
+                                "cam_cc_mclk2_clk",
                                 0x8,
-                                0x16e3600,
+                                0x124f800,
                                 0x3
                             }
                         },
@@ -30178,7 +29562,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "DELAY",
                             Package(0x1)
                             {
-                                One
+                                0xa
                             }
                         },
                         Package(0x2)
@@ -30186,7 +29570,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1e,
+                                0x18,
                                 One,
                                 Zero,
                                 One,
@@ -30199,7 +29583,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "DELAY",
                             Package(0x1)
                             {
-                                0xa
+                                0x14
                             }
                         }
                     },
@@ -30229,7 +29613,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1e,
+                                0x18,
                                 Zero,
                                 Zero,
                                 One,
@@ -30247,63 +29631,75 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                         },
                         Package(0x2)
                         {
-                            "PMICVREGVOTE",
-                            Package(0x6)
+                            "PMICGPIO",
+                            Package(0x8)
                             {
-                                "PPP_RESOURCE_ID_LDO5_P",
+                                "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
+                                Zero,
+                                0x5,
+                                Zero,
                                 One,
                                 Zero,
+                                0x3,
+                                0x4
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICGPIO",
+                            Package(0x8)
+                            {
+                                "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
                                 Zero,
                                 0x7,
+                                Zero,
+                                One,
+                                Zero,
+                                0x3,
+                                0x4
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x48,
+                                Zero,
+                                Zero,
+                                One,
+                                Zero,
                                 Zero
                             }
                         },
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x6)
+                            Package(0x8)
                             {
-                                "PPP_RESOURCE_ID_LDO4_P",
-                                One,
+                                "PPP_RESOURCE_ID_SMPS5_A",
+                                0x2,
                                 Zero,
                                 Zero,
-                                0x7,
-                                Zero
+                                Zero,
+                                Zero,
+                                "HLOS_DRV",
+                                "REQUIRED"
                             }
                         },
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x6)
+                            Package(0x8)
                             {
-                                "PPP_RESOURCE_ID_LDO1_P",
+                                "PPP_RESOURCE_ID_LDO13_A",
                                 One,
                                 Zero,
                                 Zero,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO6_P",
-                                One,
                                 Zero,
                                 Zero,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CAM_PMIC_CNTRL_VOTE",
-                            Package(0x2)
-                            {
-                                "PPP_RESOURCE_ID_FIXED_VREG1",
-                                Zero
+                                "HLOS_DRV",
+                                "REQUIRED"
                             }
                         },
                         Package(0x2)
@@ -30375,7 +29771,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                 {
                     "DEVICE",
                     "\\_SB.CAMF",
-                    Package(0x13)
+                    Package(0x12)
                     {
                         "DSTATE",
                         Zero,
@@ -30447,67 +29843,11 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1d,
+                                0x20,
                                 Zero,
                                 Zero,
                                 One,
                                 Zero,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "DELAY",
-                            Package(0x1)
-                            {
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CAM_PMIC_CNTRL_VOTE",
-                            Package(0x2)
-                            {
-                                "PPP_RESOURCE_ID_FIXED_VREG1",
-                                One
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO1_P",
-                                One,
-                                0x100590,
-                                One,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO3_P",
-                                One,
-                                0x2ab980,
-                                One,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO5_P",
-                                One,
-                                0x1b7740,
-                                One,
-                                0x7,
                                 Zero
                             }
                         },
@@ -30516,9 +29856,9 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "CLOCK",
                             Package(0x4)
                             {
-                                "cam_cc_mclk2_clk",
+                                "cam_cc_mclk0_clk",
                                 0x8,
-                                0x16e3600,
+                                0x124f800,
                                 0x3
                             }
                         },
@@ -30527,7 +29867,37 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "DELAY",
                             Package(0x1)
                             {
-                                One
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICGPIO",
+                            Package(0x8)
+                            {
+                                "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
+                                Zero,
+                                0x7,
+                                Zero,
+                                Zero,
+                                One,
+                                0x3,
+                                0x4
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x8)
+                            {
+                                "PPP_RESOURCE_ID_SMPS5_A",
+                                0x2,
+                                0x1f20c0,
+                                One,
+                                0x7,
+                                Zero,
+                                "HLOS_DRV",
+                                "REQUIRED"
                             }
                         },
                         Package(0x2)
@@ -30535,8 +29905,36 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1d,
+                                0x48,
                                 One,
+                                Zero,
+                                One,
+                                Zero,
+                                Zero
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICVREGVOTE",
+                            Package(0x8)
+                            {
+                                "PPP_RESOURCE_ID_LDO13_A",
+                                One,
+                                0x1b7740,
+                                One,
+                                0x7,
+                                Zero,
+                                "HLOS_DRV",
+                                "REQUIRED"
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x20,
+                                Zero,
                                 Zero,
                                 One,
                                 Zero,
@@ -30561,7 +29959,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "TLMMGPIO",
                             Package(0x6)
                             {
-                                0x1d,
+                                0x20,
                                 Zero,
                                 Zero,
                                 One,
@@ -30574,7 +29972,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "DELAY",
                             Package(0x1)
                             {
-                                One
+                                0x2
                             }
                         },
                         Package(0x2)
@@ -30582,7 +29980,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "CLOCK",
                             Package(0x2)
                             {
-                                "cam_cc_mclk2_clk",
+                                "cam_cc_mclk0_clk",
                                 0x2
                             }
                         },
@@ -30591,55 +29989,65 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             "DELAY",
                             Package(0x1)
                             {
-                                One
+                                0x2
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "PMICGPIO",
+                            Package(0x8)
+                            {
+                                "IOCTL_PM_GPIO_CONFIG_DIGITAL_OUTPUT",
+                                Zero,
+                                0x7,
+                                Zero,
+                                One,
+                                Zero,
+                                0x3,
+                                0x4
+                            }
+                        },
+                        Package(0x2)
+                        {
+                            "TLMMGPIO",
+                            Package(0x6)
+                            {
+                                0x48,
+                                Zero,
+                                Zero,
+                                One,
+                                Zero,
+                                Zero
                             }
                         },
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x6)
+                            Package(0x8)
                             {
-                                "PPP_RESOURCE_ID_LDO5_P",
-                                One,
+                                "PPP_RESOURCE_ID_SMPS5_A",
+                                0x2,
                                 Zero,
                                 Zero,
-                                0x7,
-                                Zero
+                                Zero,
+                                Zero,
+                                "HLOS_DRV",
+                                "REQUIRED"
                             }
                         },
                         Package(0x2)
                         {
                             "PMICVREGVOTE",
-                            Package(0x6)
+                            Package(0x8)
                             {
-                                "PPP_RESOURCE_ID_LDO3_P",
+                                "PPP_RESOURCE_ID_LDO13_A",
                                 One,
                                 Zero,
                                 Zero,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "PMICVREGVOTE",
-                            Package(0x6)
-                            {
-                                "PPP_RESOURCE_ID_LDO1_P",
-                                One,
                                 Zero,
                                 Zero,
-                                0x7,
-                                Zero
-                            }
-                        },
-                        Package(0x2)
-                        {
-                            "CAM_PMIC_CNTRL_VOTE",
-                            Package(0x2)
-                            {
-                                "PPP_RESOURCE_ID_FIXED_VREG1",
-                                Zero
+                                "HLOS_DRV",
+                                "REQUIRED"
                             }
                         },
                         Package(0x2)
@@ -37557,23 +36965,9 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                     Alias(\_SB_.PSUB, _SUB)
                     Method(_CRS, 0x0, NotSerialized)
                     {
-                        Name(RBUF, Buffer(0xa9)
+                        Name(RBUF, Buffer(0x2)
                         {
-	0x8c, 0x20, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x03, 0x40, 0x06,
-	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x3a,
-	0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c,
-	0x20, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x03, 0x40, 0x06, 0x00,
-	0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x33, 0x00,
-	0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x8c, 0x20,
-	0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x03, 0x40, 0x06, 0x00, 0x00,
-	0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x34, 0x00, 0x5c,
-	0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x89, 0x06, 0x00,
-	0x03, 0x01, 0x48, 0x01, 0x00, 0x00, 0x89, 0x06, 0x00, 0x03, 0x01, 0x49,
-	0x01, 0x00, 0x00, 0x89, 0x06, 0x00, 0x03, 0x01, 0x47, 0x01, 0x00, 0x00,
-	0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x11, 0x00, 0x02, 0x00, 0x00,
-	0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00,
-	0x01, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49, 0x4f, 0x30, 0x00, 0x79,
-	0x00
+	0x79, 0x00
                         })
                         Return(RBUF)
                     }
@@ -44057,7 +43451,7 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                         }
                     }
                 })
-                If(LOr(LAnd(LAnd(LEqual(\_SB_.SOID, 0x1a9), LEqual(\_SB_.SIDV, 0x10001)), LEqual(\_SB_.SIDT, 0x7)), LAnd(LAnd(LEqual(\_SB_.SOID, 0x1a9), LEqual(\_SB_.SIDV, 0x10001)), LEqual(\_SB_.SIDT, 0x8))))
+                If(LOr(LAnd(LAnd(LEqual(\_SB_.SOID, 0x197), LEqual(\_SB_.SIDV, 0x10001)), LEqual(\_SB_.SIDT, 0x7)), LAnd(LAnd(LEqual(\_SB_.SOID, 0x197), LEqual(\_SB_.SIDV, 0x10001)), LEqual(\_SB_.SIDT, 0x8))))
                 {
                     Store(P001, Index(DerefOf(Index(RBUF, 0x4, )), 0xd, ))
                 }
@@ -47225,11 +46619,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
         }
         Device(CAMP)
         {
-            Name(_DEP, Package(0x3)
+            Name(_DEP, Package(0x2)
             {
                 \_SB_.PEP0,
-                \_SB_.PMIC,
-                \_SB_.PML0
+                \_SB_.PMIC
             })
             Name(_HID, "QCOM0835")
             Name(_UID, 0x1b)
@@ -47259,8 +46652,8 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                     Package(0x9)
                     {
                         0x3,
-                        0x100,
-                        0x210010,
+                        0x210103,
+                        0x320011,
                         Zero,
                         Zero,
                         Zero,
@@ -47288,8 +46681,8 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             {
                                 "PSTATE",
                                 Zero,
-                                0x23c3460,
-                                0x124f800
+                                0x124f800,
+                                0x23c3460
                             }
                         },
                         Package(0x5)
@@ -47302,8 +46695,8 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                             {
                                 "PSTATE",
                                 Zero,
-                                0x23c3460,
-                                0x124f800
+                                0x124f800,
+                                0x23c3460
                             }
                         },
                         Package(0x5)
@@ -47379,10 +46772,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                 {
                     Package(0x5)
                     {
-                        "com.qti.sensormodule.sunny_imx519.bin",
-                        "com.qti.tuned.sunny_imx519.bin",
-                        0x150034,
-                        0x5190016,
+                        "com.qti.sensormodule.sunny_s5k5e9.bin",
+                        "com.qti.tuned.sunny_s5k5e9.bin",
+                        0x15005a,
+                        0x559b0000,
                         Zero
                     }
                 })
@@ -47452,10 +46845,10 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                 {
                     Package(0x5)
                     {
-                        "com.qti.sensormodule.truly_imx476.bin",
-                        "com.qti.tuned.truly_imx476.bin",
-                        0x150034,
-                        0x4760016,
+                        "com.qti.sensormodule.sunny_ov16a1q.bin",
+                        "com.qti.tuned.sunny_ov16a1q.bin",
+                        0x150020,
+                        0x1641300b,
                         Zero
                     }
                 })
@@ -47899,10 +47292,50 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
             Alias(\_SB_.PSUB, _SUB)
             Name(_CID, "QCOM086C")
         }
+        Device(AFT1)
+        {
+            Name(_HID, "AFLT0001")
+            Name(_UID, Zero)
+            Name(_DEP, Package(One)
+            {
+                \_SB_.ADSP.ADCM.AUDD
+            })
+        }
+        Scope(\_SB_.ADSP.ADCM.AUDD)
+        {
+            Device(SPK1)
+            {
+                Name(_HID, "TAS256X")
+                Name(_UID, Zero)
+                Name(_DEP, Package(0x3)
+                {
+                    \_SB_.GIO0,
+                    \_SB_.IC10,
+                    \_SB_.AFT1
+                })
+                Method(_CRS, 0x0, NotSerialized)
+                {
+                    Name(RBUF, Buffer(0x41)
+                    {
+	0x8e, 0x19, 0x00, 0x01, 0x00, 0x01, 0x02, 0x00, 0x00, 0x01, 0x06, 0x00,
+	0x80, 0x1a, 0x06, 0x00, 0x4c, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x49,
+	0x43, 0x31, 0x30, 0x00, 0x8c, 0x20, 0x00, 0x01, 0x00, 0x01, 0x00, 0x02,
+	0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x17, 0x00, 0x00, 0x19, 0x00, 0x23,
+	0x00, 0x00, 0x00, 0x21, 0x00, 0x5c, 0x5f, 0x53, 0x42, 0x2e, 0x47, 0x49,
+	0x4f, 0x30, 0x00, 0x79, 0x00
+                    })
+                    Return(RBUF)
+                }
+            }
+        }
         Device(URS0)
         {
             Name(_HID, "QCOM0897")
-            Name(_CID, "PNP0CA1")
+            Name(_CID, Package(0x2)
+            {
+                "PNP0CA1",
+                "QCOMFFE1"
+            })
             Alias(\_SB_.PSUB, _SUB)
             Name(_UID, Zero)
             Name(_CCA, Zero)
@@ -49003,10 +48436,27 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
                 Return(CFG0)
             }
         }
-        Device(TSCS)
+        Device(TSSD)
         {
-            Name(_HID, "TSCS0000")
-            Alias(\_SB_.PSUB, _SUB)
+            Name(_HID, "TSSD0000")
+            Method(TSCF, 0x0, NotSerialized)
+            {
+                Name(CFG0, Package(0x3)
+                {
+                    0x2,
+                    Package(0x2)
+                    {
+                        0x8756,
+                        "TSSD\\FTTS8756"
+                    },
+                    Package(0x2)
+                    {
+                        0x3675,
+                        "TSSD\\NTTS3675"
+                    }
+                })
+                Return(CFG0)
+            }
             Device(TSC1)
             {
                 Name(_ADR, Zero)
@@ -49147,6 +48597,28 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
             Name(_HID, "QCOM08A8")
             Alias(\_SB_.PSUB, _SUB)
         }
+        Device(DBUS)
+        {
+            Name(_HID, "QCOM08CF")
+            Alias(\_SB_.PSUB, _SUB)
+            Method(CHLD, 0x0, NotSerialized)
+            {
+                Return(Package(0x1)
+                {
+                    Package(0x4)
+                    {
+                        "DBUS\\QCOM08D0",
+                        Zero,
+                        0x9,
+                        One
+                    }
+                })
+            }
+            Method(_STA, 0x0, NotSerialized)
+            {
+                Return(0xb)
+            }
+        }
         Scope(\_SB_.RVRM)
         {
             Method(_STA, 0x0, NotSerialized)
@@ -49162,6 +48634,15 @@ DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
             })
             Name(_HID, "QCOM0813")
             Alias(\_SB_.PSUB, _SUB)
+        }
+        Device(FMSL)
+        {
+            Name(_DEP, Package(0x2)
+            {
+                \_SB_.PEP0,
+                \_SB_.BTH0
+            })
+            Name(_HID, "QCOM086F")
         }
         Device(BTH0)
         {
