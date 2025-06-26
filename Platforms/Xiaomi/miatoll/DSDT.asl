@@ -1,5 +1,5 @@
 // CreatorID=MSFT	CreatorRev=5.0.0
-// FileLength=217642	FileChkSum=0x12
+// FileLength=217645	FileChkSum=0xca
 
 DefinitionBlock("DSDT_7125_MIATOLL.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x00000003)
 {
@@ -48451,7 +48451,7 @@ DefinitionBlock("DSDT_7125_MIATOLL.aml", "DSDT", 0x02, "QCOMM ", "SDM7180 ", 0x0
                     },
                     Package(0x2)
                     {
-                        0x3675,
+                        0x36675,
                         "TSSD\\NTTS3675"
                     }
                 })
