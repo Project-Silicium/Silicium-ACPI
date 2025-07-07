@@ -1,11 +1,7 @@
 Device (SDC1)
 {
-    //Name (_DEP, Package (One)  // _DEP: Dependencies
-    //{
-    //    \_SB.PEP0
-    //})
-    Name (_HID, "QCOM24BF")  // _HID: Hardware ID
-    Name (_CID, "ACPIQCOM24BF")  // _CID: Compatible ID
+    Name (_HID, "QCOMF294")  // _HID: Hardware ID
+    Name (_CID, "ACPI\QCOMF294")  // _CID: Compatible ID
     Name (_UID, Zero)  // _UID: Unique ID
     Name (_CCA, Zero)  // _CCA: Cache Coherency Attribute
     Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
@@ -17,11 +13,8 @@ Device (SDC1)
                 0x00001000,         // Address Length
                 )
             
-            Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 142, }
-            //hc_irq + GIC SPI = 112 + 32 = 142
-            
-            Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 144, } 
-            //pwr_irq + GIC SPI = 110 + 32 = 144
+            Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 142 }
+            //hc_irq + GIC SPI = 110 + 32 = 142
         })
         Return (RBUF)
     }

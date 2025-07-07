@@ -48,7 +48,7 @@ Name (MUXC, Buffer (One)
 })
 Device (URS0)
 {
-    Name (_HID, "QCOM0497")
+    Name (_HID, "QCOM2430")
     Name (_CID, "PNP0CA1")  // _CID: Compatible ID
     Alias (PSUB, _SUB)
     Name (_UID, Zero)  // _UID: Unique ID
@@ -61,7 +61,7 @@ Device (URS0)
 
         Memory32Fixed (ReadWrite,
             0x0A800000,         // Address Base
-            0x00100000,         // Address Length
+            0x000FFFFF,         // Address Length
             )
     })
     Device (USB0)
@@ -70,35 +70,17 @@ Device (URS0)
         Name (_S0W, 0x03)  // _S0W: S0 Device Wake State
         Name (_PLD, Package (0x01)  // _PLD: Physical Location of Device
         {
-            ToPLD (
-                PLD_Revision           = 0x2,
-                PLD_IgnoreColor        = 0x1,
-                PLD_Red                = 0x0,
-                PLD_Green              = 0x0,
-                PLD_Blue               = 0x0,
-                PLD_Width              = 0x0,
-                PLD_Height             = 0x0,
-                PLD_UserVisible        = 0x1,
-                PLD_Dock               = 0x0,
-                PLD_Lid                = 0x0,
-                PLD_Panel              = "BACK",
-                PLD_VerticalPosition   = "CENTER",
-                PLD_HorizontalPosition = "LEFT",
-                PLD_Shape              = "VERTICALRECTANGLE",
-                PLD_GroupOrientation   = 0x0,
-                PLD_GroupToken         = 0x0,
-                PLD_GroupPosition      = 0x0,
-                PLD_Bay                = 0x0,
-                PLD_Ejectable          = 0x0,
-                PLD_EjectRequired      = 0x0,
-                PLD_CabinetNumber      = 0x0,
-                PLD_CardCageNumber     = 0x0,
-                PLD_Reference          = 0x0,
-                PLD_Rotation           = 0x0,
-                PLD_Order              = 0x0,
-                PLD_VerticalOffset     = 0xFFFF,
-                PLD_HorizontalOffset   = 0xFFFF)
-
+            Buffer()
+            {
+                0x82,
+                0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,
+                0x69,
+                0x0c,
+                0x80,0x00,
+                0x00,0x00,0x00,0x00,
+                0xFF,0xFF,0xFF,0xFF
+            }
         })
         Name (_UPC, Package (0x04)  // _UPC: USB Port Capabilities
         {
@@ -109,45 +91,24 @@ Device (URS0)
         })
         Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
         {
-			/* 
-			on gic driver:
-				#define GIC_PPI_BASE  U(16)
-				#define GIC_SPI_BASE  U(32)
-			on arm-gic driver:
-				#define GIC_SPI 0
-				#define GIC_PPI 1
-			So interrupts must be <soc>.dtsi interrupt value +
-				If PPI: + 16 + 1
-				If SPI: + 32 + 0
-			Non GIC interrupts must be incremented by 512
-            */
-			/*
-			soc@0 { usb_1: usb@a8f8800 { usb_1_dwc3: usb@a800000 { interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>;
-			131 + 32 + 0 = 163, in hex = A3 */
+			// DWC3 interrupt
             Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, )
             {
                 0xA3,
             }
 
+            // HS PHY interrupt
             Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, )
             {
-                0xA2,
+                0x17B,
             }
 
+			// SS PHY interrupt
             Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, )
             {
-                0x211,
+                0x113,
             }
 
-            Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, )
-            {
-                0x20F,
-            }
-
-            Interrupt (ResourceConsumer, Edge, ActiveHigh, SharedAndWake, ,, )
-            {
-                0x20E,
-            }
         })
         Method (_STA, 0, NotSerialized)  // _STA: Status
         {
@@ -255,35 +216,17 @@ Device (URS0)
         Name (_S0W, 0x03)  // _S0W: S0 Device Wake State
         Name (_PLD, Package (0x01)  // _PLD: Physical Location of Device
         {
-            ToPLD (
-                PLD_Revision           = 0x2,
-                PLD_IgnoreColor        = 0x1,
-                PLD_Red                = 0x0,
-                PLD_Green              = 0x0,
-                PLD_Blue               = 0x0,
-                PLD_Width              = 0x0,
-                PLD_Height             = 0x0,
-                PLD_UserVisible        = 0x1,
-                PLD_Dock               = 0x0,
-                PLD_Lid                = 0x0,
-                PLD_Panel              = "BACK",
-                PLD_VerticalPosition   = "CENTER",
-                PLD_HorizontalPosition = "LEFT",
-                PLD_Shape              = "VERTICALRECTANGLE",
-                PLD_GroupOrientation   = 0x0,
-                PLD_GroupToken         = 0x0,
-                PLD_GroupPosition      = 0x0,
-                PLD_Bay                = 0x0,
-                PLD_Ejectable          = 0x0,
-                PLD_EjectRequired      = 0x0,
-                PLD_CabinetNumber      = 0x0,
-                PLD_CardCageNumber     = 0x0,
-                PLD_Reference          = 0x0,
-                PLD_Rotation           = 0x0,
-                PLD_Order              = 0x0,
-                PLD_VerticalOffset     = 0xFFFF,
-                PLD_HorizontalOffset   = 0xFFFF)
-
+            Buffer()
+            {
+                0x82,
+                0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,
+                0x69,
+                0x0c,
+                0x80,0x00,
+                0x00,0x00,0x00,0x00,
+                0xFF,0xFF,0xFF,0xFF
+            }
         })
         Name (_UPC, Package (0x04)  // _UPC: USB Port Capabilities
         {
@@ -294,13 +237,16 @@ Device (URS0)
         })
         Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
         {
+            // DWC3 interrupt
             Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, )
             {
                 0xA3,
             }
+
+            // Power event interrupt
             Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, )
             {
-                0xA2,
+                0xD4,
             }
         })
         Method (CCVL, 0, NotSerialized)
