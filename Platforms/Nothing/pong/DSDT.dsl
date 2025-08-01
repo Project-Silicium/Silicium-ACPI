@@ -1,4 +1,4 @@
-DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8450 ", 0x00000003)
+DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8475 ", 0x00000003)
 {
     Scope (_SB)
     {

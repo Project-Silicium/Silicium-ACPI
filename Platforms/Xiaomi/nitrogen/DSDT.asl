@@ -1,4 +1,4 @@
-DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM660 ", 3)
+DefinitionBlock("DSDT.aml", "DSDT", 0x02, "QCOMM ", "SDM636 ", 3)
 {
     Scope(\_SB_) 
     {
