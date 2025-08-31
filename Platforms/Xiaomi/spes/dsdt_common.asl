@@ -30,17 +30,7 @@ Name (TCML, 0xBEEFDEAD)         // Holds TrEE Carveout Memory Length
         // Storage - UFS/SD 
         //
         Include("ufs.asl")
-        //Include("sdc.asl") 
-
-        //
-        //
-        //
-        Include("pmic_core.asl")
-
-		//
-		// SPMI driver 
-        //
-        Include("spmi.asl")
+        //Include("sdc.asl")
 
         //
         // Clusters & cores

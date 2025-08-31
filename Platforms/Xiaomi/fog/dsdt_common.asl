@@ -33,16 +33,6 @@ Name (TCML, 0xBEEFDEAD)         // Holds TrEE Carveout Memory Length
         Include("sdc.asl")
 
         //
-        //
-        //
-        Include("pmic_core.asl")
-
-		//
-		// SPMI driver 
-        //
-        Include("spmi.asl")
-
-        //
         // Clusters & cores
         //
         Include("pep_lpi.dsl")

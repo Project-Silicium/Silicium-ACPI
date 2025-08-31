@@ -1,23 +1,3 @@
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20241212 (32-bit version)
- * Copyright (c) 2000 - 2023 Intel Corporation
- * 
- * Disassembling to symbolic ASL+ operators
- *
- * Disassembly of //wsl.localhost/Ubuntu-22.04/home/nikka/acpi/Platforms/ZTE/nx729j/DSDT.aml
- *
- * Original Table Header:
- *     Signature        "DSDT"
- *     Length           0x00001014 (4116)
- *     Revision         0x02
- *     Checksum         0xE0
- *     OEM ID           "QCOMM "
- *     OEM Table ID     "SM8550 "
- *     OEM Revision     0x00000003 (3)
- *     Compiler ID      "INTL"
- *     Compiler Version 0x20241212 (539234834)
- */
 DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8550 ", 0x00000003)
 {
     Scope (_SB)
@@ -28,6 +8,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM8550 ", 0x00000003)
         Name (SVMJ, 0xFFFF)
         Name (TCMA, 0xDEADBEEF)
         Name (TCML, 0xBEEFDEAD)
+
         Device (SYSM)
         {
             Name (_HID, "ACPI0010" /* Processor Container Device */)  // _HID: Hardware ID

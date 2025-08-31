@@ -1731,10 +1731,5 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SM6125 ", 0x00000003)
                 }
             }
         }
-
-		Include("spmi.asl")
-		Include("usb.asl")
-		Include("pmic_core.asl")
-
     }
 }
