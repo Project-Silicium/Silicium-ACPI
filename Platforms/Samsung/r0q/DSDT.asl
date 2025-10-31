@@ -184,6 +184,24 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
+        Device (BAM5)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C0A")
+            Name (_UID, 5)
+            Name (_CCA, 0)
+
+            Name (_CRS, ResourceTemplate ()
+            {
+                Memory32Fixed (ReadWrite, 0x03304000, 0x00020000)
+
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0xC4 }
+            })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
         Device (RPEN)
         {
             Alias (\_SB.PSUB, _SUB)
@@ -261,7 +279,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x105 }
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x106 }
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x107 }
-                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x384 }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x2EA }
             })
 
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
