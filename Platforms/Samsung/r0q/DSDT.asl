@@ -2,7 +2,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 {
     Scope (\_SB)
     {
-	      Name (PSUB, "MTP08450")
+	    Name (PSUB, "MTP08450")
         Name (SOID, 0xFFFFFFFF)
         Name (STOR, 0xABCABCAB)
         Name (SIDS, "899800000000000")
@@ -59,7 +59,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
-	      Device (PMIC)
+	    Device (PMIC)
         {
             Alias (\_SB.PSUB, _SUB)
 
