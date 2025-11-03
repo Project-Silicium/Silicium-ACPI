@@ -11,7 +11,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
         Name (SVMI, 0xFFFF)
         Name (SDFE, 0xFFFF)
         Name (SFES, "899800000000000")
-        Name (SIDM, 0x0000000FFFFFFFFF)
+        Name (SIDM, 0xFFFFFFFFF)
         Name (SUFS, 0xFFFFFFFF)
         Name (PUS3, 0xFFFFFFFF)
         Name (SUS3, 0xFFFFFFFF)
@@ -36,6 +36,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
         Name (PRP4, 0xFFFFFFFF)
         Name (PRP5, 0xFFFFFFFF)
         Name (PRP6, 0xFFFFFFFF)
+        Name (PRP7, 0xFFFFFFFF)
 
         Device (UFS0)
         {
@@ -55,7 +56,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
             Method (_STA, 0, NotSerialized)
             {
-                If (STOR == 1)
+                If (STOR == 1 || STOR == 3)
                 {
                     Return (0x0F)
                 }
@@ -67,9 +68,431 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
             Device (DEV0)
             {
-                Method (_ADR, 0, NotSerialized) { Return (0x08) }
-                Method (_RMV, 0, NotSerialized) { Return (0x00) }
+                Name (_ADR, 8)
+                Name (_RMV, 0)
             }
+        }
+
+        Device (ABD)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0427")
+            Name (_UID, 0)
+            Name (AVBL, 0)
+
+            OperationRegion (ROP1, GenericSerialBus, 0x00000000, 0x00000100)
+
+            Method (_REG, 2, NotSerialized)
+            {
+                If (Arg0 == 9)
+                {
+                    AVBL = Arg1
+                }
+            }
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (PMIC)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C2B")
+            Name (_CID, "PNP0CA3")
+            Name (_DEP, Package () { \_SB.SPMI })
+
+            Name (PMCF, Package ()
+            {
+                0x07,
+
+                Package ()
+                {
+                    0x00,
+                    0x10
+                },
+
+                Package ()
+                {
+                    0x01,
+                    0x10
+                },
+
+                Package ()
+                {
+                    0x02,
+                    0x10
+                },
+
+                Package ()
+                {
+                    0x04,
+                    0x10
+                },
+
+                Package ()
+                {
+                    0x05,
+                    0x10
+                },
+
+                Package ()
+                {
+                    0x10,
+                    0x10
+                },
+
+                Package ()
+                {
+                    0x07,
+                    0x10
+                }
+            })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (PM01)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C2D")
+            Name (_DEP, Package () { \_SB.PMIC })
+            Name (_UID, 1)
+
+            Name (_CRS, ResourceTemplate ()
+            {
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, ) { 0x201 }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, ) { 0x203 }
+            })
+
+            Method (_DSM, 4, NotSerialized)
+            {
+                Switch (ToBuffer (Arg0))
+                {
+                    Case (ToUUID ("4F248F40-D5E2-499F-834C-27758EA1CD3F"))
+                    {
+                        Switch (ToInteger (Arg2))
+                        {
+                            Case (0)
+                            {
+                                Return (Buffer () { 0x03 })
+                            }
+
+                            Case (1)
+                            {
+                                Return (Package () { 0x07, 0x06 })
+                            }
+
+                            Default 
+                            {
+                                // Do Nothing.
+                            }
+                        }
+                    }
+
+                    Default
+                    {
+                        Return (Buffer () { 0x00 })
+                    }
+                }
+            }
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (PMAP)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C2C")
+            Name (_DEP, Package () { \_SB.PMIC, \_SB.ABD, \_SB.SCM0 })
+
+            Method (GEPT, 0, NotSerialized)
+            {
+                Name (BUFF, Buffer (0x04) {})
+
+                CreateByteField (BUFF, 0x00, STAT)
+                CreateWordField (BUFF, 0x02, DATA)
+
+                DATA = 2
+
+                Return (DATA)
+            }
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (PRTC)
+        {
+            Name (_HID, "ACPI000E")
+            Name (_DEP, Package () { \_SB.PMAP })
+            Name (_GCP, 4)
+
+            Field (\_SB.ABD.ROP1, BufferAcc, NoLock, Preserve)
+            {
+                Connection (I2CSerialBus (0x02, ControllerInitiated, 0, AddressingMode7Bit, "\\_SB.ABD", 0, ResourceConsumer, , )),
+                AccessAs (BufferAcc, AttribRawBytes (24)),
+                FLD0, 192
+            }
+
+            Method (_GRT, 0, NotSerialized)
+            {
+                Name (BUFF, Buffer (0x1A) {})
+
+                CreateField (BUFF, 0x10, 0x80, TME1)
+                CreateField (BUFF, 0x90, 0x20, ACT1)
+                CreateField (BUFF, 0xB0, 0x20, ACW1)
+
+                BUFF = FLD0
+
+                Return (TME1)
+            }
+
+            Method (_SRT, 1, NotSerialized)
+            {
+                Name (BUFF, Buffer (0x32) {})
+
+                CreateByteField (BUFF, 0x00, STAT)
+
+                CreateField (BUFF, 0x10, 0x80, TME1)
+                CreateField (BUFF, 0x90, 0x20, ACT1)
+                CreateField (BUFF, 0xB0, 0x20, ACW1)
+
+                ACT1 = 0
+                TME1 = Arg0
+                ACW1 = 0
+                BUFF = FLD0 = BUFF
+
+                If (STAT != 0)
+                {
+                    Return (0x01)
+                }
+
+                Return (0x00)
+            }
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        // NOTE: USB Stuff Removed
+        Device (PMGK)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C8E")
+            Name (_DEP, Package () { \_SB.GLNK, \_SB.ABD })
+
+            Field (\_SB.ABD.ROP1, BufferAcc, NoLock, Preserve)
+            {
+                Connection (I2CSerialBus (0x03, ControllerInitiated, 0, AddressingMode7Bit, "\\_SB.ABD", 0, ResourceConsumer, , )),
+                AccessAs (BufferAcc, AttribRawBytes (48)),
+                UCSI, 384
+            }
+
+            Field (\_SB.ABD.ROP1, BufferAcc, NoLock, Preserve)
+            {
+                Connection (I2CSerialBus (0x04, ControllerInitiated, 0, AddressingMode7Bit, "\\_SB.ABD", 0, ResourceConsumer, , )),
+                AccessAs (BufferAcc, AttribRawBytes (64)),
+                GOEM, 512
+            }
+
+            Method (GEPT, 0, NotSerialized)
+            {
+                Return (Buffer () { 0x03, 0x04, 0x06 })
+            }
+
+            Method (USBN, 1, NotSerialized)
+            {
+                Return (0)
+            }
+
+            Method (UPAN, 1, NotSerialized)
+            {
+                Return (0)
+            }
+
+            Method (LKST, 1, NotSerialized)
+            {
+                Return (0)
+            }
+
+            Method (OEMN, 1, NotSerialized)
+            {
+                Return (0)
+            }
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (BAM1)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C0A")
+            Name (_UID, 1)
+            Name (_CCA, 0)
+
+            Name (_CRS, ResourceTemplate()
+            {
+                Memory32Fixed (ReadWrite, 0x01DC4000, 0x00028000)
+
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x130 }
+            })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (BAM5)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C0A")
+            Name (_UID, 5)
+            Name (_CCA, 0)
+
+            Name (_CRS, ResourceTemplate ()
+            {
+                Memory32Fixed (ReadWrite, 0x03304000, 0x00020000)
+
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0xC4 }
+            })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (RPEN)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM06E1")
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (TFTP)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM06DC")
+            Name (_DEP, Package () { \_SB.IPC0 })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (SCM0)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM04DD")
+            Name (_UID, 0)
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (TLOG)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0CE4")
+            Name (_UID, 0)
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (SPMI)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C0B")
+            Name (_CID, "PNP0CA2")
+            Name (_UID, 1)
+            Name (_CCA, 0)
+
+            Name (_CRS, ResourceTemplate ()
+            {
+                Memory32Fixed (ReadWrite, 0x0C400000, 0x00500000)
+            })
+
+            Name (CONF, Buffer ()
+            {
+                // SPMI Bus 0
+                0x00,
+                0x01,
+                0x01,
+                0x02, 0xFF,
+                0x00,
+                0x03, 0x00,
+                0x07,
+                0x04,
+                0x08,
+                0x0A,
+                0x02, 0xFF,
+                0x18,
+                0x01, 0x00,
+                0x02,
+                0x0C, 0x40, 0x00, 0x00,
+                0x00, 0x50, 0x00, 0x00,
+
+                // SPMI Bus 1
+                0x00,
+                0x01,
+                0x01,
+                0x00, 0xFF,
+                0x00,
+                0x01, 0x00,
+                0x07,
+                0x04,
+                0x08,
+                0x0A,
+                0x00, 0xFF,
+                0x08,
+                0x01, 0x00,
+                0x02,
+                0x0C, 0x40, 0x00, 0x00,
+                0x00, 0x50, 0x00, 0x00
+            })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (IPCC)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM06C2")
+            Name (_UID, 0)
+
+            Name (_CRS, ResourceTemplate ()
+            {
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x105 }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x106 }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x107 }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x2EA }
+            })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (IPC0)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C0D")
+            Name (_DEP, Package () { \_SB.GLNK })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (GLNK)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C84")
+            Name (_DEP, Package () { \_SB.IPCC, \_SB.RPEN })
+            Name (_UID, 0)
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (CPU0)
@@ -136,2457 +559,122 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
-        Device (URS0)
+        Device (QGP0)
         {
             Alias (\_SB.PSUB, _SUB)
 
-            Name (_HID, "QCOM1A8B")
-            Name (_CID, Package () { "PNP0CA1", "QCOMFFE1" })
+            Name (_HID, "QCOM0C88")
             Name (_UID, 0)
             Name (_CCA, 0)
 
             Name (_CRS, ResourceTemplate ()
             {
-                Memory32Fixed (ReadWrite, 0x0A600000, 0x00100000)
+                Memory32Fixed (ReadWrite, 0x00904000, 0x00050000)
+
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x114 }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x115 }
             })
 
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
 
-            Device (USB0)
+        Device (QGP1)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "QCOM0C88")
+            Name (_UID, 1)
+            Name (_CCA, 0)
+
+            Name (_CRS, ResourceTemplate ()
             {
-                Name (_ADR, 0)
-                Name (_S0W, 3)
+                Memory32Fixed (ReadWrite, 0x00A04000, 0x00050000)
 
-                Name (_CRS, ResourceTemplate ()
-                {
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, )        { 0xA5 }
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0xA2 }
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0xA3 }
-                    Interrupt (ResourceConsumer, Edge,  ActiveHigh, SharedAndWake, ,, ) { 0x20E }
-                    Interrupt (ResourceConsumer, Edge,  ActiveHigh, SharedAndWake, ,, ) { 0x20F }
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0x211 }
-                })
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x137 }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x138 }
+            })
 
-                Method (CCVL, 0, NotSerialized) { Return (Buffer () { 0x02 }) }
-                Method (_STA, 0, NotSerialized) { Return (0x0F) }
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
 
-                Method (_DSM, 4, Serialized)
-                {
-                    Switch (ToBuffer (Arg0))
-                    {
-                        Case (ToUUID ("CE2EE385-00E6-48CB-9F05-2EDB927C4899"))
-                        {
-                            Switch (ToInteger (Arg2))
-                            {
-                                Case (0)
-                                {
-                                    Switch (ToInteger (Arg1))
-                                    {
-                                        Case (0)
-                                        {
-                                            Return (Buffer () { 0x1D })
-                                        }
+        Device (QGP2)
+        {
+            Alias (\_SB.PSUB, _SUB)
 
-                                        Default
-                                        {
-                                            Return (Buffer () { 0x01 })
-                                        }
-                                    }
-                                }
+            Name (_HID, "QCOM0C88")
+            Name (_UID, 2)
+            Name (_CCA, 0)
 
-                                Case (2)
-                                {
-                                    Return (0x00)
-                                }
-
-                                Case (3)
-                                {
-                                    Return (0x00)
-                                }
-
-                                Case (4)
-                                {
-                                    Return (0x02)
-                                }
-
-                                Default
-                                {
-                                    Return (Buffer () { 0x00 })
-                                }
-                            }
-                        }
-
-                        Default
-                        {
-                            Return (Buffer () { 0x00 })
-                        }
-                    }
-                }
-
-                Method (PHYC, 0, Serialized)
-                {
-                    Return (Package ()
-                    {
-                        Package ()
-                        {
-                            0x0,
-                            0x88e8008,
-                            0x1
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9C40,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9010,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E901C,
-                            0x31
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9020,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9024,
-                            0xDE
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9028,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9030,
-                            0xDE
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9034,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9050,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9060,
-                            0x20
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9074,
-                            0x06
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9078,
-                            0x06
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E907C,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9080,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9084,
-                            0x36
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9088,
-                            0x36
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9094,
-                            0x1A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90A4,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90AC,
-                            0x14
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90B0,
-                            0x34
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90B4,
-                            0x34
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90B8,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90BC,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90C4,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90CC,
-                            0xAB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90D0,
-                            0xEA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90D4,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90D8,
-                            0xAB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90DC,
-                            0xEA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90E0,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E910C,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9110,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9118,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E911C,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9158,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E916C,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91AC,
-                            0xCA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91B0,
-                            0x1E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91B4,
-                            0xCA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91B8,
-                            0x1E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91BC,
-                            0x11
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9234,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9238,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E923C,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9240,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9284,
-                            0x35
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9288,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E928C,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9290,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9294,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E92A4,
-                            0x12
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E92E4,
-                            0x21
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9408,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9414,
-                            0x03
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9430,
-                            0x2F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9434,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E943C,
-                            0xFF
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9440,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9444,
-                            0x99
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E944C,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9450,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9454,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9458,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94D4,
-                            0x54
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94D8,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94EC,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94F0,
-                            0x4A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94F4,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94F8,
-                            0xC0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94FC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9510,
-                            0x47
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E951C,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9524,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E955C,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9560,
-                            0x7B
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9564,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9568,
-                            0x3D
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E956C,
-                            0xDB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9570,
-                            0x64
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9574,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9578,
-                            0xD2
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E957C,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9580,
-                            0xA9
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95A0,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95A4,
-                            0x38
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9460,
-                            0xA0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95A8,
-                            0x0C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94DC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95B0,
-                            0x10
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9634,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9638,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E963C,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9640,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9684,
-                            0x35
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9688,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E968C,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9690,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9694,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E96A4,
-                            0x12
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E96E4,
-                            0x21
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9808,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9814,
-                            0x03
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9830,
-                            0x2F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9834,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E983C,
-                            0xFF
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9840,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9844,
-                            0x99
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E984C,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9850,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9854,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9858,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98D4,
-                            0x54
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98D8,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98EC,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98F0,
-                            0x4A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98F4,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98F8,
-                            0xC0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98FC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9910,
-                            0x47
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E991C,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9924,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E995C,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9960,
-                            0x7B
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9964,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9968,
-                            0x3C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E996C,
-                            0xDB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9970,
-                            0x64
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9974,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9978,
-                            0xD2
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E997C,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9980,
-                            0xA9
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99A0,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99A4,
-                            0x38
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9860,
-                            0xA0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99A8,
-                            0x0C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98DC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F40,
-                            0x40
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F44,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9D90,
-                            0xE7
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9D94,
-                            0x03
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99B0,
-                            0x10
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CC4,
-                            0xD0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CC8,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CCC,
-                            0x20
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CD8,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CDC,
-                            0x21
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9D88,
-                            0xAA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DB0,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DC0,
-                            0x88
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DC4,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DD0,
-                            0x0C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DDC,
-                            0x4B
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DEC,
-                            0x10
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F18,
-                            0xF8
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F3C,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x00,
-                            0x00
-                        }
-                    })
-                }
-
-                Device (RHUB)
-                {
-                    Name (_ADR, 0)
-
-                    Device (PRT1)
-                    {
-                        Name (_ADR, 1)
-                        Name (_UPC, Package ()
-                        {
-                            1,
-                            9,
-                            0,
-                            0 
-                        })
-
-                        Name (_PLD, Package ()
-                        {
-                            Buffer ()
-                            {
-                                0x82,
-                                0x00, 0x00, 0x00,
-                                0x00, 0x00, 0x00, 0x00,
-                                0x69,
-                                0x0C,
-                                0x00, 0x00,
-                                0x00, 0x00, 0x00, 0x00,
-                                0xFF, 0xFF, 0xFF, 0xFF
-                            }
-                        })
-                    }
-                }
-            }
-
-            Device (UFN0)
+            Name (_CRS, ResourceTemplate ()
             {
-                Name (_ADR, 0)
-                Name (_S0W, 3)
+                Memory32Fixed (ReadWrite, 0x00804000, 0x00050000)
 
-                Name (_CRS, ResourceTemplate ()
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x26C }
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x26D }
+            })
+
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+        }
+
+        Device (BTNS)
+        {
+            Alias (\_SB.PSUB, _SUB)
+
+            Name (_HID, "ACPI0011")
+            Name (_UID, 0)
+
+            Name (_CRS, ResourceTemplate ()
+            {
+                GpioInt (Edge, ActiveBoth, ExclusiveAndWake, PullDown, 0x0000, "\\_SB.PM01", ,) { 0x07 }
+                GpioInt (Edge, ActiveBoth, Exclusive,        PullUp,   0x0BB8, "\\_SB.PM01", ,) { 0xC6 }
+                GpioInt (Edge, ActiveBoth, Exclusive,        PullDown, 0x0000, "\\_SB.PM01", ,) { 0x06 }
+            })
+
+            Name (_DSD, Package ()
+            {
+                ToUUID ("FA6BD625-9CE8-470D-A2C7-B3CA36C4282E"),
+
+                Package ()
                 {
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, Shared, ,, )        { 0xA5 }
-                    Interrupt (ResourceConsumer, Level, ActiveHigh, SharedAndWake, ,, ) { 0xA2 }
-                })
-
-                Method (CCVL, 0, NotSerialized) { Return (Buffer () { 0x02 }) }
-                Method (_STA, 0, NotSerialized) { Return (0x0F) }
-
-                Method (_DSM, 4, Serialized)
-                {
-                    Switch (ToBuffer (Arg0))
+                    Package ()
                     {
-                        Case (ToUUID ("FE56CFEB-49D5-4378-A8A2-2978DBE54AD2"))
-                        {
-                            Switch (ToInteger (Arg2))
-                            {
-                                Case (0)
-                                {
-                                    Switch (ToInteger (Arg1))
-                                    {
-                                        Case (0)
-                                        {
-                                            Return (Buffer () { 0x03 })
-                                        }
+                        0,
+                        1,
+                        0,
+                        1,
+                        13
+                    }, 
 
-                                        Default
-                                        {
-                                            Return (Buffer () { 0x01 })
-                                        }
-                                    }
-                                }
+                    Package ()
+                    {
+                        1,
+                        0,
+                        1,
+                        1,
+                        129
+                    }, 
 
-                                Case (1)
-                                {
-                                    Return ( 0x20 )
-                                }
+                    Package ()
+                    {
+                        1,
+                        1,
+                        1,
+                        12,
+                        233
+                    }, 
 
-                                Default
-                                {
-                                    Return (Buffer () { 0x00 })
-                                }
-                            }
-                        }
-
-                        Case (ToUUID ("18DE299F-9476-4FC9-B43B-8AEB713ED751"))
-                        {
-                            Switch (ToInteger (Arg2))
-                            {
-                                Case (0)
-                                {
-                                    Switch (ToInteger (Arg1))
-                                    {
-                                        Case (0)
-                                        {
-                                            Return (Buffer () { 0x03 })
-                                        }
-
-                                        Default
-                                        {
-                                            Return (Buffer () { 0x01 })
-                                        }
-                                    }
-                                }
-
-                                Case (1)
-                                {
-                                    Return ( 0x39 )
-                                }
-
-                                Default
-                                {
-                                    Return (Buffer () { 0x00 })
-                                }
-                            }
-                        }
-
-                        Default
-                        {
-                            Return (Buffer () { 0x00 })
-                        }
+                    Package ()
+                    {
+                        1,
+                        2,
+                        1,
+                        12,
+                        234
                     }
                 }
+            })
 
-                Method (PHYC, 0, Serialized)
-                {
-                    Return (Package ()
-                    {
-                        Package ()
-                        {
-                            0x0,
-                            0x88e8008,
-                            0x1
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9C40,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9010,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E901C,
-                            0x31
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9020,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9024,
-                            0xDE
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9028,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9030,
-                            0xDE
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9034,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9050,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9060,
-                            0x20
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9074,
-                            0x06
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9078,
-                            0x06
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E907C,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9080,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9084,
-                            0x36
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9088,
-                            0x36
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9094,
-                            0x1A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90A4,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90AC,
-                            0x14
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90B0,
-                            0x34
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90B4,
-                            0x34
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90B8,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90BC,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90C4,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90CC,
-                            0xAB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90D0,
-                            0xEA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90D4,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90D8,
-                            0xAB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90DC,
-                            0xEA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E90E0,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E910C,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9110,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9118,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E911C,
-                            0x02
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9158,
-                            0x01
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E916C,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91AC,
-                            0xCA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91B0,
-                            0x1E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91B4,
-                            0xCA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91B8,
-                            0x1E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E91BC,
-                            0x11
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9234,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9238,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E923C,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9240,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9284,
-                            0x35
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9288,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E928C,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9290,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9294,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E92A4,
-                            0x12
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E92E4,
-                            0x21
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9408,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9414,
-                            0x03
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9430,
-                            0x2F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9434,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E943C,
-                            0xFF
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9440,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9444,
-                            0x99
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E944C,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9450,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9454,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9458,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94D4,
-                            0x54
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94D8,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94EC,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94F0,
-                            0x4A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94F4,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94F8,
-                            0xC0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94FC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9510,
-                            0x47
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E951C,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9524,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E955C,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9560,
-                            0x7B
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9564,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9568,
-                            0x3D
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E956C,
-                            0xDB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9570,
-                            0x64
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9574,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9578,
-                            0xD2
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E957C,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9580,
-                            0xA9
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95A0,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95A4,
-                            0x38
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9460,
-                            0xA0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95A8,
-                            0x0C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E94DC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E95B0,
-                            0x10
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9634,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9638,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E963C,
-                            0x16
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9640,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9684,
-                            0x35
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9688,
-                            0x82
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E968C,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9690,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9694,
-                            0x3F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E96A4,
-                            0x12
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E96E4,
-                            0x21
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9808,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9814,
-                            0x03
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9830,
-                            0x2F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9834,
-                            0x7F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E983C,
-                            0xFF
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9840,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9844,
-                            0x99
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E984C,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9850,
-                            0x08
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9854,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9858,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98D4,
-                            0x54
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98D8,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98EC,
-                            0x0F
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98F0,
-                            0x4A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98F4,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98F8,
-                            0xC0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98FC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9910,
-                            0x47
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E991C,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9924,
-                            0x0E
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E995C,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9960,
-                            0x7B
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9964,
-                            0xBB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9968,
-                            0x3C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E996C,
-                            0xDB
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9970,
-                            0x64
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9974,
-                            0x24
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9978,
-                            0xD2
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E997C,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9980,
-                            0xA9
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99A0,
-                            0x04
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99A4,
-                            0x38
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9860,
-                            0xA0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99A8,
-                            0x0C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E98DC,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F40,
-                            0x40
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F44,
-                            0x00
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9D90,
-                            0xE7
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9D94,
-                            0x03
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E99B0,
-                            0x10
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CC4,
-                            0xD0
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CC8,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CCC,
-                            0x20
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CD8,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9CDC,
-                            0x21
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9D88,
-                            0xAA
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DB0,
-                            0x0A
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DC0,
-                            0x88
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DC4,
-                            0x13
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DD0,
-                            0x0C
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DDC,
-                            0x4B
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9DEC,
-                            0x10
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F18,
-                            0xF8
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x88E9F3C,
-                            0x07
-                        },
-
-                        Package ()
-                        {
-                            0x0,
-                            0x00,
-                            0x00
-                        }
-                    })
-                }
-
-                Device (RHUB)
-                {
-                    Name (_ADR, 0)
-
-                    Device (PRT1)
-                    {
-                        Name (_ADR, 1)
-                        Name (_UPC, Package ()
-                        {
-                            1,
-                            9,
-                            0,
-                            0 
-                        })
-
-                        Name(_PLD, Package()
-                        {
-                            Buffer()
-                            {
-                                0x82,
-                                0x00, 0x00, 0x00,
-                                0x00, 0x00, 0x00, 0x00,
-                                0x69,
-                                0x0C,
-                                0x00, 0x00,
-                                0x00, 0x00, 0x00, 0x00,
-                                0xFF, 0xFF, 0xFF, 0xFF
-                            }
-                        })
-                    }
-                }
-            }
+            Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
     }
 }
