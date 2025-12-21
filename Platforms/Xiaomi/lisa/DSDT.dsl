@@ -5,13 +5,13 @@
  * 
  * Disassembling to symbolic ASL+ operators
  *
- * Disassembly of ../../DSDT.aml, Sun Dec 21 06:45:25 2025
+ * Disassembly of ../../DSDT.aml, Sun Dec 21 10:01:24 2025
  *
  * Original Table Header:
  *     Signature        "DSDT"
  *     Length           0x00016276 (90742)
  *     Revision         0x02
- *     Checksum         0xBA
+ *     Checksum         0xB9
  *     OEM ID           "QCOMM "
  *     OEM Table ID     "SDM7280 "
  *     OEM Revision     0x00000003 (3)
@@ -21869,7 +21869,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM7280 ", 0x00000003)
             }
         }
 
-        Name (HWNH, Zero)
+        Name (HWNH, One)
         Device (HWN1)
         {
             Name (_HID, "AWNC8624")  // _HID: Hardware ID
