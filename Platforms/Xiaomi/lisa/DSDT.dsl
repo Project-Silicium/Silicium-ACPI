@@ -5,13 +5,13 @@
  * 
  * Disassembling to symbolic ASL+ operators
  *
- * Disassembly of ../../DSDT.aml, Wed Dec 17 12:11:51 2025
+ * Disassembly of ../../DSDT.aml, Sun Dec 21 06:45:25 2025
  *
  * Original Table Header:
  *     Signature        "DSDT"
- *     Length           0x00016275 (90741)
+ *     Length           0x00016276 (90742)
  *     Revision         0x02
- *     Checksum         0xC7
+ *     Checksum         0xBA
  *     OEM ID           "QCOMM "
  *     OEM Table ID     "SDM7280 "
  *     OEM Revision     0x00000003 (3)
@@ -371,15 +371,18 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM7280 ", 0x00000003)
                     {
                         0x000000EF,
                     }
-                    GpioInt (Edge, ActiveBoth, SharedAndWake, PullUp, 0x1388,
+                    GpioInt (Edge, ActiveBoth, SharedAndWake, PullNone, 0x1388,
                         "\\_SB.GIO0", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
                             0x00C0
                         }
-                    GpioIo (Shared, PullUp, 0x0000, 0x0000, IoRestrictionNone,
+                    GpioIo (Shared, PullNone, 0x0000, 0x0000, IoRestrictionNone,
                         "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                        )
+                        RawDataBuffer (0x01)  // Vendor Data
+                        {
+                            0x01
+                        })
                         {   // Pin list
                             0x005B
                         }
