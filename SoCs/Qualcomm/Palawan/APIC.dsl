@@ -1,7 +1,7 @@
 [000h 0000 004h]                   Signature : "APIC"    [Multiple APIC Description Table (MADT)]
-[004h 0004 004h]                Table Length : 000002FC
+[004h 0004 004h]                Table Length : 000002E8
 [008h 0008 001h]                    Revision : 05
-[009h 0009 001h]                    Checksum : 00
+[009h 0009 001h]                    Checksum : FB
 [00Ah 0010 006h]                      Oem ID : "QCOM  "
 [010h 0016 008h]                Oem Table ID : "QCOMEDK2"
 [018h 0024 004h]                Oem Revision : 00008635
@@ -13,7 +13,7 @@
                          PC-AT Compatibility : 0
 
 [02Ch 0044 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[02Dh 0045 001h]                      Length : 50
+[02Dh 0045 001h]                      Length : 52
 [02Eh 0046 002h]                    Reserved : 0000
 [030h 0048 004h]        CPU Interface Number : 00000000
 [034h 0052 004h]               Processor UID : 00000000
@@ -36,7 +36,7 @@
 [07Ch 0124 002h]              TRBE Interrupt : 500B
 
 [07Eh 0126 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[07Fh 0127 001h]                      Length : 50
+[07Fh 0127 001h]                      Length : 52
 [080h 0128 002h]                    Reserved : 0000
 [082h 0130 004h]        CPU Interface Number : 00000001
 [086h 0134 004h]               Processor UID : 00000001
@@ -59,7 +59,7 @@
 [0CEh 0206 002h]              TRBE Interrupt : 500B
 
 [0D0h 0208 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[0D1h 0209 001h]                      Length : 50
+[0D1h 0209 001h]                      Length : 52
 [0D2h 0210 002h]                    Reserved : 0000
 [0D4h 0212 004h]        CPU Interface Number : 00000002
 [0D8h 0216 004h]               Processor UID : 00000002
@@ -82,7 +82,7 @@
 [120h 0288 002h]              TRBE Interrupt : 500B
 
 [122h 0290 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[123h 0291 001h]                      Length : 50
+[123h 0291 001h]                      Length : 52
 [124h 0292 002h]                    Reserved : 0000
 [126h 0294 004h]        CPU Interface Number : 00000003
 [12Ah 0298 004h]               Processor UID : 00000003
@@ -105,7 +105,7 @@
 [172h 0370 002h]              TRBE Interrupt : 500B
 
 [174h 0372 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[175h 0373 001h]                      Length : 50
+[175h 0373 001h]                      Length : 52
 [176h 0374 002h]                    Reserved : 0000
 [178h 0376 004h]        CPU Interface Number : 00000004
 [17Ch 0380 004h]               Processor UID : 00000004
@@ -128,7 +128,7 @@
 [1C4h 0452 002h]              TRBE Interrupt : 500B
 
 [1C6h 0454 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[1C7h 0455 001h]                      Length : 50
+[1C7h 0455 001h]                      Length : 52
 [1C8h 0456 002h]                    Reserved : 0000
 [1CAh 0458 004h]        CPU Interface Number : 00000005
 [1CEh 0462 004h]               Processor UID : 00000005
@@ -151,7 +151,7 @@
 [216h 0534 002h]              TRBE Interrupt : 500B
 
 [218h 0536 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[219h 0537 001h]                      Length : 50
+[219h 0537 001h]                      Length : 52
 [21Ah 0538 002h]                    Reserved : 0000
 [21Ch 0540 004h]        CPU Interface Number : 00000006
 [220h 0544 004h]               Processor UID : 00000006
@@ -174,7 +174,7 @@
 [268h 0616 002h]              TRBE Interrupt : 500B
 
 [26Ah 0618 001h]               Subtable Type : 0B [Generic Interrupt Controller]
-[26Bh 0619 001h]                      Length : 50
+[26Bh 0619 001h]                      Length : 52
 [26Ch 0620 002h]                    Reserved : 0000
 [26Eh 0622 004h]        CPU Interface Number : 00000007
 [272h 0626 004h]               Processor UID : 00000007
@@ -205,18 +205,9 @@
 [2D0h 0720 001h]                     Version : 03
 [2D1h 0721 003h]                    Reserved : 000000
 
-[2D4h 0724 001h]               Subtable Type : 0E [Generic Interrupt Redistributor]
-[2D5h 0725 001h]                      Length : 10
-[2D6h 0726 002h]                    Reserved : 0000
-[2D8h 0728 008h]                Base Address : 0000000017180000
-[2E0h 0736 004h]                      Length : 00200000
-
-[2E4h 0740 001h]               Subtable Type : 0D [Generic MSI Frame]
-[2E5h 0741 001h]                      Length : 18
-[2E6h 0742 002h]                    Reserved : 0000
-[2E8h 0744 004h]                MSI Frame ID : 00000000
-[2ECh 0748 008h]                Base Address : 0000000017140000
-[2F4h 0756 004h]       Flags (decoded below) : 00000001
-                                  Select SPI : 1
-[2F8h 0760 002h]                   SPI Count : 0080
-[2FAh 0762 002h]                    SPI Base : 0340
+[2D4h 0724 001h]               Subtable Type : 0F [Generic Interrupt Translator]
+[2D5h 0725 001h]                      Length : 14
+[2D7h 0727 002h]                    Reserved : 0000
+[2D8h 0728 004h]              Translation ID : 00000000
+[2DCh 0732 008h]                Base Address : 0000000017140000
+[2E4h 0740 004h]                    Reserved : 00000000

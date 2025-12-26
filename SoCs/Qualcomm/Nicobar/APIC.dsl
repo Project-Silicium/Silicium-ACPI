@@ -1,7 +1,7 @@
 [000h 0000 004h]                   Signature : "APIC"    [Multiple APIC Description Table (MADT)]
-[004h 0004 004h]                Table Length : 000002E4
+[004h 0004 004h]                Table Length : 000002D4
 [008h 0008 001h]                    Revision : 05
-[009h 0009 001h]                    Checksum : 0B
+[009h 0009 001h]                    Checksum : 58
 [00Ah 0010 006h]                      Oem ID : "QCOM  "
 [010h 0016 008h]                Oem Table ID : "QCOMEDK2"
 [018h 0024 004h]                Oem Revision : 00006125
@@ -28,7 +28,7 @@
 [054h 0084 008h]    Virtual GIC Base Address : 0000000000000000
 [05Ch 0092 008h] Hypervisor GIC Base Address : 0000000000000000
 [064h 0100 004h]       Virtual GIC Interrupt : 00000019
-[068h 0104 008h]  Redistributor Base Address : 0000000000000000
+[068h 0104 008h]  Redistributor Base Address : 000000000F300000
 [070h 0112 008h]                   ARM MPIDR : 0000000000000000
 [078h 0120 001h]            Efficiency Class : 00
 [079h 0121 001h]                    Reserved : 00
@@ -51,7 +51,7 @@
 [0A6h 0166 008h]    Virtual GIC Base Address : 0000000000000000
 [0AEh 0174 008h] Hypervisor GIC Base Address : 0000000000000000
 [0B6h 0182 004h]       Virtual GIC Interrupt : 00000019
-[0BAh 0186 008h]  Redistributor Base Address : 0000000000000000
+[0BAh 0186 008h]  Redistributor Base Address : 000000000F320000
 [0C2h 0194 008h]                   ARM MPIDR : 0000000000000001
 [0CAh 0202 001h]            Efficiency Class : 00
 [0CBh 0203 001h]                    Reserved : 00
@@ -74,7 +74,7 @@
 [0F8h 0248 008h]    Virtual GIC Base Address : 0000000000000000
 [100h 0256 008h] Hypervisor GIC Base Address : 0000000000000000
 [108h 0264 004h]       Virtual GIC Interrupt : 00000019
-[10Ch 0268 008h]  Redistributor Base Address : 0000000000000000
+[10Ch 0268 008h]  Redistributor Base Address : 000000000F340000
 [114h 0276 008h]                   ARM MPIDR : 0000000000000002
 [11Ch 0284 001h]            Efficiency Class : 00
 [11Dh 0285 001h]                    Reserved : 00
@@ -97,7 +97,7 @@
 [14Ah 0330 008h]    Virtual GIC Base Address : 0000000000000000
 [152h 0338 008h] Hypervisor GIC Base Address : 0000000000000000
 [15Ah 0346 004h]       Virtual GIC Interrupt : 00000019
-[15Eh 0350 008h]  Redistributor Base Address : 0000000000000000
+[15Eh 0350 008h]  Redistributor Base Address : 000000000F360000
 [166h 0358 008h]                   ARM MPIDR : 0000000000000003
 [16Eh 0366 001h]            Efficiency Class : 00
 [16Fh 0367 001h]                    Reserved : 00
@@ -110,7 +110,7 @@
 [178h 0376 004h]        CPU Interface Number : 00000004
 [17Ch 0380 004h]               Processor UID : 00000004
 [180h 0384 004h]       Flags (decoded below) : 00000001
-                           Processor Enabled : 0
+                           Processor Enabled : 1
           Performance Interrupt Trigger Mode : 0
           Virtual GIC Interrupt Trigger Mode : 0
 [184h 0388 004h]    Parking Protocol Version : 00000000
@@ -120,7 +120,7 @@
 [19Ch 0412 008h]    Virtual GIC Base Address : 0000000000000000
 [1A4h 0420 008h] Hypervisor GIC Base Address : 0000000000000000
 [1ACh 0428 004h]       Virtual GIC Interrupt : 00000019
-[1B0h 0432 008h]  Redistributor Base Address : 0000000000000000
+[1B0h 0432 008h]  Redistributor Base Address : 000000000F380000
 [1B8h 0440 008h]                   ARM MPIDR : 0000000000000100
 [1C0h 0448 001h]            Efficiency Class : 01
 [1C1h 0449 001h]                    Reserved : 00
@@ -133,7 +133,7 @@
 [1CAh 0458 004h]        CPU Interface Number : 00000005
 [1CEh 0462 004h]               Processor UID : 00000005
 [1D2h 0466 004h]       Flags (decoded below) : 00000001
-                           Processor Enabled : 0
+                           Processor Enabled : 1
           Performance Interrupt Trigger Mode : 0
           Virtual GIC Interrupt Trigger Mode : 0
 [1D6h 0470 004h]    Parking Protocol Version : 00000000
@@ -143,7 +143,7 @@
 [1EEh 0494 008h]    Virtual GIC Base Address : 0000000000000000
 [1F6h 0502 008h] Hypervisor GIC Base Address : 0000000000000000
 [1FEh 0510 004h]       Virtual GIC Interrupt : 00000019
-[202h 0514 008h]  Redistributor Base Address : 0000000000000000
+[202h 0514 008h]  Redistributor Base Address : 000000000F3A0000
 [20Ah 0522 008h]                   ARM MPIDR : 0000000000000101
 [212h 0530 001h]            Efficiency Class : 01
 [213h 0531 001h]                    Reserved : 00
@@ -156,7 +156,7 @@
 [21Ch 0540 004h]        CPU Interface Number : 00000006
 [220h 0544 004h]               Processor UID : 00000006
 [224h 0548 004h]       Flags (decoded below) : 00000001
-                           Processor Enabled : 0
+                           Processor Enabled : 1
           Performance Interrupt Trigger Mode : 0
           Virtual GIC Interrupt Trigger Mode : 0
 [228h 0552 004h]    Parking Protocol Version : 00000000
@@ -166,7 +166,7 @@
 [240h 0576 008h]    Virtual GIC Base Address : 0000000000000000
 [248h 0584 008h] Hypervisor GIC Base Address : 0000000000000000
 [250h 0592 004h]       Virtual GIC Interrupt : 00000019
-[254h 0596 008h]  Redistributor Base Address : 0000000000000000
+[254h 0596 008h]  Redistributor Base Address : 000000000F3C0000
 [25Ch 0604 008h]                   ARM MPIDR : 0000000000000102
 [264h 0612 001h]            Efficiency Class : 01
 [265h 0613 001h]                    Reserved : 00
@@ -179,7 +179,7 @@
 [26Eh 0622 004h]        CPU Interface Number : 00000007
 [272h 0626 004h]               Processor UID : 00000007
 [276h 0630 004h]       Flags (decoded below) : 00000001
-                           Processor Enabled : 0
+                           Processor Enabled : 1
           Performance Interrupt Trigger Mode : 0
           Virtual GIC Interrupt Trigger Mode : 0
 [27Ah 0634 004h]    Parking Protocol Version : 00000000
@@ -189,7 +189,7 @@
 [292h 0658 008h]    Virtual GIC Base Address : 0000000000000000
 [29Ah 0666 008h] Hypervisor GIC Base Address : 0000000000000000
 [2A2h 0674 004h]       Virtual GIC Interrupt : 00000019
-[2A6h 0678 008h]  Redistributor Base Address : 0000000000000000
+[2A6h 0678 008h]  Redistributor Base Address : 000000000F3E0000
 [2AEh 0686 008h]                   ARM MPIDR : 0000000000000103
 [2B6h 0694 001h]            Efficiency Class : 01
 [2B7h 0695 001h]                    Reserved : 00
@@ -204,9 +204,3 @@
 [2CCh 0716 004h]              Interrupt Base : 00000000
 [2D0h 0720 001h]                     Version : 03
 [2D1h 0721 003h]                    Reserved : 000000
-
-[2D4h 0724 001h]               Subtable Type : 0E [Generic Interrupt Redistributor]
-[2D5h 0725 001h]                      Length : 10
-[2D7h 0727 002h]                    Reserved : 0000
-[2D8h 0728 008h]                Base Address : 000000000F300000
-[2E0h 0736 004h]                      Length : 00100000
