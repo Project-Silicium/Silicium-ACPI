@@ -1,12 +1,24 @@
+/*
+ * Intel ACPI Component Architecture
+ * AML/ASL+ Disassembler version 20250404 (64-bit version)
+ * Copyright (c) 2000 - 2025 Intel Corporation
+ * 
+ * Disassembly of GTDT.aml
+ *
+ * ACPI Data Table [GTDT]
+ *
+ * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
+ */
+
 [000h 0000 004h]                   Signature : "GTDT"    [Generic Timer Description Table]
 [004h 0004 004h]                Table Length : 0000009C
 [008h 0008 001h]                    Revision : 02
-[009h 0009 001h]                    Checksum : 5F
+[009h 0009 001h]                    Checksum : 00     /* Incorrect checksum, should be D6 */
 [00Ah 0010 006h]                      Oem ID : "QCOM  "
 [010h 0016 008h]                Oem Table ID : "QCOMEDK2"
 [018h 0024 004h]                Oem Revision : 00008550
-[01Ch 0028 004h]             Asl Compiler ID : "INTL"
-[020h 0032 004h]       Asl Compiler Revision : 20230628
+[01Ch 0028 004h]             Asl Compiler ID : "QCOM"
+[020h 0032 004h]       Asl Compiler Revision : 00000001
 
 [024h 0036 008h]       Counter Block Address : FFFFFFFFFFFFFFFF
 [02Ch 0044 004h]                    Reserved : 00000000
@@ -61,3 +73,16 @@
 [098h 0152 004h] Common Flags (decoded below) : 00000002
                                       Secure : 0
                                    Always On : 1
+
+Raw Table Data: Length 156 (0x9C)
+
+    0000: 47 54 44 54 9C 00 00 00 02 00 51 43 4F 4D 20 20  // GTDT......QCOM  
+    0010: 51 43 4F 4D 45 44 4B 32 50 85 00 00 51 43 4F 4D  // QCOMEDK2P...QCOM
+    0020: 01 00 00 00 FF FF FF FF FF FF FF FF 00 00 00 00  // ................
+    0030: 1D 00 00 00 04 00 00 00 1E 00 00 00 04 00 00 00  // ................
+    0040: 1B 00 00 00 04 00 00 00 1A 00 00 00 04 00 00 00  // ................
+    0050: FF FF FF FF FF FF FF FF 01 00 00 00 60 00 00 00  // ............`...
+    0060: 00 3C 00 00 00 00 42 17 00 00 00 00 01 00 00 00  // .<....B.........
+    0070: 14 00 00 00 00 00 00 00 00 10 42 17 00 00 00 00  // ..........B.....
+    0080: 00 20 42 17 00 00 00 00 28 00 00 00 00 00 00 00  // . B.....(.......
+    0090: 26 00 00 00 00 00 00 00 02 00 00 00              // &...........

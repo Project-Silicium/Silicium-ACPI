@@ -1,12 +1,24 @@
+/*
+ * Intel ACPI Component Architecture
+ * AML/ASL+ Disassembler version 20250404 (64-bit version)
+ * Copyright (c) 2000 - 2025 Intel Corporation
+ * 
+ * Disassembly of FACP.aml
+ *
+ * ACPI Data Table [FACP]
+ *
+ * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
+ */
+
 [000h 0000 004h]                   Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
 [004h 0004 004h]                Table Length : 00000114
-[008h 0008 001h]                    Revision : 06
-[009h 0009 001h]                    Checksum : D4
+[008h 0008 001h]                    Revision : 05
+[009h 0009 001h]                    Checksum : 00     /* Incorrect checksum, should be 4C */
 [00Ah 0010 006h]                      Oem ID : "QCOM  "
 [010h 0016 008h]                Oem Table ID : "QCOMEDK2"
 [018h 0024 004h]                Oem Revision : 00008550
-[01Ch 0028 004h]             Asl Compiler ID : "INTL"
-[020h 0032 004h]       Asl Compiler Revision : 20230628
+[01Ch 0028 004h]             Asl Compiler ID : "QCOM"
+[020h 0032 004h]       Asl Compiler Revision : 00000001
 
 [024h 0036 004h]                FACS Address : 00000000
 [028h 0040 004h]                DSDT Address : 00000000
@@ -162,3 +174,26 @@
 [104h 0260 008h]                     Address : 0000000000000000
 
 [10Ch 0268 008h]               Hypervisor ID : 000000004D4F4351
+
+// ACPI Warning: FADT revision 5 does not match length: found 114 expected 10C
+
+Raw Table Data: Length 276 (0x114)
+
+    0000: 46 41 43 50 14 01 00 00 05 00 51 43 4F 4D 20 20  // FACP......QCOM  
+    0010: 51 43 4F 4D 45 44 4B 32 50 85 00 00 51 43 4F 4D  // QCOMEDK2P...QCOM
+    0020: 01 00 00 00 00 00 00 00 00 00 00 00 00 08 00 00  // ................
+    0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0070: 00 00 30 00 03 00 00 03 B4 20 90 00 00 00 00 00  // ..0...... ......
+    0080: 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    00A0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    00B0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    00E0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    00F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0100: 00 00 00 00 00 00 00 00 00 00 00 00 51 43 4F 4D  // ............QCOM
+    0110: 00 00 00 00                                      // ....
