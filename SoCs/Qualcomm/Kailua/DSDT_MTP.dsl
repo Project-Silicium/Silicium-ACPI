@@ -1,23 +1,3 @@
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20250404 (64-bit version)
- * Copyright (c) 2000 - 2025 Intel Corporation
- * 
- * Disassembling to symbolic ASL+ operators
- *
- * Disassembly of DSDT_MTP.aml
- *
- * Original Table Header:
- *     Signature        "DSDT"
- *     Length           0x0000EF5C (61276)
- *     Revision         0x02
- *     Checksum         0xA5
- *     OEM ID           "QCOMM "
- *     OEM Table ID     "SDM8550 "
- *     OEM Revision     0x00000003 (3)
- *     Compiler ID      "MSFT"
- *     Compiler Version 0x05000000 (83886080)
- */
 DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
 {
     /*

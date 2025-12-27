@@ -1,15 +1,3 @@
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20250404 (64-bit version)
- * Copyright (c) 2000 - 2025 Intel Corporation
- * 
- * Disassembly of DBG2.aml
- *
- * ACPI Data Table [DBG2]
- *
- * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
- */
-
 [000h 0000 004h]                   Signature : "DBG2"    [Debug Port Table type 2]
 [004h 0004 004h]                Table Length : 000005EE
 [008h 0008 001h]                    Revision : 01

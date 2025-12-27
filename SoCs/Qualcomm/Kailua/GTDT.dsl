@@ -1,15 +1,3 @@
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20250404 (64-bit version)
- * Copyright (c) 2000 - 2025 Intel Corporation
- * 
- * Disassembly of GTDT.aml
- *
- * ACPI Data Table [GTDT]
- *
- * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
- */
-
 [000h 0000 004h]                   Signature : "GTDT"    [Generic Timer Description Table]
 [004h 0004 004h]                Table Length : 0000009C
 [008h 0008 001h]                    Revision : 02

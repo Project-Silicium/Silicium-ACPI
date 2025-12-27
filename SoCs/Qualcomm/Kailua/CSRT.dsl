@@ -1,15 +1,3 @@
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20250404 (64-bit version)
- * Copyright (c) 2000 - 2025 Intel Corporation
- * 
- * Disassembly of CSRT.aml
- *
- * ACPI Data Table [CSRT]
- *
- * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
- */
-
 [000h 0000 004h]                   Signature : "CSRT"    [Core System Resource Table]
 [004h 0004 004h]                Table Length : 0000B83A
 [008h 0008 001h]                    Revision : 00
