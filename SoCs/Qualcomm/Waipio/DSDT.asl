@@ -1,8 +1,9 @@
 DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 {
+    External (\_SB.PSUB, StrObj)
+
     Scope (\_SB)
     {
-        Name (PSUB, "MTP08450")
         Name (SOID, 0xFFFFFFFF)
         Name (STOR, 0xABCABCAB)
         Name (SIDS, "899800000000000")
@@ -40,10 +41,10 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
         Device (UFS0)
         {
-            Alias (\_SB.PSUB, _SUB)
             Alias (\_SB.EMUL, EMUL)
 
             Name (_HID, "QCOM24A5")
+          //Name (_DEP, Package () { \_SB.PEP0 })
             Name (_UID, 0)
             Name (_CCA, 1)
 
@@ -53,6 +54,8 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x129 }
             })
+
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
 
             Method (_STA, 0, NotSerialized)
             {
@@ -75,8 +78,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
         Device (ABD)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0427")
             Name (_UID, 0)
             Name (AVBL, 0)
@@ -91,13 +92,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 }
             }
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (PMIC)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C2B")
             Name (_CID, "PNP0CA3")
             Name (_DEP, Package () { \_SB.SPMI })
@@ -149,13 +149,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 }
             })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (PM01)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C2D")
             Name (_DEP, Package () { \_SB.PMIC })
             Name (_UID, 1)
@@ -183,11 +182,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                             {
                                 Return (Package () { 0x07, 0x06 })
                             }
-
-                            Default 
-                            {
-                                // Do Nothing.
-                            }
                         }
                     }
 
@@ -198,13 +192,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 }
             }
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (PMAP)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C2C")
             Name (_DEP, Package () { \_SB.PMIC, \_SB.ABD, \_SB.SCM0 })
 
@@ -220,6 +213,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Return (DATA)
             }
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
@@ -278,8 +272,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
         // NOTE: USB Stuff Removed
         Device (PMGK)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C8E")
             Name (_DEP, Package () { \_SB.GLNK, \_SB.ABD })
 
@@ -322,13 +314,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Return (0)
             }
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (BAM1)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C0A")
             Name (_UID, 1)
             Name (_CCA, 0)
@@ -340,13 +331,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x130 }
             })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (BAM5)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C0A")
             Name (_UID, 5)
             Name (_CCA, 0)
@@ -358,52 +348,48 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0xC4 }
             })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (RPEN)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM06E1")
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (TFTP)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM06DC")
             Name (_DEP, Package () { \_SB.IPC0 })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (SCM0)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM04DD")
+          //Name (_DEP, Package () { \_SB.PEP0 })
             Name (_UID, 0)
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (TLOG)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0CE4")
             Name (_UID, 0)
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (SPMI)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C0B")
             Name (_CID, "PNP0CA2")
             Name (_UID, 1)
@@ -453,13 +439,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 0x00, 0x50, 0x00, 0x00
             })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (IPCC)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM06C2")
             Name (_UID, 0)
 
@@ -471,27 +456,26 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x2EA }
             })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (IPC0)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C0D")
             Name (_DEP, Package () { \_SB.GLNK })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (GLNK)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C84")
             Name (_DEP, Package () { \_SB.IPCC, \_SB.RPEN })
             Name (_UID, 0)
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
@@ -561,8 +545,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
 
         Device (QGP0)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C88")
             Name (_UID, 0)
             Name (_CCA, 0)
@@ -575,13 +557,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x115 }
             })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (QGP1)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C88")
             Name (_UID, 1)
             Name (_CCA, 0)
@@ -594,13 +575,12 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x138 }
             })
 
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
 
         Device (QGP2)
         {
-            Alias (\_SB.PSUB, _SUB)
-
             Name (_HID, "QCOM0C88")
             Name (_UID, 2)
             Name (_CCA, 0)
@@ -613,67 +593,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM8450 ", 3)
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x26D }
             })
 
-            Method (_STA, 0, NotSerialized) { Return (0x0F) }
-        }
-
-        Device (BTNS)
-        {
-            Alias (\_SB.PSUB, _SUB)
-
-            Name (_HID, "ACPI0011")
-            Name (_UID, 0)
-
-            Name (_CRS, ResourceTemplate ()
-            {
-                GpioInt (Edge, ActiveBoth, ExclusiveAndWake, PullDown, 0x0000, "\\_SB.PM01", ,) { 0x07 }
-                GpioInt (Edge, ActiveBoth, Exclusive,        PullUp,   0x0BB8, "\\_SB.PM01", ,) { 0xC6 }
-                GpioInt (Edge, ActiveBoth, Exclusive,        PullDown, 0x0000, "\\_SB.PM01", ,) { 0x06 }
-            })
-
-            Name (_DSD, Package ()
-            {
-                ToUUID ("FA6BD625-9CE8-470D-A2C7-B3CA36C4282E"),
-
-                Package ()
-                {
-                    Package ()
-                    {
-                        0,
-                        1,
-                        0,
-                        1,
-                        13
-                    }, 
-
-                    Package ()
-                    {
-                        1,
-                        0,
-                        1,
-                        1,
-                        129
-                    }, 
-
-                    Package ()
-                    {
-                        1,
-                        1,
-                        1,
-                        12,
-                        233
-                    }, 
-
-                    Package ()
-                    {
-                        1,
-                        2,
-                        1,
-                        12,
-                        234
-                    }
-                }
-            })
-
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
             Method (_STA, 0, NotSerialized) { Return (0x0F) }
         }
     }
