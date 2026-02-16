@@ -1,14 +1,14 @@
 [000h 0000 004h]                   Signature : "IORT"    [IO Remapping Table]
-[004h 0004 004h]                Table Length : 00000EFB
+[004h 0004 004h]                Table Length : 00001154
 [008h 0008 001h]                    Revision : 00
-[009h 0009 001h]                    Checksum : 00     /* Incorrect checksum, should be 27 */
+[009h 0009 001h]                    Checksum : 00     /* Incorrect checksum, should be D3 */
 [00Ah 0010 006h]                      Oem ID : "QCOM  "
 [010h 0016 008h]                Oem Table ID : "QCOMEDK2"
 [018h 0024 004h]                Oem Revision : 00008550
 [01Ch 0028 004h]             Asl Compiler ID : "QCOM"
 [020h 0032 004h]       Asl Compiler Revision : 00000001
 
-[024h 0036 004h]                  Node Count : 00000010
+[024h 0036 004h]                  Node Count : 00000011
 [028h 0040 004h]                 Node Offset : 00000030
 [02Ch 0044 004h]                    Reserved : 00000000
 
@@ -341,7 +341,7 @@
                Ensured Coherency of Accesses : 0
 [5E4h 1508 001h]           Memory Size Limit : 30
 [5E5h 1509 00Ah]                 Device Name : "\_SB.GPU0"
-[5EFh 1519 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
+[5EFh 1519 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
 /* 5FFh 1535   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
 [605h 1541 004h]                  Input base : 03030000
@@ -492,7 +492,7 @@
                Ensured Coherency of Accesses : 0
 [789h 1929 001h]           Memory Size Limit : 24
 [78Ah 1930 00Ah]                 Device Name : "\_SB.JPGE"
-[794h 1940 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
+[794h 1940 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
 /* 7A4h 1956   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
 [7AAh 1962 004h]                  Input base : 02030000
@@ -524,7 +524,7 @@
                Ensured Coherency of Accesses : 0
 [7DAh 2010 001h]           Memory Size Limit : 24
 [7DBh 2011 00Ah]                 Device Name : "\_SB.ARPC"
-[7E5h 2021 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
+[7E5h 2021 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
 /* 7F5h 2037   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
 [7FBh 2043 004h]                  Input base : 17030000
@@ -829,10 +829,10 @@
                               Single Mapping : 0
 
 [B57h 2903 001h]                        Type : 01
-[B58h 2904 002h]                      Length : 0051
+[B58h 2904 002h]                      Length : 0259
 [B5Ah 2906 001h]                    Revision : 00
 [B5Bh 2907 004h]                    Reserved : 00000000
-[B5Fh 2911 004h]               Mapping Count : 00000001
+[B5Fh 2911 004h]               Mapping Count : 0000001B
 [B63h 2915 004h]              Mapping Offset : 0000003D
 
 [B67h 2919 004h]                  Node Flags : 00000000
@@ -849,347 +849,561 @@
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
 [B73h 2931 001h]           Memory Size Limit : 24
-[B74h 2932 00Ah]                 Device Name : "\_SB.USBA"
-[B7Eh 2942 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
+[B74h 2932 00Ah]                 Device Name : "\_SB.NSPM"
+[B7Eh 2942 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
 /* B8Eh 2958   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
-[B94h 2964 004h]                  Input base : 07030000
+[B94h 2964 004h]                  Input base : 18030000
 [B98h 2968 004h]                    ID Count : 00000000
-[B9Ch 2972 004h]                 Output Base : 0000100B
+[B9Ch 2972 004h]                 Output Base : 00000C01
 [BA0h 2976 004h]            Output Reference : 00000030
 [BA4h 2980 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[BA8h 2984 001h]                        Type : 01
-[BA9h 2985 002h]                      Length : 0079
-[BABh 2987 001h]                    Revision : 00
-[BACh 2988 004h]                    Reserved : 00000000
-[BB0h 2992 004h]               Mapping Count : 00000003
-[BB4h 2996 004h]              Mapping Offset : 0000003D
+[BA8h 2984 004h]                  Input base : 18030001
+[BACh 2988 004h]                    ID Count : 00000000
+[BB0h 2992 004h]                 Output Base : 00000C21
+[BB4h 2996 004h]            Output Reference : 00000030
+[BB8h 3000 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
 
-[BB8h 3000 004h]                  Node Flags : 00000000
-[BBCh 3004 008h]           Memory Properties : [IORT Memory Access Properties]
-[BBCh 3004 004h]             Cache Coherency : 00000000
-[BC0h 3008 001h]       Hints (decoded below) : 00
+[BBCh 3004 004h]                  Input base : 18030020
+[BC0h 3008 004h]                    ID Count : 00000000
+[BC4h 3012 004h]                 Output Base : 00000C02
+[BC8h 3016 004h]            Output Reference : 00000030
+[BCCh 3020 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[BD0h 3024 004h]                  Input base : 18030021
+[BD4h 3028 004h]                    ID Count : 00000000
+[BD8h 3032 004h]                 Output Base : 00000C22
+[BDCh 3036 004h]            Output Reference : 00000030
+[BE0h 3040 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[BE4h 3044 004h]                  Input base : 18030040
+[BE8h 3048 004h]                    ID Count : 00000000
+[BECh 3052 004h]                 Output Base : 00000C03
+[BF0h 3056 004h]            Output Reference : 00000030
+[BF4h 3060 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[BF8h 3064 004h]                  Input base : 18030041
+[BFCh 3068 004h]                    ID Count : 00000000
+[C00h 3072 004h]                 Output Base : 00000C23
+[C04h 3076 004h]            Output Reference : 00000030
+[C08h 3080 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C0Ch 3084 004h]                  Input base : 18030060
+[C10h 3088 004h]                    ID Count : 00000000
+[C14h 3092 004h]                 Output Base : 00000C04
+[C18h 3096 004h]            Output Reference : 00000030
+[C1Ch 3100 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C20h 3104 004h]                  Input base : 18030061
+[C24h 3108 004h]                    ID Count : 00000000
+[C28h 3112 004h]                 Output Base : 00000C24
+[C2Ch 3116 004h]            Output Reference : 00000030
+[C30h 3120 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C34h 3124 004h]                  Input base : 18030080
+[C38h 3128 004h]                    ID Count : 00000000
+[C3Ch 3132 004h]                 Output Base : 00000C05
+[C40h 3136 004h]            Output Reference : 00000030
+[C44h 3140 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C48h 3144 004h]                  Input base : 18030081
+[C4Ch 3148 004h]                    ID Count : 00000000
+[C50h 3152 004h]                 Output Base : 00000C25
+[C54h 3156 004h]            Output Reference : 00000030
+[C58h 3160 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C5Ch 3164 004h]                  Input base : 180300A0
+[C60h 3168 004h]                    ID Count : 00000000
+[C64h 3172 004h]                 Output Base : 00000C06
+[C68h 3176 004h]            Output Reference : 00000030
+[C6Ch 3180 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C70h 3184 004h]                  Input base : 180300A1
+[C74h 3188 004h]                    ID Count : 00000000
+[C78h 3192 004h]                 Output Base : 00000C26
+[C7Ch 3196 004h]            Output Reference : 00000030
+[C80h 3200 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C84h 3204 004h]                  Input base : 180300C0
+[C88h 3208 004h]                    ID Count : 00000000
+[C8Ch 3212 004h]                 Output Base : 00000C27
+[C90h 3216 004h]            Output Reference : 00000030
+[C94h 3220 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[C98h 3224 004h]                  Input base : 180300C1
+[C9Ch 3228 004h]                    ID Count : 00000000
+[CA0h 3232 004h]                 Output Base : 00000C07
+[CA4h 3236 004h]            Output Reference : 00000030
+[CA8h 3240 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[CACh 3244 004h]                  Input base : 180300E0
+[CB0h 3248 004h]                    ID Count : 00000000
+[CB4h 3252 004h]                 Output Base : 00000C28
+[CB8h 3256 004h]            Output Reference : 00000030
+[CBCh 3260 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[CC0h 3264 004h]                  Input base : 180300E1
+[CC4h 3268 004h]                    ID Count : 00000000
+[CC8h 3272 004h]                 Output Base : 00000C08
+[CCCh 3276 004h]            Output Reference : 00000030
+[CD0h 3280 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[CD4h 3284 004h]                  Input base : 18030100
+[CD8h 3288 004h]                    ID Count : 00000000
+[CDCh 3292 004h]                 Output Base : 00000C2C
+[CE0h 3296 004h]            Output Reference : 00000030
+[CE4h 3300 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[CE8h 3304 004h]                  Input base : 18030101
+[CECh 3308 004h]                    ID Count : 00000000
+[CF0h 3312 004h]                 Output Base : 00000C0C
+[CF4h 3316 004h]            Output Reference : 00000030
+[CF8h 3320 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[CFCh 3324 004h]                  Input base : 18030120
+[D00h 3328 004h]                    ID Count : 00000000
+[D04h 3332 004h]                 Output Base : 00000C2D
+[D08h 3336 004h]            Output Reference : 00000030
+[D0Ch 3340 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D10h 3344 004h]                  Input base : 18030121
+[D14h 3348 004h]                    ID Count : 00000000
+[D18h 3352 004h]                 Output Base : 00000C0D
+[D1Ch 3356 004h]            Output Reference : 00000030
+[D20h 3360 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D24h 3364 004h]                  Input base : 18030140
+[D28h 3368 004h]                    ID Count : 00000000
+[D2Ch 3372 004h]                 Output Base : 00000C2E
+[D30h 3376 004h]            Output Reference : 00000030
+[D34h 3380 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D38h 3384 004h]                  Input base : 18030141
+[D3Ch 3388 004h]                    ID Count : 00000000
+[D40h 3392 004h]                 Output Base : 00000C0E
+[D44h 3396 004h]            Output Reference : 00000030
+[D48h 3400 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D4Ch 3404 004h]                  Input base : 18030160
+[D50h 3408 004h]                    ID Count : 00000000
+[D54h 3412 004h]                 Output Base : 00000C2F
+[D58h 3416 004h]            Output Reference : 00000030
+[D5Ch 3420 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D60h 3424 004h]                  Input base : 18030161
+[D64h 3428 004h]                    ID Count : 00000000
+[D68h 3432 004h]                 Output Base : 00000C0F
+[D6Ch 3436 004h]            Output Reference : 00000030
+[D70h 3440 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D74h 3444 004h]                  Input base : 18030220
+[D78h 3448 004h]                    ID Count : 00000000
+[D7Ch 3452 004h]                 Output Base : 00000C0B
+[D80h 3456 004h]            Output Reference : 00000030
+[D84h 3460 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D88h 3464 004h]                  Input base : 180A0000
+[D8Ch 3468 004h]                    ID Count : 00000000
+[D90h 3472 004h]                 Output Base : 00000C29
+[D94h 3476 004h]            Output Reference : 00000030
+[D98h 3480 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[D9Ch 3484 004h]                  Input base : 180A0001
+[DA0h 3488 004h]                    ID Count : 00000000
+[DA4h 3492 004h]                 Output Base : 00000C09
+[DA8h 3496 004h]            Output Reference : 00000030
+[DACh 3500 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[DB0h 3504 001h]                        Type : 01
+[DB1h 3505 002h]                      Length : 0051
+[DB3h 3507 001h]                    Revision : 00
+[DB4h 3508 004h]                    Reserved : 00000000
+[DB8h 3512 004h]               Mapping Count : 00000001
+[DBCh 3516 004h]              Mapping Offset : 0000003D
+
+[DC0h 3520 004h]                  Node Flags : 00000000
+[DC4h 3524 008h]           Memory Properties : [IORT Memory Access Properties]
+[DC4h 3524 004h]             Cache Coherency : 00000000
+[DC8h 3528 001h]       Hints (decoded below) : 00
                                    Transient : 0
                               Write Allocate : 0
                                Read Allocate : 0
                                     Override : 0
-[BC1h 3009 002h]                    Reserved : 0000
-[BC3h 3011 001h] Memory Flags (decoded below) : 00
+[DC9h 3529 002h]                    Reserved : 0000
+[DCBh 3531 001h] Memory Flags (decoded below) : 00
                                    Coherency : 0
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
-[BC4h 3012 001h]           Memory Size Limit : 28
-[BC5h 3013 00Ah]                 Device Name : "\_SB.QDSS"
-[BCFh 3023 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
-/* BDFh 3039   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
+[DCCh 3532 001h]           Memory Size Limit : 24
+[DCDh 3533 00Ah]                 Device Name : "\_SB.USBA"
+[DD7h 3543 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* DE7h 3559   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
-[BE5h 3045 004h]                  Input base : 19030000
-[BE9h 3049 004h]                    ID Count : 00000000
-[BEDh 3053 004h]                 Output Base : 000004C0
-[BF1h 3057 004h]            Output Reference : 00000030
-[BF5h 3061 004h]       Flags (decoded below) : 00000000
+[DEDh 3565 004h]                  Input base : 07030000
+[DF1h 3569 004h]                    ID Count : 00000000
+[DF5h 3573 004h]                 Output Base : 0000100B
+[DF9h 3577 004h]            Output Reference : 00000030
+[DFDh 3581 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[BF9h 3065 004h]                  Input base : 19030001
-[BFDh 3069 004h]                    ID Count : 00000000
-[C01h 3073 004h]                 Output Base : 000004E0
-[C05h 3077 004h]            Output Reference : 00000030
-[C09h 3081 004h]       Flags (decoded below) : 00000000
-                              Single Mapping : 0
+[E01h 3585 001h]                        Type : 01
+[E02h 3586 002h]                      Length : 0079
+[E04h 3588 001h]                    Revision : 00
+[E05h 3589 004h]                    Reserved : 00000000
+[E09h 3593 004h]               Mapping Count : 00000003
+[E0Dh 3597 004h]              Mapping Offset : 0000003D
 
-[C0Dh 3085 004h]                  Input base : 19030020
-[C11h 3089 004h]                    ID Count : 00000000
-[C15h 3093 004h]                 Output Base : 00000500
-[C19h 3097 004h]            Output Reference : 00000030
-[C1Dh 3101 004h]       Flags (decoded below) : 00000000
-                              Single Mapping : 0
-
-[C21h 3105 001h]                        Type : 01
-[C22h 3106 002h]                      Length : 0079
-[C24h 3108 001h]                    Revision : 00
-[C25h 3109 004h]                    Reserved : 00000000
-[C29h 3113 004h]               Mapping Count : 00000003
-[C2Dh 3117 004h]              Mapping Offset : 0000003D
-
-[C31h 3121 004h]                  Node Flags : 00000000
-[C35h 3125 008h]           Memory Properties : [IORT Memory Access Properties]
-[C35h 3125 004h]             Cache Coherency : 00000000
-[C39h 3129 001h]       Hints (decoded below) : 00
+[E11h 3601 004h]                  Node Flags : 00000000
+[E15h 3605 008h]           Memory Properties : [IORT Memory Access Properties]
+[E15h 3605 004h]             Cache Coherency : 00000000
+[E19h 3609 001h]       Hints (decoded below) : 00
                                    Transient : 0
                               Write Allocate : 0
                                Read Allocate : 0
                                     Override : 0
-[C3Ah 3130 002h]                    Reserved : 0000
-[C3Ch 3132 001h] Memory Flags (decoded below) : 00
+[E1Ah 3610 002h]                    Reserved : 0000
+[E1Ch 3612 001h] Memory Flags (decoded below) : 00
                                    Coherency : 0
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
-[C3Dh 3133 001h]           Memory Size Limit : 24
-[C3Eh 3134 00Fh]                 Device Name : "\_SB.ADSP.ADCM"
-[C4Dh 3149 011h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
-/* C5Dh 3165   1 */                            51                                              /* Q */\
+[E1Dh 3613 001h]           Memory Size Limit : 28
+[E1Eh 3614 00Ah]                 Device Name : "\_SB.QDSS"
+[E28h 3624 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* E38h 3640   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
-[C5Eh 3166 004h]                  Input base : 07030020
-[C62h 3170 004h]                    ID Count : 00000000
-[C66h 3174 004h]                 Output Base : 00001061
-[C6Ah 3178 004h]            Output Reference : 00000030
-[C6Eh 3182 004h]       Flags (decoded below) : 00000000
+[E3Eh 3646 004h]                  Input base : 19030000
+[E42h 3650 004h]                    ID Count : 00000000
+[E46h 3654 004h]                 Output Base : 000004C0
+[E4Ah 3658 004h]            Output Reference : 00000030
+[E4Eh 3662 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[C72h 3186 004h]                  Input base : 07030021
-[C76h 3190 004h]                    ID Count : 00000000
-[C7Ah 3194 004h]                 Output Base : 00001001
-[C7Eh 3198 004h]            Output Reference : 00000030
-[C82h 3202 004h]       Flags (decoded below) : 00000000
+[E52h 3666 004h]                  Input base : 19030001
+[E56h 3670 004h]                    ID Count : 00000000
+[E5Ah 3674 004h]                 Output Base : 000004E0
+[E5Eh 3678 004h]            Output Reference : 00000030
+[E62h 3682 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[C86h 3206 004h]                  Input base : 07030022
-[C8Ah 3210 004h]                    ID Count : 00000000
-[C8Eh 3214 004h]                 Output Base : 00001081
-[C92h 3218 004h]            Output Reference : 00000030
-[C96h 3222 004h]       Flags (decoded below) : 00000000
+[E66h 3686 004h]                  Input base : 19030020
+[E6Ah 3690 004h]                    ID Count : 00000000
+[E6Eh 3694 004h]                 Output Base : 00000500
+[E72h 3698 004h]            Output Reference : 00000030
+[E76h 3702 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[C9Ah 3226 001h]                        Type : 01
-[C9Bh 3227 002h]                      Length : 0065
-[C9Dh 3229 001h]                    Revision : 00
-[C9Eh 3230 004h]                    Reserved : 00000000
-[CA2h 3234 004h]               Mapping Count : 00000002
-[CA6h 3238 004h]              Mapping Offset : 0000003D
+[E7Ah 3706 001h]                        Type : 01
+[E7Bh 3707 002h]                      Length : 0079
+[E7Dh 3709 001h]                    Revision : 00
+[E7Eh 3710 004h]                    Reserved : 00000000
+[E82h 3714 004h]               Mapping Count : 00000003
+[E86h 3718 004h]              Mapping Offset : 0000003D
 
-[CAAh 3242 004h]                  Node Flags : 00000000
-[CAEh 3246 008h]           Memory Properties : [IORT Memory Access Properties]
-[CAEh 3246 004h]             Cache Coherency : 00000000
-[CB2h 3250 001h]       Hints (decoded below) : 00
+[E8Ah 3722 004h]                  Node Flags : 00000000
+[E8Eh 3726 008h]           Memory Properties : [IORT Memory Access Properties]
+[E8Eh 3726 004h]             Cache Coherency : 00000000
+[E92h 3730 001h]       Hints (decoded below) : 00
                                    Transient : 0
                               Write Allocate : 0
                                Read Allocate : 0
                                     Override : 0
-[CB3h 3251 002h]                    Reserved : 0000
-[CB5h 3253 001h] Memory Flags (decoded below) : 00
+[E93h 3731 002h]                    Reserved : 0000
+[E95h 3733 001h] Memory Flags (decoded below) : 00
                                    Coherency : 0
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
-[CB6h 3254 001h]           Memory Size Limit : 28
-[CB7h 3255 00Ah]                 Device Name : "\_SB.SDC2"
-[CC1h 3265 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
-/* CD1h 3281   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
+[E96h 3734 001h]           Memory Size Limit : 24
+[E97h 3735 00Fh]                 Device Name : "\_SB.ADSP.ADCM"
+[EA6h 3750 011h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* EB6h 3766   1 */                            51                                              /* Q */\
 
-[CD7h 3287 004h]                  Input base : 86030000
-[CDBh 3291 004h]                    ID Count : 00000000
-[CDFh 3295 004h]                 Output Base : 00000540
-[CE3h 3299 004h]            Output Reference : 00000030
-[CE7h 3303 004h]       Flags (decoded below) : 00000000
+[EB7h 3767 004h]                  Input base : 07030020
+[EBBh 3771 004h]                    ID Count : 00000000
+[EBFh 3775 004h]                 Output Base : 00001061
+[EC3h 3779 004h]            Output Reference : 00000030
+[EC7h 3783 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[CEBh 3307 004h]                  Input base : 86030020
-[CEFh 3311 004h]                    ID Count : 00000000
-[CF3h 3315 004h]                 Output Base : 00000080
-[CF7h 3319 004h]            Output Reference : 00000030
-[CFBh 3323 004h]       Flags (decoded below) : 00000000
+[ECBh 3787 004h]                  Input base : 07030021
+[ECFh 3791 004h]                    ID Count : 00000000
+[ED3h 3795 004h]                 Output Base : 00001001
+[ED7h 3799 004h]            Output Reference : 00000030
+[EDBh 3803 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[CFFh 3327 001h]                        Type : 01
-[D00h 3328 002h]                      Length : 0051
-[D02h 3330 001h]                    Revision : 00
-[D03h 3331 004h]                    Reserved : 00000000
-[D07h 3335 004h]               Mapping Count : 00000001
-[D0Bh 3339 004h]              Mapping Offset : 0000003D
+[EDFh 3807 004h]                  Input base : 07030022
+[EE3h 3811 004h]                    ID Count : 00000000
+[EE7h 3815 004h]                 Output Base : 00001081
+[EEBh 3819 004h]            Output Reference : 00000030
+[EEFh 3823 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
 
-[D0Fh 3343 004h]                  Node Flags : 00000000
-[D13h 3347 008h]           Memory Properties : [IORT Memory Access Properties]
-[D13h 3347 004h]             Cache Coherency : 00000001
-[D17h 3351 001h]       Hints (decoded below) : 00
+[EF3h 3827 001h]                        Type : 01
+[EF4h 3828 002h]                      Length : 0065
+[EF6h 3830 001h]                    Revision : 00
+[EF7h 3831 004h]                    Reserved : 00000000
+[EFBh 3835 004h]               Mapping Count : 00000002
+[EFFh 3839 004h]              Mapping Offset : 0000003D
+
+[F03h 3843 004h]                  Node Flags : 00000000
+[F07h 3847 008h]           Memory Properties : [IORT Memory Access Properties]
+[F07h 3847 004h]             Cache Coherency : 00000000
+[F0Bh 3851 001h]       Hints (decoded below) : 00
                                    Transient : 0
                               Write Allocate : 0
                                Read Allocate : 0
                                     Override : 0
-[D18h 3352 002h]                    Reserved : 0000
-[D1Ah 3354 001h] Memory Flags (decoded below) : 01
+[F0Ch 3852 002h]                    Reserved : 0000
+[F0Eh 3854 001h] Memory Flags (decoded below) : 00
+                                   Coherency : 0
+                            Device Attribute : 0
+               Ensured Coherency of Accesses : 0
+[F0Fh 3855 001h]           Memory Size Limit : 28
+[F10h 3856 00Ah]                 Device Name : "\_SB.SDC2"
+[F1Ah 3866 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* F2Ah 3882   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
+
+[F30h 3888 004h]                  Input base : 86030000
+[F34h 3892 004h]                    ID Count : 00000000
+[F38h 3896 004h]                 Output Base : 00000540
+[F3Ch 3900 004h]            Output Reference : 00000030
+[F40h 3904 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[F44h 3908 004h]                  Input base : 86030020
+[F48h 3912 004h]                    ID Count : 00000000
+[F4Ch 3916 004h]                 Output Base : 00000080
+[F50h 3920 004h]            Output Reference : 00000030
+[F54h 3924 004h]       Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+[F58h 3928 001h]                        Type : 01
+[F59h 3929 002h]                      Length : 0051
+[F5Bh 3931 001h]                    Revision : 00
+[F5Ch 3932 004h]                    Reserved : 00000000
+[F60h 3936 004h]               Mapping Count : 00000001
+[F64h 3940 004h]              Mapping Offset : 0000003D
+
+[F68h 3944 004h]                  Node Flags : 00000000
+[F6Ch 3948 008h]           Memory Properties : [IORT Memory Access Properties]
+[F6Ch 3948 004h]             Cache Coherency : 00000001
+[F70h 3952 001h]       Hints (decoded below) : 00
+                                   Transient : 0
+                              Write Allocate : 0
+                               Read Allocate : 0
+                                    Override : 0
+[F71h 3953 002h]                    Reserved : 0000
+[F73h 3955 001h] Memory Flags (decoded below) : 01
                                    Coherency : 1
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
-[D1Bh 3355 001h]           Memory Size Limit : 28
-[D1Ch 3356 00Ah]                 Device Name : "\_SB.UFS0"
-[D26h 3366 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
-/* D36h 3382   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
+[F74h 3956 001h]           Memory Size Limit : 28
+[F75h 3957 00Ah]                 Device Name : "\_SB.UFS0"
+[F7Fh 3967 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* F8Fh 3983   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
-[D3Ch 3388 004h]                  Input base : 81030000
-[D40h 3392 004h]                    ID Count : 00000000
-[D44h 3396 004h]                 Output Base : 00000060
-[D48h 3400 004h]            Output Reference : 00000030
-[D4Ch 3404 004h]       Flags (decoded below) : 00000000
+[F95h 3989 004h]                  Input base : 81030000
+[F99h 3993 004h]                    ID Count : 00000000
+[F9Dh 3997 004h]                 Output Base : 00000060
+[FA1h 4001 004h]            Output Reference : 00000030
+[FA5h 4005 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[D50h 3408 001h]                        Type : 01
-[D51h 3409 002h]                      Length : 0051
-[D53h 3411 001h]                    Revision : 00
-[D54h 3412 004h]                    Reserved : 00000000
-[D58h 3416 004h]               Mapping Count : 00000001
-[D5Ch 3420 004h]              Mapping Offset : 0000003D
+[FA9h 4009 001h]                        Type : 01
+[FAAh 4010 002h]                      Length : 0051
+[FACh 4012 001h]                    Revision : 00
+[FADh 4013 004h]                    Reserved : 00000000
+[FB1h 4017 004h]               Mapping Count : 00000001
+[FB5h 4021 004h]              Mapping Offset : 0000003D
 
-[D60h 3424 004h]                  Node Flags : 00000000
-[D64h 3428 008h]           Memory Properties : [IORT Memory Access Properties]
-[D64h 3428 004h]             Cache Coherency : 00000000
-[D68h 3432 001h]       Hints (decoded below) : 00
+[FB9h 4025 004h]                  Node Flags : 00000000
+[FBDh 4029 008h]           Memory Properties : [IORT Memory Access Properties]
+[FBDh 4029 004h]             Cache Coherency : 00000000
+[FC1h 4033 001h]       Hints (decoded below) : 00
                                    Transient : 0
                               Write Allocate : 0
                                Read Allocate : 0
                                     Override : 0
-[D69h 3433 002h]                    Reserved : 0000
-[D6Bh 3435 001h] Memory Flags (decoded below) : 00
+[FC2h 4034 002h]                    Reserved : 0000
+[FC4h 4036 001h] Memory Flags (decoded below) : 00
                                    Coherency : 0
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
-[D6Ch 3436 001h]           Memory Size Limit : 28
-[D6Dh 3437 00Ah]                 Device Name : "\_SB.URS0"
-[D77h 3447 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
-/* D87h 3463   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
+[FC5h 4037 001h]           Memory Size Limit : 28
+[FC6h 4038 00Ah]                 Device Name : "\_SB.URS0"
+[FD0h 4048 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* FE0h 4064   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
-[D8Dh 3469 004h]                  Input base : 80030000
-[D91h 3473 004h]                    ID Count : 00000000
-[D95h 3477 004h]                 Output Base : 00000040
-[D99h 3481 004h]            Output Reference : 00000030
-[D9Dh 3485 004h]       Flags (decoded below) : 00000000
+[FE6h 4070 004h]                  Input base : 80030000
+[FEAh 4074 004h]                    ID Count : 00000000
+[FEEh 4078 004h]                 Output Base : 00000040
+[FF2h 4082 004h]            Output Reference : 00000030
+[FF6h 4086 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[DA1h 3489 001h]                        Type : 01
-[DA2h 3490 002h]                      Length : 00C9
-[DA4h 3492 001h]                    Revision : 00
-[DA5h 3493 004h]                    Reserved : 00000000
-[DA9h 3497 004h]               Mapping Count : 00000007
-[DADh 3501 004h]              Mapping Offset : 0000003D
+[FFAh 4090 001h]                        Type : 01
+[FFBh 4091 002h]                      Length : 00C9
+[FFDh 4093 001h]                    Revision : 00
+[FFEh 4094 004h]                    Reserved : 00000000
+[1002h 4098 004h]               Mapping Count : 00000007
+[1006h 4102 004h]              Mapping Offset : 0000003D
 
-[DB1h 3505 004h]                  Node Flags : 00000000
-[DB5h 3509 008h]           Memory Properties : [IORT Memory Access Properties]
-[DB5h 3509 004h]             Cache Coherency : 00000000
-[DB9h 3513 001h]       Hints (decoded below) : 00
+[100Ah 4106 004h]                  Node Flags : 00000000
+[100Eh 4110 008h]           Memory Properties : [IORT Memory Access Properties]
+[100Eh 4110 004h]             Cache Coherency : 00000000
+[1012h 4114 001h]       Hints (decoded below) : 00
                                    Transient : 0
                               Write Allocate : 0
                                Read Allocate : 0
                                     Override : 0
-[DBAh 3514 002h]                    Reserved : 0000
-[DBCh 3516 001h] Memory Flags (decoded below) : 00
+[1013h 4115 002h]                    Reserved : 0000
+[1015h 4117 001h] Memory Flags (decoded below) : 00
                                    Coherency : 0
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
-[DBDh 3517 001h]           Memory Size Limit : 24
-[DBEh 3518 00Fh]                 Device Name : "\_SB.GPU0.AVS0"
-[DCDh 3533 011h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
-/* DDDh 3549   1 */                            51                                              /* Q */\
+[1016h 4118 001h]           Memory Size Limit : 24
+[1017h 4119 00Fh]                 Device Name : "\_SB.GPU0.AVS0"
+[1026h 4134 011h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* 1036h 4150   1 */                            51                                              /* Q */\
 
-[DDEh 3550 004h]                  Input base : 01030000
-[DE2h 3554 004h]                    ID Count : 00000000
-[DE6h 3558 004h]                 Output Base : 00000800
-[DEAh 3562 004h]            Output Reference : 00000030
-[DEEh 3566 004h]       Flags (decoded below) : 00000000
+[1037h 4151 004h]                  Input base : 01030000
+[103Bh 4155 004h]                    ID Count : 00000000
+[103Fh 4159 004h]                 Output Base : 00000800
+[1043h 4163 004h]            Output Reference : 00000030
+[1047h 4167 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[DF2h 3570 004h]                  Input base : 01030001
-[DF6h 3574 004h]                    ID Count : 00000000
-[DFAh 3578 004h]                 Output Base : 00000820
-[DFEh 3582 004h]            Output Reference : 00000030
-[E02h 3586 004h]       Flags (decoded below) : 00000000
+[104Bh 4171 004h]                  Input base : 01030001
+[104Fh 4175 004h]                    ID Count : 00000000
+[1053h 4179 004h]                 Output Base : 00000820
+[1057h 4183 004h]            Output Reference : 00000030
+[105Bh 4187 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[E06h 3590 004h]                  Input base : 01030020
-[E0Ah 3594 004h]                    ID Count : 00000000
-[E0Eh 3598 004h]                 Output Base : 00001800
-[E12h 3602 004h]            Output Reference : 00000030
-[E16h 3606 004h]       Flags (decoded below) : 00000000
+[105Fh 4191 004h]                  Input base : 01030020
+[1063h 4195 004h]                    ID Count : 00000000
+[1067h 4199 004h]                 Output Base : 00001800
+[106Bh 4203 004h]            Output Reference : 00000030
+[106Fh 4207 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[E1Ah 3610 004h]                  Input base : 01030021
-[E1Eh 3614 004h]                    ID Count : 00000000
-[E22h 3618 004h]                 Output Base : 00001820
-[E26h 3622 004h]            Output Reference : 00000030
-[E2Ah 3626 004h]       Flags (decoded below) : 00000000
+[1073h 4211 004h]                  Input base : 01030021
+[1077h 4215 004h]                    ID Count : 00000000
+[107Bh 4219 004h]                 Output Base : 00001820
+[107Fh 4223 004h]            Output Reference : 00000030
+[1083h 4227 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[E2Eh 3630 004h]                  Input base : 01030022
-[E32h 3634 004h]                    ID Count : 00000000
-[E36h 3638 004h]                 Output Base : 00001840
-[E3Ah 3642 004h]            Output Reference : 00000030
-[E3Eh 3646 004h]       Flags (decoded below) : 00000000
+[1087h 4231 004h]                  Input base : 01030022
+[108Bh 4235 004h]                    ID Count : 00000000
+[108Fh 4239 004h]                 Output Base : 00001840
+[1093h 4243 004h]            Output Reference : 00000030
+[1097h 4247 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[E42h 3650 004h]                  Input base : 01030023
-[E46h 3654 004h]                    ID Count : 00000000
-[E4Ah 3658 004h]                 Output Base : 00001880
-[E4Eh 3662 004h]            Output Reference : 00000030
-[E52h 3666 004h]       Flags (decoded below) : 00000000
+[109Bh 4251 004h]                  Input base : 01030023
+[109Fh 4255 004h]                    ID Count : 00000000
+[10A3h 4259 004h]                 Output Base : 00001880
+[10A7h 4263 004h]            Output Reference : 00000030
+[10ABh 4267 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[E56h 3670 004h]                  Input base : 01030024
-[E5Ah 3674 004h]                    ID Count : 00000000
-[E5Eh 3678 004h]                 Output Base : 000018C0
-[E62h 3682 004h]            Output Reference : 00000030
-[E66h 3686 004h]       Flags (decoded below) : 00000000
+[10AFh 4271 004h]                  Input base : 01030024
+[10B3h 4275 004h]                    ID Count : 00000000
+[10B7h 4279 004h]                 Output Base : 000018C0
+[10BBh 4283 004h]            Output Reference : 00000030
+[10BFh 4287 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[E6Ah 3690 001h]                        Type : 01
-[E6Bh 3691 002h]                      Length : 0079
-[E6Dh 3693 001h]                    Revision : 00
-[E6Eh 3694 004h]                    Reserved : 00000000
-[E72h 3698 004h]               Mapping Count : 00000003
-[E76h 3702 004h]              Mapping Offset : 0000003D
+[10C3h 4291 001h]                        Type : 01
+[10C4h 4292 002h]                      Length : 0079
+[10C6h 4294 001h]                    Revision : 00
+[10C7h 4295 004h]                    Reserved : 00000000
+[10CBh 4299 004h]               Mapping Count : 00000003
+[10CFh 4303 004h]              Mapping Offset : 0000003D
 
-[E7Ah 3706 004h]                  Node Flags : 00000000
-[E7Eh 3710 008h]           Memory Properties : [IORT Memory Access Properties]
-[E7Eh 3710 004h]             Cache Coherency : 00000000
-[E82h 3714 001h]       Hints (decoded below) : 00
+[10D3h 4307 004h]                  Node Flags : 00000000
+[10D7h 4311 008h]           Memory Properties : [IORT Memory Access Properties]
+[10D7h 4311 004h]             Cache Coherency : 00000000
+[10DBh 4315 001h]       Hints (decoded below) : 00
                                    Transient : 0
                               Write Allocate : 0
                                Read Allocate : 0
                                     Override : 0
-[E83h 3715 002h]                    Reserved : 0000
-[E85h 3717 001h] Memory Flags (decoded below) : 00
+[10DCh 4316 002h]                    Reserved : 0000
+[10DEh 4318 001h] Memory Flags (decoded below) : 00
                                    Coherency : 0
                             Device Attribute : 0
                Ensured Coherency of Accesses : 0
-[E86h 3718 001h]           Memory Size Limit : 24
-[E87h 3719 00Ah]                 Device Name : "\_SB.EVA0"
-[E91h 3729 016h]                     Padding : 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20 /* IORT......QCOM   */\
-/* EA1h 3745   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
+[10DFh 4319 001h]           Memory Size Limit : 24
+[10E0h 4320 00Ah]                 Device Name : "\_SB.EVA0"
+[10EAh 4330 016h]                     Padding : 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20 /* IORTT.....QCOM   */\
+/* 10FAh 4346   6 */                            51 43 4F 4D 45 44                               /* QCOMED */\
 
-[EA7h 3751 004h]                  Input base : 1A030000
-[EABh 3755 004h]                    ID Count : 00000000
-[EAFh 3759 004h]                 Output Base : 00001920
-[EB3h 3763 004h]            Output Reference : 00000030
-[EB7h 3767 004h]       Flags (decoded below) : 00000000
+[1100h 4352 004h]                  Input base : 1A030000
+[1104h 4356 004h]                    ID Count : 00000000
+[1108h 4360 004h]                 Output Base : 00001920
+[110Ch 4364 004h]            Output Reference : 00000030
+[1110h 4368 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[EBBh 3771 004h]                  Input base : 1A0A0000
-[EBFh 3775 004h]                    ID Count : 00000000
-[EC3h 3779 004h]                 Output Base : 00001923
-[EC7h 3783 004h]            Output Reference : 00000030
-[ECBh 3787 004h]       Flags (decoded below) : 00000000
+[1114h 4372 004h]                  Input base : 1A0A0000
+[1118h 4376 004h]                    ID Count : 00000000
+[111Ch 4380 004h]                 Output Base : 00001923
+[1120h 4384 004h]            Output Reference : 00000030
+[1124h 4388 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[ECFh 3791 004h]                  Input base : 1A0B0000
-[ED3h 3795 004h]                    ID Count : 00000000
-[ED7h 3799 004h]                 Output Base : 00001924
-[EDBh 3803 004h]            Output Reference : 00000030
-[EDFh 3807 004h]       Flags (decoded below) : 00000000
+[1128h 4392 004h]                  Input base : 1A0B0000
+[112Ch 4396 004h]                    ID Count : 00000000
+[1130h 4400 004h]                 Output Base : 00001924
+[1134h 4404 004h]            Output Reference : 00000030
+[1138h 4408 004h]       Flags (decoded below) : 00000000
                               Single Mapping : 0
 
-[EE3h 3811 001h]                        Type : 00
-[EE4h 3812 002h]                      Length : 0018
-[EE6h 3814 001h]                    Revision : 00
-[EE7h 3815 004h]                    Reserved : 00000000
-[EEBh 3819 004h]               Mapping Count : 00000000
-[EEFh 3823 004h]              Mapping Offset : 00000000
+[113Ch 4412 001h]                        Type : 00
+[113Dh 4413 002h]                      Length : 0018
+[113Fh 4415 001h]                    Revision : 00
+[1140h 4416 004h]                    Reserved : 00000000
+[1144h 4420 004h]               Mapping Count : 00000000
+[1148h 4424 004h]              Mapping Offset : 00000000
 
-[EF3h 3827 004h]                    ItsCount : 00000001
-[EF7h 3831 004h]                 Identifiers : 00000000
+[114Ch 4428 004h]                    ItsCount : 00000001
+[1150h 4432 004h]                 Identifiers : 00000000
 
-Raw Table Data: Length 3835 (0xEFB)
+Raw Table Data: Length 4436 (0x1154)
 
-    0000: 49 4F 52 54 FB 0E 00 00 00 00 51 43 4F 4D 20 20  // IORT......QCOM  
+    0000: 49 4F 52 54 54 11 00 00 00 00 51 43 4F 4D 20 20  // IORTT.....QCOM  
     0010: 51 43 4F 4D 45 44 4B 32 50 85 00 00 51 43 4F 4D  // QCOMEDK2P...QCOM
-    0020: 01 00 00 00 10 00 00 00 30 00 00 00 00 00 00 00  // ........0.......
+    0020: 01 00 00 00 11 00 00 00 30 00 00 00 00 00 00 00  // ........0.......
     0030: 03 4C 03 00 00 00 00 00 00 00 00 00 00 00 00 00  // .L..............
     0040: 00 00 00 15 00 00 00 00 00 00 10 00 00 00 00 00  // ................
     0050: 03 00 00 00 00 00 00 00 3C 00 00 00 60 00 00 00  // ........<...`...
@@ -1368,62 +1582,100 @@ Raw Table Data: Length 3835 (0xEFB)
     0B20: 00 00 00 09 0C 00 00 30 00 00 00 00 00 00 00 00  // .......0........
     0B30: 00 03 16 00 00 00 00 C3 10 00 00 30 00 00 00 00  // ...........0....
     0B40: 00 00 00 20 00 03 16 00 00 00 00 D6 10 00 00 30  // ... ...........0
-    0B50: 00 00 00 00 00 00 00 01 51 00 00 00 00 00 00 01  // ........Q.......
+    0B50: 00 00 00 00 00 00 00 01 59 02 00 00 00 00 00 1B  // ........Y.......
     0B60: 00 00 00 3D 00 00 00 00 00 00 00 00 00 00 00 00  // ...=............
-    0B70: 00 00 00 24 5C 5F 53 42 2E 55 53 42 41 00 00 00  // ...$\_SB.USBA...
+    0B70: 00 00 00 24 5C 5F 53 42 2E 4E 53 50 4D 00 00 00  // ...$\_SB.NSPM...
     0B80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    0B90: 00 00 00 00 00 00 03 07 00 00 00 00 0B 10 00 00  // ................
-    0BA0: 30 00 00 00 00 00 00 00 01 79 00 00 00 00 00 00  // 0........y......
-    0BB0: 03 00 00 00 3D 00 00 00 00 00 00 00 00 00 00 00  // ....=...........
-    0BC0: 00 00 00 00 28 5C 5F 53 42 2E 51 44 53 53 00 00  // ....(\_SB.QDSS..
-    0BD0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    0BE0: 00 00 00 00 00 00 00 03 19 00 00 00 00 C0 04 00  // ................
-    0BF0: 00 30 00 00 00 00 00 00 00 01 00 03 19 00 00 00  // .0..............
-    0C00: 00 E0 04 00 00 30 00 00 00 00 00 00 00 20 00 03  // .....0....... ..
-    0C10: 19 00 00 00 00 00 05 00 00 30 00 00 00 00 00 00  // .........0......
-    0C20: 00 01 79 00 00 00 00 00 00 03 00 00 00 3D 00 00  // ..y..........=..
-    0C30: 00 00 00 00 00 00 00 00 00 00 00 00 00 24 5C 5F  // .............$\_
-    0C40: 53 42 2E 41 44 53 50 2E 41 44 43 4D 00 00 00 00  // SB.ADSP.ADCM....
-    0C50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 20 00  // .............. .
-    0C60: 03 07 00 00 00 00 61 10 00 00 30 00 00 00 00 00  // ......a...0.....
-    0C70: 00 00 21 00 03 07 00 00 00 00 01 10 00 00 30 00  // ..!...........0.
-    0C80: 00 00 00 00 00 00 22 00 03 07 00 00 00 00 81 10  // ......".........
-    0C90: 00 00 30 00 00 00 00 00 00 00 01 65 00 00 00 00  // ..0........e....
-    0CA0: 00 00 02 00 00 00 3D 00 00 00 00 00 00 00 00 00  // ......=.........
-    0CB0: 00 00 00 00 00 00 28 5C 5F 53 42 2E 53 44 43 32  // ......(\_SB.SDC2
-    0CC0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    0CD0: 00 00 00 00 00 00 00 00 00 03 86 00 00 00 00 40  // ...............@
-    0CE0: 05 00 00 30 00 00 00 00 00 00 00 20 00 03 86 00  // ...0....... ....
-    0CF0: 00 00 00 80 00 00 00 30 00 00 00 00 00 00 00 01  // .......0........
-    0D00: 51 00 00 00 00 00 00 01 00 00 00 3D 00 00 00 00  // Q..........=....
-    0D10: 00 00 00 01 00 00 00 00 00 00 01 28 5C 5F 53 42  // ...........(\_SB
-    0D20: 2E 55 46 53 30 00 00 00 00 00 00 00 00 00 00 00  // .UFS0...........
-    0D30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03 81  // ................
-    0D40: 00 00 00 00 60 00 00 00 30 00 00 00 00 00 00 00  // ....`...0.......
-    0D50: 01 51 00 00 00 00 00 00 01 00 00 00 3D 00 00 00  // .Q..........=...
-    0D60: 00 00 00 00 00 00 00 00 00 00 00 00 28 5C 5F 53  // ............(\_S
-    0D70: 42 2E 55 52 53 30 00 00 00 00 00 00 00 00 00 00  // B.URS0..........
-    0D80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03  // ................
-    0D90: 80 00 00 00 00 40 00 00 00 30 00 00 00 00 00 00  // .....@...0......
-    0DA0: 00 01 C9 00 00 00 00 00 00 07 00 00 00 3D 00 00  // .............=..
-    0DB0: 00 00 00 00 00 00 00 00 00 00 00 00 00 24 5C 5F  // .............$\_
-    0DC0: 53 42 2E 47 50 55 30 2E 41 56 53 30 00 00 00 00  // SB.GPU0.AVS0....
-    0DD0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    0DE0: 03 01 00 00 00 00 00 08 00 00 30 00 00 00 00 00  // ..........0.....
-    0DF0: 00 00 01 00 03 01 00 00 00 00 20 08 00 00 30 00  // .......... ...0.
-    0E00: 00 00 00 00 00 00 20 00 03 01 00 00 00 00 00 18  // ...... .........
-    0E10: 00 00 30 00 00 00 00 00 00 00 21 00 03 01 00 00  // ..0.......!.....
-    0E20: 00 00 20 18 00 00 30 00 00 00 00 00 00 00 22 00  // .. ...0.......".
-    0E30: 03 01 00 00 00 00 40 18 00 00 30 00 00 00 00 00  // ......@...0.....
-    0E40: 00 00 23 00 03 01 00 00 00 00 80 18 00 00 30 00  // ..#...........0.
-    0E50: 00 00 00 00 00 00 24 00 03 01 00 00 00 00 C0 18  // ......$.........
-    0E60: 00 00 30 00 00 00 00 00 00 00 01 79 00 00 00 00  // ..0........y....
-    0E70: 00 00 03 00 00 00 3D 00 00 00 00 00 00 00 00 00  // ......=.........
-    0E80: 00 00 00 00 00 00 24 5C 5F 53 42 2E 45 56 41 30  // ......$\_SB.EVA0
-    0E90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    0EA0: 00 00 00 00 00 00 00 00 00 03 1A 00 00 00 00 20  // ............... 
-    0EB0: 19 00 00 30 00 00 00 00 00 00 00 00 00 0A 1A 00  // ...0............
-    0EC0: 00 00 00 23 19 00 00 30 00 00 00 00 00 00 00 00  // ...#...0........
-    0ED0: 00 0B 1A 00 00 00 00 24 19 00 00 30 00 00 00 00  // .......$...0....
-    0EE0: 00 00 00 00 18 00 00 00 00 00 00 00 00 00 00 00  // ................
-    0EF0: 00 00 00 01 00 00 00 00 00 00 00                 // ...........
+    0B90: 00 00 00 00 00 00 03 18 00 00 00 00 01 0C 00 00  // ................
+    0BA0: 30 00 00 00 00 00 00 00 01 00 03 18 00 00 00 00  // 0...............
+    0BB0: 21 0C 00 00 30 00 00 00 00 00 00 00 20 00 03 18  // !...0....... ...
+    0BC0: 00 00 00 00 02 0C 00 00 30 00 00 00 00 00 00 00  // ........0.......
+    0BD0: 21 00 03 18 00 00 00 00 22 0C 00 00 30 00 00 00  // !......."...0...
+    0BE0: 00 00 00 00 40 00 03 18 00 00 00 00 03 0C 00 00  // ....@...........
+    0BF0: 30 00 00 00 00 00 00 00 41 00 03 18 00 00 00 00  // 0.......A.......
+    0C00: 23 0C 00 00 30 00 00 00 00 00 00 00 60 00 03 18  // #...0.......`...
+    0C10: 00 00 00 00 04 0C 00 00 30 00 00 00 00 00 00 00  // ........0.......
+    0C20: 61 00 03 18 00 00 00 00 24 0C 00 00 30 00 00 00  // a.......$...0...
+    0C30: 00 00 00 00 80 00 03 18 00 00 00 00 05 0C 00 00  // ................
+    0C40: 30 00 00 00 00 00 00 00 81 00 03 18 00 00 00 00  // 0...............
+    0C50: 25 0C 00 00 30 00 00 00 00 00 00 00 A0 00 03 18  // %...0...........
+    0C60: 00 00 00 00 06 0C 00 00 30 00 00 00 00 00 00 00  // ........0.......
+    0C70: A1 00 03 18 00 00 00 00 26 0C 00 00 30 00 00 00  // ........&...0...
+    0C80: 00 00 00 00 C0 00 03 18 00 00 00 00 27 0C 00 00  // ............'...
+    0C90: 30 00 00 00 00 00 00 00 C1 00 03 18 00 00 00 00  // 0...............
+    0CA0: 07 0C 00 00 30 00 00 00 00 00 00 00 E0 00 03 18  // ....0...........
+    0CB0: 00 00 00 00 28 0C 00 00 30 00 00 00 00 00 00 00  // ....(...0.......
+    0CC0: E1 00 03 18 00 00 00 00 08 0C 00 00 30 00 00 00  // ............0...
+    0CD0: 00 00 00 00 00 01 03 18 00 00 00 00 2C 0C 00 00  // ............,...
+    0CE0: 30 00 00 00 00 00 00 00 01 01 03 18 00 00 00 00  // 0...............
+    0CF0: 0C 0C 00 00 30 00 00 00 00 00 00 00 20 01 03 18  // ....0....... ...
+    0D00: 00 00 00 00 2D 0C 00 00 30 00 00 00 00 00 00 00  // ....-...0.......
+    0D10: 21 01 03 18 00 00 00 00 0D 0C 00 00 30 00 00 00  // !...........0...
+    0D20: 00 00 00 00 40 01 03 18 00 00 00 00 2E 0C 00 00  // ....@...........
+    0D30: 30 00 00 00 00 00 00 00 41 01 03 18 00 00 00 00  // 0.......A.......
+    0D40: 0E 0C 00 00 30 00 00 00 00 00 00 00 60 01 03 18  // ....0.......`...
+    0D50: 00 00 00 00 2F 0C 00 00 30 00 00 00 00 00 00 00  // ..../...0.......
+    0D60: 61 01 03 18 00 00 00 00 0F 0C 00 00 30 00 00 00  // a...........0...
+    0D70: 00 00 00 00 20 02 03 18 00 00 00 00 0B 0C 00 00  // .... ...........
+    0D80: 30 00 00 00 00 00 00 00 00 00 0A 18 00 00 00 00  // 0...............
+    0D90: 29 0C 00 00 30 00 00 00 00 00 00 00 01 00 0A 18  // )...0...........
+    0DA0: 00 00 00 00 09 0C 00 00 30 00 00 00 00 00 00 00  // ........0.......
+    0DB0: 01 51 00 00 00 00 00 00 01 00 00 00 3D 00 00 00  // .Q..........=...
+    0DC0: 00 00 00 00 00 00 00 00 00 00 00 00 24 5C 5F 53  // ............$\_S
+    0DD0: 42 2E 55 53 42 41 00 00 00 00 00 00 00 00 00 00  // B.USBA..........
+    0DE0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03  // ................
+    0DF0: 07 00 00 00 00 0B 10 00 00 30 00 00 00 00 00 00  // .........0......
+    0E00: 00 01 79 00 00 00 00 00 00 03 00 00 00 3D 00 00  // ..y..........=..
+    0E10: 00 00 00 00 00 00 00 00 00 00 00 00 00 28 5C 5F  // .............(\_
+    0E20: 53 42 2E 51 44 53 53 00 00 00 00 00 00 00 00 00  // SB.QDSS.........
+    0E30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0E40: 03 19 00 00 00 00 C0 04 00 00 30 00 00 00 00 00  // ..........0.....
+    0E50: 00 00 01 00 03 19 00 00 00 00 E0 04 00 00 30 00  // ..............0.
+    0E60: 00 00 00 00 00 00 20 00 03 19 00 00 00 00 00 05  // ...... .........
+    0E70: 00 00 30 00 00 00 00 00 00 00 01 79 00 00 00 00  // ..0........y....
+    0E80: 00 00 03 00 00 00 3D 00 00 00 00 00 00 00 00 00  // ......=.........
+    0E90: 00 00 00 00 00 00 24 5C 5F 53 42 2E 41 44 53 50  // ......$\_SB.ADSP
+    0EA0: 2E 41 44 43 4D 00 00 00 00 00 00 00 00 00 00 00  // .ADCM...........
+    0EB0: 00 00 00 00 00 00 00 20 00 03 07 00 00 00 00 61  // ....... .......a
+    0EC0: 10 00 00 30 00 00 00 00 00 00 00 21 00 03 07 00  // ...0.......!....
+    0ED0: 00 00 00 01 10 00 00 30 00 00 00 00 00 00 00 22  // .......0......."
+    0EE0: 00 03 07 00 00 00 00 81 10 00 00 30 00 00 00 00  // ...........0....
+    0EF0: 00 00 00 01 65 00 00 00 00 00 00 02 00 00 00 3D  // ....e..........=
+    0F00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 28  // ...............(
+    0F10: 5C 5F 53 42 2E 53 44 43 32 00 00 00 00 00 00 00  // \_SB.SDC2.......
+    0F20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0F30: 00 00 03 86 00 00 00 00 40 05 00 00 30 00 00 00  // ........@...0...
+    0F40: 00 00 00 00 20 00 03 86 00 00 00 00 80 00 00 00  // .... ...........
+    0F50: 30 00 00 00 00 00 00 00 01 51 00 00 00 00 00 00  // 0........Q......
+    0F60: 01 00 00 00 3D 00 00 00 00 00 00 00 01 00 00 00  // ....=...........
+    0F70: 00 00 00 01 28 5C 5F 53 42 2E 55 46 53 30 00 00  // ....(\_SB.UFS0..
+    0F80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0F90: 00 00 00 00 00 00 00 03 81 00 00 00 00 60 00 00  // .............`..
+    0FA0: 00 30 00 00 00 00 00 00 00 01 51 00 00 00 00 00  // .0........Q.....
+    0FB0: 00 01 00 00 00 3D 00 00 00 00 00 00 00 00 00 00  // .....=..........
+    0FC0: 00 00 00 00 00 28 5C 5F 53 42 2E 55 52 53 30 00  // .....(\_SB.URS0.
+    0FD0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0FE0: 00 00 00 00 00 00 00 00 03 80 00 00 00 00 40 00  // ..............@.
+    0FF0: 00 00 30 00 00 00 00 00 00 00 01 C9 00 00 00 00  // ..0.............
+    1000: 00 00 07 00 00 00 3D 00 00 00 00 00 00 00 00 00  // ......=.........
+    1010: 00 00 00 00 00 00 24 5C 5F 53 42 2E 47 50 55 30  // ......$\_SB.GPU0
+    1020: 2E 41 56 53 30 00 00 00 00 00 00 00 00 00 00 00  // .AVS0...........
+    1030: 00 00 00 00 00 00 00 00 00 03 01 00 00 00 00 00  // ................
+    1040: 08 00 00 30 00 00 00 00 00 00 00 01 00 03 01 00  // ...0............
+    1050: 00 00 00 20 08 00 00 30 00 00 00 00 00 00 00 20  // ... ...0....... 
+    1060: 00 03 01 00 00 00 00 00 18 00 00 30 00 00 00 00  // ...........0....
+    1070: 00 00 00 21 00 03 01 00 00 00 00 20 18 00 00 30  // ...!....... ...0
+    1080: 00 00 00 00 00 00 00 22 00 03 01 00 00 00 00 40  // .......".......@
+    1090: 18 00 00 30 00 00 00 00 00 00 00 23 00 03 01 00  // ...0.......#....
+    10A0: 00 00 00 80 18 00 00 30 00 00 00 00 00 00 00 24  // .......0.......$
+    10B0: 00 03 01 00 00 00 00 C0 18 00 00 30 00 00 00 00  // ...........0....
+    10C0: 00 00 00 01 79 00 00 00 00 00 00 03 00 00 00 3D  // ....y..........=
+    10D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 24  // ...............$
+    10E0: 5C 5F 53 42 2E 45 56 41 30 00 00 00 00 00 00 00  // \_SB.EVA0.......
+    10F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    1100: 00 00 03 1A 00 00 00 00 20 19 00 00 30 00 00 00  // ........ ...0...
+    1110: 00 00 00 00 00 00 0A 1A 00 00 00 00 23 19 00 00  // ............#...
+    1120: 30 00 00 00 00 00 00 00 00 00 0B 1A 00 00 00 00  // 0...............
+    1130: 24 19 00 00 30 00 00 00 00 00 00 00 00 18 00 00  // $...0...........
+    1140: 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  // ................
+    1150: 00 00 00 00                                      // ....
