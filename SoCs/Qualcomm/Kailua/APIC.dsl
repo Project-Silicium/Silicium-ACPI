@@ -1,7 +1,7 @@
 [000h 0000 004h]                   Signature : "APIC"    [Multiple APIC Description Table (MADT)]
-[004h 0004 004h]                Table Length : 000002D9
+[004h 0004 004h]                Table Length : 000002C5
 [008h 0008 001h]                    Revision : 05
-[009h 0009 001h]                    Checksum : 00     /* Incorrect checksum, should be 18 */
+[009h 0009 001h]                    Checksum : 00     /* Incorrect checksum, should be 7A */
 [00Ah 0010 006h]                      Oem ID : "QCOM  "
 [010h 0016 008h]                Oem Table ID : "QCOMEDK2"
 [018h 0024 004h]                Oem Revision : 00008550
@@ -205,16 +205,9 @@
 [2C0h 0704 001h]                     Version : 03
 [2C1h 0705 003h]                    Reserved : 000000
 
-[2C5h 0709 001h]               Subtable Type : 0F [Generic Interrupt Translator]
-[2C6h 0710 001h]                      Length : 14
-[2C8h 0712 002h]                    Reserved : 0000
-[2C9h 0713 004h]              Translation ID : 00000000
-[2CDh 0717 008h]                Base Address : 0000000017140000
-[2D5h 0725 004h]                    Reserved : 00000000
+Raw Table Data: Length 709 (0x2C5)
 
-Raw Table Data: Length 729 (0x2D9)
-
-    0000: 41 50 49 43 D9 02 00 00 05 00 51 43 4F 4D 20 20  // APIC......QCOM  
+    0000: 41 50 49 43 C5 02 00 00 05 00 51 43 4F 4D 20 20  // APIC......QCOM  
     0010: 51 43 4F 4D 45 44 4B 32 50 85 00 00 51 43 4F 4D  // QCOMEDK2P...QCOM
     0020: 01 00 00 00 00 00 00 00 00 00 00 00 0B 50 00 00  // .............P..
     0030: 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00  // ................
@@ -258,5 +251,4 @@ Raw Table Data: Length 729 (0x2D9)
     0290: 00 00 00 00 19 00 00 00 00 00 34 17 00 00 00 00  // ..........4.....
     02A0: 00 07 00 00 00 00 00 00 02 00 00 00 0C 19 00 00  // ................
     02B0: 00 00 00 00 00 00 10 17 00 00 00 00 00 00 00 00  // ................
-    02C0: 03 00 00 00 00 0F 14 00 00 00 00 00 00 00 00 14  // ................
-    02D0: 17 00 00 00 00 00 00 00 00                       // .........
+    02C0: 03 00 00 00 00                                   // .....
