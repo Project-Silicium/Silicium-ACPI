@@ -86,7 +86,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
         Name (SOSI, 0xDEADBEEFFFFFFFFF)
         Name (PRP0, 0xFFFFFFFF)
         Name (PRP1, 0xFFFFFFFF)
-        Name (DPBM, 0x80000000)
         Name (PSUB, "MTP08550")
         Name (FPID, 0xFFFF)
         Method (PHRV, 0, Serialized)
@@ -836,7 +835,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             }
                             ElseIf ((_T_1 == One))
                             {
-                                Name (SUBI, Package (0x03)
+                                Name (SUBI, Package (0x04)
                                 {
                                     Package (0x03)
                                     {
@@ -857,6 +856,13 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                         "spss", 
                                         Zero, 
                                         0x04
+                                    }, 
+
+                                    Package (0x03)
+                                    {
+                                        "modem", 
+                                        One, 
+                                        0x05
                                     }
                                 })
                                 Return (SUBI) /* \_SB_.PEP0._DSM.SUBI */
@@ -916,6 +922,24 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                 }
                             }
                             ElseIf ((_T_1 == 0x05))
+                            {
+                                If (CondRefOf (\_SB.AMSS))
+                                {
+                                    If (CondRefOf (\_SB.AMSS._STA))
+                                    {
+                                        Return (\_SB.AMSS._STA ())
+                                    }
+                                    Else
+                                    {
+                                        Return (0x0F)
+                                    }
+                                }
+                                Else
+                                {
+                                    Return (Zero)
+                                }
+                            }
+                            ElseIf ((_T_1 == 0x06))
                             {
                                 Debug = "Update PEPI Variable"
                                 PEPI = One
@@ -1418,7 +1442,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                         "DEVICE", 
                         0x82, 
                         "\\_SB.GPU0", 
-                        Package (0x0D)
+                        Package (0x0C)
                         {
                             "COMPONENT", 
                             Zero, 
@@ -1426,7 +1450,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "FSTATE", 
                                 Zero, 
-                                Package (0x1E)
+                                Package (0x1A)
                                 {
                                     "EXIT", 
                                     Package (0x02)
@@ -1610,46 +1634,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                     Package (0x02)
                                     {
                                         "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_pclk1_clk", 
-                                            One
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_esc1_clk", 
-                                            One
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_byte1_clk", 
-                                            One
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_byte1_intf_clk", 
-                                            One
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
                                         Package (0x04)
                                         {
                                             "disp_cc_mdss_mdp_clk", 
@@ -1807,7 +1791,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 One, 
-                                Package (0x11)
+                                Package (0x0D)
                                 {
                                     "PSTATE", 
                                     Zero, 
@@ -1922,46 +1906,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                             "disp_cc_mdss_byte0_intf_clk", 
                                             One
                                         }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_pclk1_clk", 
-                                            One
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_esc1_clk", 
-                                            One
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_byte1_clk", 
-                                            One
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_byte1_intf_clk", 
-                                            One
-                                        }
                                     }
                                 }, 
 
@@ -2017,7 +1961,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 0x03, 
-                                Package (0x03)
+                                Package (0x04)
                                 {
                                     "PSTATE", 
                                     Zero, 
@@ -2028,6 +1972,19 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                         {
                                             0x03, 
                                             "ICBID_MASTER_MDP", 
+                                            "ICBID_SLAVE_MNOC_HF_MEM_NOC", 
+                                            Zero, 
+                                            0x77359400
+                                        }
+                                    }, 
+
+                                    Package (0x02)
+                                    {
+                                        "BUSARB", 
+                                        Package (0x05)
+                                        {
+                                            0x03, 
+                                            "ICBID_MASTER_MNOC_HF_MEM_NOC", 
                                             "ICBID_SLAVE_EBI1", 
                                             Zero, 
                                             0x77359400
@@ -2046,7 +2003,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 0x04, 
-                                Package (0x03)
+                                Package (0x04)
                                 {
                                     "PSTATE", 
                                     Zero, 
@@ -2057,6 +2014,19 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                         {
                                             0x03, 
                                             "ICBID_MASTER_MDP", 
+                                            "ICBID_SLAVE_MNOC_HF_MEM_NOC", 
+                                            Zero, 
+                                            Zero
+                                        }
+                                    }, 
+
+                                    Package (0x02)
+                                    {
+                                        "BUSARB", 
+                                        Package (0x05)
+                                        {
+                                            0x03, 
+                                            "ICBID_MASTER_MNOC_HF_MEM_NOC", 
                                             "ICBID_SLAVE_EBI1", 
                                             0x35A4E900, 
                                             Zero
@@ -2075,72 +2045,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 0x05, 
-                                Package (0x07)
-                                {
-                                    "PSTATE", 
-                                    Zero, 
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_rscc_ahb_clk", 
-                                            0x02
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_mdss_ahb_clk", 
-                                            0x02
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "disp_cc_xo_clk", 
-                                            0x02
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "gcc_disp_xo_clk", 
-                                            0x02
-                                        }
-                                    }, 
-
-                                    Package (0x02)
-                                    {
-                                        "CLOCK", 
-                                        Package (0x02)
-                                        {
-                                            "gcc_disp_ahb_clk", 
-                                            0x02
-                                        }
-                                    }
-                                }, 
-
-                                Package (0x02)
-                                {
-                                    "PRELOAD_PSTATE", 
-                                    Zero
-                                }
-                            }, 
-
-                            Package (0x04)
-                            {
-                                "PSTATE_SET", 
-                                0x06, 
                                 Package (0x02)
                                 {
                                     "PSTATE", 
@@ -2584,7 +2488,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 0x02, 
-                                Package (0x03)
+                                Package (0x04)
                                 {
                                     "PSTATE", 
                                     Zero, 
@@ -2595,6 +2499,19 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                         {
                                             0x03, 
                                             "ICBID_MASTER_MDP", 
+                                            "ICBID_SLAVE_MNOC_HF_MEM_NOC", 
+                                            Zero, 
+                                            0x77359400
+                                        }
+                                    }, 
+
+                                    Package (0x02)
+                                    {
+                                        "BUSARB", 
+                                        Package (0x05)
+                                        {
+                                            0x03, 
+                                            "ICBID_MASTER_MNOC_HF_MEM_NOC", 
                                             "ICBID_SLAVE_EBI1", 
                                             Zero, 
                                             0x77359400
@@ -2613,7 +2530,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 0x03, 
-                                Package (0x03)
+                                Package (0x04)
                                 {
                                     "PSTATE", 
                                     Zero, 
@@ -2624,6 +2541,19 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                         {
                                             0x03, 
                                             "ICBID_MASTER_MDP", 
+                                            "ICBID_SLAVE_MNOC_HF_MEM_NOC", 
+                                            Zero, 
+                                            Zero
+                                        }
+                                    }, 
+
+                                    Package (0x02)
+                                    {
+                                        "BUSARB", 
+                                        Package (0x05)
+                                        {
+                                            0x03, 
+                                            "ICBID_MASTER_MNOC_HF_MEM_NOC", 
                                             "ICBID_SLAVE_EBI1", 
                                             0x35A4E900, 
                                             Zero
@@ -3225,7 +3155,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 0x02, 
-                                Package (0x03)
+                                Package (0x04)
                                 {
                                     "PSTATE", 
                                     Zero, 
@@ -3236,6 +3166,19 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                         {
                                             0x03, 
                                             "ICBID_MASTER_MDP", 
+                                            "ICBID_SLAVE_MNOC_HF_MEM_NOC", 
+                                            Zero, 
+                                            0x77359400
+                                        }
+                                    }, 
+
+                                    Package (0x02)
+                                    {
+                                        "BUSARB", 
+                                        Package (0x05)
+                                        {
+                                            0x03, 
+                                            "ICBID_MASTER_MNOC_HF_MEM_NOC", 
                                             "ICBID_SLAVE_EBI1", 
                                             Zero, 
                                             0x77359400
@@ -3254,7 +3197,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             {
                                 "PSTATE_SET", 
                                 0x03, 
-                                Package (0x03)
+                                Package (0x04)
                                 {
                                     "PSTATE", 
                                     Zero, 
@@ -3265,6 +3208,19 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                         {
                                             0x03, 
                                             "ICBID_MASTER_MDP", 
+                                            "ICBID_SLAVE_MNOC_HF_MEM_NOC", 
+                                            Zero, 
+                                            Zero
+                                        }
+                                    }, 
+
+                                    Package (0x02)
+                                    {
+                                        "BUSARB", 
+                                        Package (0x05)
+                                        {
+                                            0x03, 
+                                            "ICBID_MASTER_MNOC_HF_MEM_NOC", 
                                             "ICBID_SLAVE_EBI1", 
                                             0x35A4E900, 
                                             Zero
@@ -8819,12 +8775,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
             })
         }
 
-        Device (WLDS)
-        {
-            Name (_HID, "QCOM06D0")  // _HID: Hardware ID
-            Alias (\_SB.PSUB, _SUB)
-        }
-
         Scope (\_SB.PEP0)
         {
             Method (LPMX, 0, NotSerialized)
@@ -9239,19 +9189,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                                 "\\_SB.GIO0", 0x00, ResourceConsumer, ,
                                 )
                                 {   // Pin list
-                                    0x00BF
-                                }
-                            GpioIo (Exclusive, PullNone, 0x0000, 0x0640, IoRestrictionNone,
-                                "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                                )
-                                {   // Pin list
-                                    0x00CC
-                                }
-                            GpioIo (Exclusive, PullNone, 0x0000, 0x0640, IoRestrictionNone,
-                                "\\_SB.GIO0", 0x00, ResourceConsumer, ,
-                                )
-                                {   // Pin list
-                                    0x00CD
+                                    0x006C
                                 }
                             GpioIo (Exclusive, PullNone, 0x0000, 0x0640, IoRestrictionNone,
                                 "\\_SB.GIO0", 0x00, ResourceConsumer, ,
@@ -9282,10 +9220,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                             Interrupt (ResourceConsumer, Edge, ActiveHigh, Exclusive, ,, )
                             {
                                 0x000000CA,
-                            }
-                            Interrupt (ResourceConsumer, Edge, ActiveHigh, Exclusive, ,, )
-                            {
-                                0x000000CB,
                             }
                         })
                         Return (RBUF) /* \_SB_.ADSP.ADCM.AUCD._CRS.RBUF */
@@ -9533,15 +9467,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
 
         Scope (\_SB.AMSS)
         {
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                Return (0x0F)
-            }
-
-            Method (_SUB, 0, NotSerialized)  // _SUB: Subsystem ID
-            {
-                Return (\_SB.PSUB)
-            }
         }
 
         Scope (\_SB.PILC)
@@ -9558,70 +9483,19 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
 
         Scope (\_SB.NSP0)
         {
-            Name (_CID, "QCOMFFE7")  // _CID: Compatible ID
+            Name (_CID, "QCOMFFE9")  // _CID: Compatible ID
         }
 
-        Scope (\_SB.PDSR)
+        Scope (\_SB.AMSS)
         {
-            Name (CHRV, Zero)
-            Method (_HRV, 0, NotSerialized)  // _HRV: Hardware Revision
+            Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                If ((DPBM & (One << 0x07)))
-                {
-                    CHRV = (CHRV | (One << 0x02))
-                }
-
-                If ((\_SB.SDFE == 0x88))
-                {
-                    CHRV = (CHRV | (One << 0x03))
-                }
-                ElseIf ((\_SB.SDFE == 0x9A))
-                {
-                    CHRV = (CHRV | (One << 0x03))
-                }
-
-                Return (CHRV) /* \_SB_.PDSR.CHRV */
+                Return (0x0F)
             }
-        }
 
-        Scope (\_SB.PILC)
-        {
-            Name (CHRV, Zero)
-            Method (_HRV, 0, NotSerialized)  // _HRV: Hardware Revision
+            Method (_SUB, 0, NotSerialized)  // _SUB: Subsystem ID
             {
-                If ((((DPBM & (One << Zero)) || (DPBM & 
-                    (One << One))) || (DPBM & (One << 0x03))))
-                {
-                    CHRV = (CHRV | (One << Zero))
-                    CHRV = (CHRV | (One << One))
-                    CHRV = (CHRV | (One << 0x04))
-                }
-
-                If ((DPBM & (One << 0x02)))
-                {
-                    CHRV = (CHRV | (One << One))
-                }
-
-                If ((DPBM & (One << 0x07)))
-                {
-                    CHRV = (CHRV | (One << 0x02))
-                }
-
-                If ((DPBM & (One << 0x0F)))
-                {
-                    CHRV = (CHRV | (One << 0x04))
-                }
-
-                If ((\_SB.SDFE == 0x88))
-                {
-                    CHRV = (CHRV | (One << 0x03))
-                }
-                ElseIf ((\_SB.SDFE == 0x9A))
-                {
-                    CHRV = (CHRV | (One << 0x03))
-                }
-
-                Return (CHRV) /* \_SB_.PILC.CHRV */
+                Return (\_SB.PSUB)
             }
         }
 
@@ -11245,7 +11119,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
             }
 
             Name (GPIV, Zero)
-            Name (GPIC, 0xD2)
+            Name (GPIC, 0xEE)
             Name (GPIW, 0x1000)
             Name (GPIB, Package (0x26)
             {
@@ -11288,7 +11162,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                 One, 
                 Zero
             })
-            Name (GICB, 0x17100000)
+            Name (GICB, 0x17000000)
             Name (GICS, 0x00290000)
             Name (GIC0, 0x0100)
             Name (GIC1, 0x0180)
@@ -11298,20 +11172,664 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
             Name (PDCC, 0x0B220110)
             Name (PDCM, 0x4330)
             Name (PDCV, One)
-            Name (CIPR, Package (0x01)
+            Name (CIPR, Package (0x5D)
             {
                 Package (0x03)
                 {
-                    0x71, 
-                    0x26, 
+                    0x76, 
+                    Zero, 
+                    0x0299
+                }, 
+
+                Package (0x03)
+                {
+                    0x5A, 
+                    0x02, 
+                    0x025A
+                }, 
+
+                Package (0x03)
+                {
+                    0x65, 
+                    0x03, 
+                    0x0288
+                }, 
+
+                Package (0x03)
+                {
+                    0x3C, 
+                    0x08, 
+                    0x023C
+                }, 
+
+                Package (0x03)
+                {
+                    0x43, 
+                    0x09, 
+                    0x0243
+                }, 
+
+                Package (0x03)
+                {
+                    0x67, 
+                    0x0B, 
+                    0x028A
+                }, 
+
+                Package (0x03)
+                {
+                    0x88, 
+                    0x0E, 
+                    0x02F6
+                }, 
+
+                Package (0x03)
+                {
+                    0x4E, 
+                    0x0F, 
+                    0x024E
+                }, 
+
+                Package (0x03)
+                {
+                    0x8A, 
+                    0x10, 
+                    0x011B
+                }, 
+
+                Package (0x03)
+                {
+                    0x50, 
+                    0x11, 
+                    0x0250
+                }, 
+
+                Package (0x03)
+                {
+                    0x47, 
+                    0x12, 
+                    0x0247
+                }, 
+
+                Package (0x03)
+                {
+                    0x3B, 
+                    0x13, 
+                    0x023B
+                }, 
+
+                Package (0x03)
+                {
+                    0x39, 
+                    0x19, 
+                    0x0239
+                }, 
+
+                Package (0x03)
+                {
+                    0x4A, 
+                    0x1A, 
+                    0x024A
+                }, 
+
+                Package (0x03)
+                {
+                    0x4C, 
+                    0x1B, 
+                    0x024C
+                }, 
+
+                Package (0x03)
+                {
+                    0x3E, 
+                    0x1C, 
+                    0x023E
+                }, 
+
+                Package (0x03)
+                {
+                    0x58, 
+                    0x1F, 
+                    0x0258
+                }, 
+
+                Package (0x03)
+                {
+                    0x3F, 
+                    0x20, 
+                    0x023F
+                }, 
+
+                Package (0x03)
+                {
+                    0x7C, 
+                    0x23, 
+                    0x029F
+                }, 
+
+                Package (0x03)
+                {
+                    0x5C, 
+                    0x27, 
+                    0x025C
+                }, 
+
+                Package (0x03)
+                {
+                    0x4D, 
+                    0x28, 
+                    0x024D
+                }, 
+
+                Package (0x03)
+                {
+                    0x53, 
+                    0x29, 
+                    0x0253
+                }, 
+
+                Package (0x03)
+                {
+                    0x56, 
+                    0x2B, 
+                    0x0256
+                }, 
+
+                Package (0x03)
+                {
+                    0x4B, 
+                    0x2C, 
+                    0x024B
+                }, 
+
+                Package (0x03)
+                {
+                    0x5D, 
+                    0x2D, 
+                    0x025D
+                }, 
+
+                Package (0x03)
+                {
+                    0x60, 
+                    0x2E, 
+                    0x0283
+                }, 
+
+                Package (0x03)
+                {
+                    0x40, 
+                    0x2F, 
+                    0x0240
+                }, 
+
+                Package (0x03)
+                {
+                    0x6E, 
+                    0x30, 
+                    0x0291
+                }, 
+
+                Package (0x03)
+                {
+                    0x59, 
+                    0x33, 
+                    0x0259
+                }, 
+
+                Package (0x03)
+                {
+                    0x5F, 
+                    0x37, 
+                    0x0282
+                }, 
+
+                Package (0x03)
+                {
+                    0x44, 
+                    0x38, 
+                    0x0244
+                }, 
+
+                Package (0x03)
+                {
+                    0x57, 
+                    0x3B, 
+                    0x0257
+                }, 
+
+                Package (0x03)
+                {
+                    0x41, 
+                    0x3C, 
+                    0x0241
+                }, 
+
+                Package (0x03)
+                {
+                    0x64, 
+                    0x3E, 
+                    0x0287
+                }, 
+
+                Package (0x03)
+                {
+                    0x51, 
+                    0x3F, 
+                    0x0251
+                }, 
+
+                Package (0x03)
+                {
+                    0x4F, 
+                    0x43, 
+                    0x024F
+                }, 
+
+                Package (0x03)
+                {
+                    0x66, 
+                    0x47, 
+                    0x0289
+                }, 
+
+                Package (0x03)
+                {
+                    0x52, 
+                    0x49, 
+                    0x0252
+                }, 
+
+                Package (0x03)
+                {
+                    0x48, 
+                    0x4B, 
+                    0x0248
+                }, 
+
+                Package (0x03)
+                {
+                    0x8C, 
+                    0x4F, 
+                    0x011D
+                }, 
+
+                Package (0x03)
+                {
+                    0x69, 
+                    0x52, 
+                    0x028C
+                }, 
+
+                Package (0x03)
+                {
+                    0x68, 
+                    0x53, 
+                    0x028B
+                }, 
+
+                Package (0x03)
+                {
+                    0x7E, 
+                    0x54, 
+                    0x02EC
+                }, 
+
+                Package (0x03)
+                {
+                    0x8E, 
+                    0x55, 
+                    0x011F
+                }, 
+
+                Package (0x03)
+                {
+                    0x6A, 
+                    0x56, 
+                    0x028D
+                }, 
+
+                Package (0x03)
+                {
+                    0x6B, 
+                    0x57, 
+                    0x028E
+                }, 
+
+                Package (0x03)
+                {
+                    0x3D, 
+                    0x58, 
+                    0x023D
+                }, 
+
+                Package (0x03)
+                {
+                    0x6F, 
+                    0x59, 
+                    0x0292
+                }, 
+
+                Package (0x03)
+                {
+                    0x6C, 
+                    0x5F, 
                     0x028F
+                }, 
+
+                Package (0x03)
+                {
+                    0x6D, 
+                    0x60, 
+                    0x0290
+                }, 
+
+                Package (0x03)
+                {
+                    0x61, 
+                    0x62, 
+                    0x0284
+                }, 
+
+                Package (0x03)
+                {
+                    0x3A, 
+                    0x63, 
+                    0x023A
+                }, 
+
+                Package (0x03)
+                {
+                    0x8B, 
+                    0x6B, 
+                    0x011C
+                }, 
+
+                Package (0x03)
+                {
+                    0x5E, 
+                    0x77, 
+                    0x0281
+                }, 
+
+                Package (0x03)
+                {
+                    0x87, 
+                    0x78, 
+                    0x02F5
+                }, 
+
+                Package (0x03)
+                {
+                    0x34, 
+                    0x85, 
+                    0x0234
+                }, 
+
+                Package (0x03)
+                {
+                    0x54, 
+                    0x89, 
+                    0x0254
+                }, 
+
+                Package (0x03)
+                {
+                    0x42, 
+                    0x94, 
+                    0x0242
+                }, 
+
+                Package (0x03)
+                {
+                    0x49, 
+                    0x96, 
+                    0x0249
+                }, 
+
+                Package (0x03)
+                {
+                    0x46, 
+                    0x99, 
+                    0x0246
+                }, 
+
+                Package (0x03)
+                {
+                    0x35, 
+                    0x9A, 
+                    0x0235
+                }, 
+
+                Package (0x03)
+                {
+                    0x45, 
+                    0x9B, 
+                    0x0245
+                }, 
+
+                Package (0x03)
+                {
+                    0x36, 
+                    0x9C, 
+                    0x0236
+                }, 
+
+                Package (0x03)
+                {
+                    0x37, 
+                    0x9F, 
+                    0x0237
+                }, 
+
+                Package (0x03)
+                {
+                    0x38, 
+                    0xA2, 
+                    0x0238
+                }, 
+
+                Package (0x03)
+                {
+                    0x74, 
+                    0xA6, 
+                    0x0297
+                }, 
+
+                Package (0x03)
+                {
+                    0x77, 
+                    0xA9, 
+                    0x029A
+                }, 
+
+                Package (0x03)
+                {
+                    0x78, 
+                    0xAB, 
+                    0x029B
+                }, 
+
+                Package (0x03)
+                {
+                    0x55, 
+                    0xAC, 
+                    0x0255
+                }, 
+
+                Package (0x03)
+                {
+                    0x62, 
+                    0xAE, 
+                    0x0285
+                }, 
+
+                Package (0x03)
+                {
+                    0x70, 
+                    0xB0, 
+                    0x0293
+                }, 
+
+                Package (0x03)
+                {
+                    0x33, 
+                    0xB1, 
+                    0x0233
+                }, 
+
+                Package (0x03)
+                {
+                    0x72, 
+                    0xB5, 
+                    0x0295
+                }, 
+
+                Package (0x03)
+                {
+                    0x73, 
+                    0xB6, 
+                    0x0296
+                }, 
+
+                Package (0x03)
+                {
+                    0x75, 
+                    0xB9, 
+                    0x0298
+                }, 
+
+                Package (0x03)
+                {
+                    0x5B, 
+                    0xBB, 
+                    0x025B
+                }, 
+
+                Package (0x03)
+                {
+                    0x7B, 
+                    0xBC, 
+                    0x029E
+                }, 
+
+                Package (0x03)
+                {
+                    0x7F, 
+                    0xBE, 
+                    0x02ED
+                }, 
+
+                Package (0x03)
+                {
+                    0x71, 
+                    0xBF, 
+                    0x0294
+                }, 
+
+                Package (0x03)
+                {
+                    0x80, 
+                    0xC0, 
+                    0x02EE
+                }, 
+
+                Package (0x03)
+                {
+                    0x81, 
+                    0xC1, 
+                    0x02EF
+                }, 
+
+                Package (0x03)
+                {
+                    0x85, 
+                    0xC4, 
+                    0x02F3
+                }, 
+
+                Package (0x03)
+                {
+                    0x86, 
+                    0xC5, 
+                    0x02F4
+                }, 
+
+                Package (0x03)
+                {
+                    0x32, 
+                    0xC6, 
+                    0x0232
+                }, 
+
+                Package (0x03)
+                {
+                    0x63, 
+                    0xC7, 
+                    0x0286
+                }, 
+
+                Package (0x03)
+                {
+                    0x31, 
+                    0xC8, 
+                    0x0231
+                }, 
+
+                Package (0x03)
+                {
+                    0x30, 
+                    0xC9, 
+                    0x0230
+                }, 
+
+                Package (0x03)
+                {
+                    0x7D, 
+                    0xCB, 
+                    0x5F
+                }, 
+
+                Package (0x03)
+                {
+                    0x8D, 
+                    0xCD, 
+                    0x011E
+                }, 
+
+                Package (0x03)
+                {
+                    0x89, 
+                    0xCE, 
+                    0x02F7
+                }, 
+
+                Package (0x03)
+                {
+                    0x2F, 
+                    0xCF, 
+                    0x022F
+                }, 
+
+                Package (0x03)
+                {
+                    0x79, 
+                    0xD0, 
+                    0x029C
+                }, 
+
+                Package (0x03)
+                {
+                    0x7A, 
+                    0xD1, 
+                    0x029D
                 }
             })
             Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
             {
                 While (One)
                 {
-                    Name (_T_0, Buffer (One)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                    Name (_T_0, Buffer (0x01)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
                     {
                          0x00                                             // .
                     })
@@ -11320,7 +11838,7 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                     {
                         While (One)
                         {
-                            Name (_T_1, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            Name (_T_1, 0x00)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
                             _T_1 = Arg2
                             If ((_T_1 == Zero))
                             {
@@ -11341,13 +11859,13 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                     {
                         While (One)
                         {
-                            Name (_T_2, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            Name (_T_2, 0x00)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
                             _T_2 = ToInteger (Arg2)
                             If ((_T_2 == Zero))
                             {
                                 While (One)
                                 {
-                                    Name (_T_3, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                                    Name (_T_3, 0x00)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
                                     _T_3 = ToInteger (Arg1)
                                     If ((_T_3 == Zero))
                                     {
@@ -11402,13 +11920,13 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
                     {
                         While (One)
                         {
-                            Name (_T_4, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                            Name (_T_4, 0x00)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
                             _T_4 = ToInteger (Arg2)
                             If ((_T_4 == Zero))
                             {
                                 While (One)
                                 {
-                                    Name (_T_5, Zero)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
+                                    Name (_T_5, 0x00)  // _T_x: Emitted by ASL Compiler, x=0-9, A-Z
                                     _T_5 = ToInteger (Arg1)
                                     If ((_T_5 == Zero))
                                     {
@@ -12805,15 +13323,6 @@ DefinitionBlock ("", "DSDT", 2, "QCOMM ", "SDM8550 ", 0x00000003)
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 Return (0x0F)
-            }
-
-            Method (_HRV, 0, NotSerialized)  // _HRV: Hardware Revision
-            {
-                Name (RETV, Zero)
-                RETV = \_SB.PHRV ()
-                Debug = "PHRV-"
-                Debug = RETV /* \_SB_.NSPM._HRV.RETV */
-                Return (RETV) /* \_SB_.NSPM._HRV.RETV */
             }
         }
 
