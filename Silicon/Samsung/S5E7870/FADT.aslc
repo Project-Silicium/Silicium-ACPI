@@ -29,7 +29,12 @@ EFI_ACPI_6_6_FIXED_ACPI_DESCRIPTION_TABLE FadtTable = {
   // Flags
   //
   .Flags              = EFI_ACPI_6_6_HW_REDUCED_ACPI | EFI_ACPI_6_6_LOW_POWER_S0_IDLE_CAPABLE,
-  .ArmBootArch        = EFI_ACPI_6_6_ARM_PSCI_COMPLIANT
+  .ArmBootArch        = EFI_ACPI_6_6_ARM_PSCI_COMPLIANT,
+
+  //
+  // Hypervisor
+  //
+  .HypervisorVendorIdentity = 0x474E55534D4153
 };
 
 //
