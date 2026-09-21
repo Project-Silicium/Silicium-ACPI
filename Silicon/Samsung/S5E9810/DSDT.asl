@@ -39,7 +39,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "SAMSUN", "S5E9810 ", 3)
             Name (_HID, "ACPI0007")
             Name (_UID, 4)
 
-            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+            Method (_STA, 0, NotSerialized) { Return (0x00) }
         }
 
         Device (CPU5)
@@ -47,7 +47,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "SAMSUN", "S5E9810 ", 3)
             Name (_HID, "ACPI0007")
             Name (_UID, 5)
 
-            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+            Method (_STA, 0, NotSerialized) { Return (0x00) }
         }
 
         Device (CPU6)
@@ -55,7 +55,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "SAMSUN", "S5E9810 ", 3)
             Name (_HID, "ACPI0007")
             Name (_UID, 6)
 
-            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+            Method (_STA, 0, NotSerialized) { Return (0x00) }
         }
 
         Device (CPU7)
@@ -63,7 +63,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "SAMSUN", "S5E9810 ", 3)
             Name (_HID, "ACPI0007")
             Name (_UID, 7)
 
-            Method (_STA, 0, NotSerialized) { Return (0x0F) }
+            Method (_STA, 0, NotSerialized) { Return (0x00) }
         }
     }
 }
