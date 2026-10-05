@@ -1,0 +1,187 @@
+#include <Library/PcdLib.h>
+
+#include <IndustryStandard/Acpi.h>
+
+//
+// MADT Table Structure
+//
+typedef struct {
+  EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE_HEADER MadtHeader;
+  EFI_ACPI_6_6_GIC_STRUCTURE                          GicC[8];
+  EFI_ACPI_6_6_GIC_DISTRIBUTOR_STRUCTURE              GicD;
+  EFI_ACPI_6_6_GICR_STRUCTURE                         GicR;
+} EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE;
+
+//
+// MADT Table
+//
+EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
+  //
+  // MADT Table Header
+  //
+  .MadtHeader = {
+    //
+    // ACPI Table Header
+    //
+    .Header = {
+      .Signature                     = EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE_SIGNATURE,
+      .Length                        = sizeof (EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE),
+      .Revision                      = EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE_REVISION,
+      .OemId                         = {'Q', 'C', 'O', 'M', ' ', ' '},
+      .OemTableId                    = FixedPcdGet64 (PcdAcpiDefaultOemTableId),
+      .OemRevision                   = FixedPcdGet32 (PcdAcpiDefaultOemRevision),
+      .CreatorId                     = FixedPcdGet32 (PcdAcpiDefaultCreatorId),
+      .CreatorRevision               = FixedPcdGet32 (PcdAcpiDefaultCreatorRevision)
+    }
+  },
+
+  //
+  // GIC CPU Interfaces
+  //
+  .GicC = {
+    //
+    // Core 0
+    //
+    [0] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x000,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 0,
+      .AcpiProcessorUid              = 0,
+      .ProcessorPowerEfficiencyClass = 1
+    },
+
+    //
+    // Core 1
+    //
+    [1] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x001,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 1,
+      .AcpiProcessorUid              = 1,
+      .ProcessorPowerEfficiencyClass = 1
+    },
+
+    //
+    // Core 2
+    //
+    [2] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x002,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 2,
+      .AcpiProcessorUid              = 2,
+      .ProcessorPowerEfficiencyClass = 1
+    },
+
+    //
+    // Core 3
+    //
+    [3] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x003,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 3,
+      .AcpiProcessorUid              = 3,
+      .ProcessorPowerEfficiencyClass = 1
+    },
+
+    //
+    // Core 4
+    //
+    [4] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x100,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 4,
+      .AcpiProcessorUid              = 4,
+      .ProcessorPowerEfficiencyClass = 0
+    },
+
+    //
+    // Core 5
+    //
+    [5] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x101,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 5,
+      .AcpiProcessorUid              = 5,
+      .ProcessorPowerEfficiencyClass = 0
+    },
+
+    //
+    // Core 6
+    //
+    [6] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x102,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 6,
+      .AcpiProcessorUid              = 6,
+      .ProcessorPowerEfficiencyClass = 0
+    },
+
+    //
+    // Core 7
+    //
+    [7] = {
+      .Type                          = EFI_ACPI_6_6_GIC,
+      .Length                        = sizeof (EFI_ACPI_6_6_GIC_STRUCTURE),
+      .Flags                         = EFI_ACPI_6_6_GIC_ENABLED,
+      .MPIDR                         = 0x103,
+      .PerformanceInterruptGsiv      = 22,
+      .VGICMaintenanceInterrupt      = 25,
+      .CPUInterfaceNumber            = 7,
+      .AcpiProcessorUid              = 7,
+      .ProcessorPowerEfficiencyClass = 0
+    }
+  },
+
+  //
+  // GIC Distributor
+  //
+  .GicD = {
+    .Type                            = EFI_ACPI_6_6_GICD,
+    .Length                          = sizeof (EFI_ACPI_6_6_GIC_DISTRIBUTOR_STRUCTURE),
+    .PhysicalBaseAddress             = FixedPcdGet64 (PcdGicDistributorBase),
+    .GicVersion                      = EFI_ACPI_6_6_GIC_V3
+  },
+
+  //
+  // GIC Redistributor
+  //
+  .GicR = {
+    .Type                            = EFI_ACPI_6_6_GICR,
+    .Length                          = sizeof (EFI_ACPI_6_6_GICR_STRUCTURE),
+    .DiscoveryRangeBaseAddress       = FixedPcdGet64 (PcdGicRedistributorsBase),
+    .DiscoveryRangeLength            = 0x100000
+  }
+};
+
+//
+// MADT Table Reference
+//
+VOID *ReferenceAcpiTable = (VOID*)&MadtTable;

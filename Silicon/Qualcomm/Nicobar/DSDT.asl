@@ -1,26 +1,50 @@
-DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOM ", "SM6125 ", 3)
+DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOM ", "NICOBAR ", 3)
 {
     External (\_SB.PSUB, StrObj)
 
     Scope (\_SB)
     {
+        Name (EMUL, 0xFFFFFFFF)
+
+        Device (UFS0)
+        {
+            Alias (\_SB.EMUL, EMUL)
+
+            Name (_HID, "QCOM24A5")
+            Name (_UID, 0)
+            Name (_CCA, 0)
+
+            Name (_CRS, ResourceTemplate ()
+            {
+                Memory32Fixed (ReadWrite, 0x04804000, 0x00003000)
+
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x184 }
+            })
+
+            Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
+
+            Device (DEV0)
+            {
+                Name (_ADR, 8)
+                Name (_RMV, 0)
+            }
+        }
+
         Device (SDC1)
         {
             Name (_HID, "QCOM24BF")
-            Name (_CID, "ACPIQCOM24BF")
             Name (_UID, 0)
             Name (_CCA, 0)
 
             Name  (_CRS, ResourceTemplate ()
             {
-                Memory32Fixed (ReadWrite, 0x04744000, 0x00002000)
+                Memory32Fixed (ReadWrite, 0x04744000, 0x00001000)
 
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, ) { 0x17C }
             })
 
             Method (_DIS, 0, NotSerialized) {}
             Method (_SUB, 0, NotSerialized) { Return (\_SB.PSUB) }
-            Method (_STA, 0, NotSerialized) { Return (0x0F) }
 
             Device (EMMC)
             {
