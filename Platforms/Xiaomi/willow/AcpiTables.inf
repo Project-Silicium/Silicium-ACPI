@@ -5,10 +5,30 @@
   MODULE_TYPE                    = USER_DEFINED
   VERSION_STRING                 = 1.0
 
+[Sources]
+  Nicobar/FADT.aslc
+  Nicobar/GTDT.aslc
+  Nicobar/MADT.aslc
+
 [Binaries]
   ASL|SSDT.aml
   ASL|Common/SSDT.aml
-  ASL|Nicobar/APIC.aml
   ASL|Nicobar/DSDT.aml
-  ASL|Nicobar/FACP.aml
-  ASL|Nicobar/GTDT.aml
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[FixedPcd]
+  gArmTokenSpaceGuid.PcdArmArchTimerHypIntrNum
+  gArmTokenSpaceGuid.PcdArmArchTimerIntrNum
+  gArmTokenSpaceGuid.PcdArmArchTimerSecIntrNum
+  gArmTokenSpaceGuid.PcdArmArchTimerVirtIntrNum
+  gArmTokenSpaceGuid.PcdGicDistributorBase
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase
+
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorId
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorRevision
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemRevision
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemTableId

@@ -1,4 +1,4 @@
-DefinitionBlock ("SSDT.aml", "SSDT", 2, "XIAOMI", "WILLOW ", 3)
+DefinitionBlock ("SSDT.aml", "SSDT", 2, "XIAOMI", "WILLOW  ", 3)
 {
     Scope (\_SB)
     {

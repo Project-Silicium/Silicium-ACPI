@@ -51,7 +51,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 0,
       .AcpiProcessorUid              = 0,
-      .ProcessorPowerEfficiencyClass = 1
+      .ProcessorPowerEfficiencyClass = 0
     },
 
     //
@@ -66,7 +66,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 1,
       .AcpiProcessorUid              = 1,
-      .ProcessorPowerEfficiencyClass = 1
+      .ProcessorPowerEfficiencyClass = 0
     },
 
     //
@@ -81,7 +81,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 2,
       .AcpiProcessorUid              = 2,
-      .ProcessorPowerEfficiencyClass = 1
+      .ProcessorPowerEfficiencyClass = 0
     },
 
     //
@@ -96,7 +96,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 3,
       .AcpiProcessorUid              = 3,
-      .ProcessorPowerEfficiencyClass = 1
+      .ProcessorPowerEfficiencyClass = 0
     },
 
     //
@@ -111,7 +111,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 4,
       .AcpiProcessorUid              = 4,
-      .ProcessorPowerEfficiencyClass = 0
+      .ProcessorPowerEfficiencyClass = 1
     },
 
     //
@@ -126,7 +126,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 5,
       .AcpiProcessorUid              = 5,
-      .ProcessorPowerEfficiencyClass = 0
+      .ProcessorPowerEfficiencyClass = 1
     },
 
     //
@@ -141,7 +141,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 6,
       .AcpiProcessorUid              = 6,
-      .ProcessorPowerEfficiencyClass = 0
+      .ProcessorPowerEfficiencyClass = 1
     },
 
     //
@@ -156,7 +156,7 @@ EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE MadtTable = {
       .VGICMaintenanceInterrupt      = 25,
       .CPUInterfaceNumber            = 7,
       .AcpiProcessorUid              = 7,
-      .ProcessorPowerEfficiencyClass = 0
+      .ProcessorPowerEfficiencyClass = 1
     }
   },
 
