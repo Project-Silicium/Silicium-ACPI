@@ -1,4 +1,4 @@
-DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOMM ", "SM6115 ", 3)
+DefinitionBlock ("DSDT.aml", "DSDT", 2, "QCOM ", "KAMORTA ", 3)
 {
     External (\_SB.PSUB, StrObj)
 

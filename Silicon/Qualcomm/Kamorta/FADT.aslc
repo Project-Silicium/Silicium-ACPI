@@ -1,0 +1,43 @@
+#include <Library/PcdLib.h>
+
+#include <IndustryStandard/Acpi.h>
+
+//
+// FADT Table
+//
+EFI_ACPI_6_6_FIXED_ACPI_DESCRIPTION_TABLE FadtTable = {
+  //
+  // ACPI Table Header
+  //
+  .Header = {
+    .Signature              = EFI_ACPI_6_6_FIXED_ACPI_DESCRIPTION_TABLE_SIGNATURE,
+    .Length                 = sizeof (EFI_ACPI_6_6_FIXED_ACPI_DESCRIPTION_TABLE),
+    .Revision               = EFI_ACPI_6_6_FIXED_ACPI_DESCRIPTION_TABLE_REVISION,
+    .OemId                  = {'Q', 'C', 'O', 'M', ' ', ' '},
+    .OemTableId             = FixedPcdGet64 (PcdAcpiDefaultOemTableId),
+    .OemRevision            = FixedPcdGet32 (PcdAcpiDefaultOemRevision),
+    .CreatorId              = FixedPcdGet32 (PcdAcpiDefaultCreatorId),
+    .CreatorRevision        = FixedPcdGet32 (PcdAcpiDefaultCreatorRevision)
+  },
+
+  //
+  // Power Mode Profile
+  //
+  .PreferredPmProfile       = EFI_ACPI_6_6_PM_PROFILE_TABLET,
+
+  //
+  // Flags
+  //
+  .Flags                    = EFI_ACPI_6_6_HW_REDUCED_ACPI | EFI_ACPI_6_6_LOW_POWER_S0_IDLE_CAPABLE,
+  .ArmBootArch              = EFI_ACPI_6_6_ARM_PSCI_COMPLIANT,
+
+  //
+  // Hypervisor
+  //
+  .HypervisorVendorIdentity = 0x4D4F4351
+};
+
+//
+// FADT Table Reference
+//
+VOID *ReferenceAcpiTable = (VOID*)&FadtTable;
