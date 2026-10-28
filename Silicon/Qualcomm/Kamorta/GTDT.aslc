@@ -1,0 +1,111 @@
+#include <Library/PcdLib.h>
+
+#include <IndustryStandard/Acpi.h>
+
+typedef struct {
+  EFI_ACPI_6_6_GTDT_GT_BLOCK_STRUCTURE       Details;
+  EFI_ACPI_6_6_GTDT_GT_BLOCK_TIMER_STRUCTURE Mmio;
+} EFI_ACPI_6_6_GTDT_GT_STRUCTURE;
+
+typedef struct {
+  EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE Standalone;
+  EFI_ACPI_6_6_GTDT_GT_STRUCTURE               GenericTimer;
+} EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_EX;
+
+//
+// GTDT Extended Table
+//
+EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_EX GtdtTable = {
+  //
+  // GTDT Standalone
+  //
+  .Standalone = {
+    //
+    // ACPI Table Header
+    //
+    .Header = {
+      .Signature                   = EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_SIGNATURE,
+      .Length                      = sizeof (EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_EX),
+      .Revision                    = EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_REVISION,
+      .OemId                       = {'Q', 'C', 'O', 'M', ' ', ' '},
+      .OemTableId                  = FixedPcdGet64 (PcdAcpiDefaultOemTableId),
+      .OemRevision                 = FixedPcdGet32 (PcdAcpiDefaultOemRevision),
+      .CreatorId                   = FixedPcdGet32 (PcdAcpiDefaultCreatorId),
+      .CreatorRevision             = FixedPcdGet32 (PcdAcpiDefaultCreatorRevision)
+    },
+
+    //
+    // Counter Block
+    //
+    .CntControlBasePhysicalAddress = MAX_UINT64,
+    .CntReadBasePhysicalAddress    = MAX_UINT64,
+
+    //
+    // Timer
+    //
+    .PlatformTimerCount            = 1,
+    .PlatformTimerOffset           = OFFSET_OF (EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_EX, GenericTimer),
+
+    //
+    // Secure EL1 Timer
+    //
+    .SecurePL1TimerGSIV            = FixedPcdGet32 (PcdArmArchTimerSecIntrNum),
+    .SecurePL1TimerFlags           = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY,
+
+    //
+    // Non-Secure EL1 Timer
+    //
+    .NonSecurePL1TimerGSIV         = FixedPcdGet32 (PcdArmArchTimerIntrNum),
+    .NonSecurePL1TimerFlags        = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY,
+
+    //
+    // Virtual EL1 Timer
+    //
+  //.VirtualTimerGSIV              = FixedPcdGet32 (PcdArmArchTimerVirtIntrNum),
+    .VirtualTimerGSIV              = 19,
+    .VirtualTimerFlags             = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY,
+
+    //
+    // EL2 Timer
+    //
+  //.NonSecurePL2TimerGSIV         = FixedPcdGet32 (PcdArmArchTimerHypIntrNum),
+    .NonSecurePL2TimerGSIV         = 16,
+    .NonSecurePL2TimerFlags        = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY
+  },
+
+  //
+  // Generic Timer
+  //
+  .GenericTimer = {
+    //
+    // Timer Details
+    //
+    .Details = {
+      .Type                        = EFI_ACPI_6_6_GTDT_GT_BLOCK,
+      .Length                      = sizeof (EFI_ACPI_6_6_GTDT_GT_STRUCTURE),
+      .CntCtlBase                  = 0xF120000,
+      .GTBlockTimerCount           = 1,
+      .GTBlockTimerOffset          = OFFSET_OF (EFI_ACPI_6_6_GTDT_GT_STRUCTURE, Mmio)
+    },
+
+    //
+    // MMIO Timer
+    //
+    .Mmio = {
+      //
+      // Frame
+      //
+      .GTFrameNumber               = 0,
+      .GTxCommonFlags              = EFI_ACPI_6_6_GTDT_GT_BLOCK_COMMON_FLAG_ALWAYS_ON_CAPABILITY,
+      .CntBaseX                    = 0xF121000,
+      .CntEL0BaseX                 = 0xF122000,
+      .GTxPhysicalTimerGSIV        = 40,
+      .GTxVirtualTimerGSIV         = 39
+    }
+  }
+};
+
+//
+// GTDT Table Reference
+//
+VOID *ReferenceAcpiTable = (VOID*)&GtdtTable;

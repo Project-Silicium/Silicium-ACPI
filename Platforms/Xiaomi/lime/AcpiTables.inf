@@ -5,10 +5,30 @@
   MODULE_TYPE                    = USER_DEFINED
   VERSION_STRING                 = 1.0
 
+[Sources]
+  Kamorta/FADT.aslc
+  Kamorta/GTDT.aslc
+  Kamorta/MADT.aslc
+
 [Binaries]
   ASL|SSDT.aml
   ASL|Common/SSDT.aml
-  ASL|Kamorta/APIC.aml
   ASL|Kamorta/DSDT.aml
-  ASL|Kamorta/FACP.aml
-  ASL|Kamorta/GTDT.aml
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[FixedPcd]
+  gArmTokenSpaceGuid.PcdArmArchTimerHypIntrNum
+  gArmTokenSpaceGuid.PcdArmArchTimerIntrNum
+  gArmTokenSpaceGuid.PcdArmArchTimerSecIntrNum
+  gArmTokenSpaceGuid.PcdArmArchTimerVirtIntrNum
+  gArmTokenSpaceGuid.PcdGicDistributorBase
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase
+
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorId
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorRevision
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemRevision
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemTableId
