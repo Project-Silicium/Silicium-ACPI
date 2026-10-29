@@ -2,10 +2,16 @@ DefinitionBlock ("SSDT.aml", "SSDT", 2, "XIAOMI", "CITRUS ", 3)
 {
     External (\_SB.UFS0, DeviceObj)
     External (\_SB.SDC1, DeviceObj)
+    External (\_SB.URS0, DeviceObj)
 
     Scope (\_SB)
     {
-        Name (PSUB, "MTP06115") // MTP is used as the Real Platform Type is Unknown!
+        Name (PSUB, "IDP06115")
+    }
+
+    Scope (\_SB.URS0)
+    {
+        Method (_STA, 0, NotSerialized) { Return (0x0F) }
     }
 
     Scope (\_SB.UFS0)
