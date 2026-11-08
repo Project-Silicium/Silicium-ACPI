@@ -1,0 +1,57 @@
+#include <Library/PcdLib.h>
+
+#include <IndustryStandard/Acpi.h>
+
+//
+// GTDT Table
+//
+EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE GtdtTable = {
+  //
+  // ACPI Table Header
+  //
+  .Header = {
+    .Signature                   = EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_SIGNATURE,
+    .Length                      = sizeof (EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE),
+    .Revision                    = EFI_ACPI_6_6_GENERIC_TIMER_DESCRIPTION_TABLE_REVISION,
+    .OemId                       = {'S', 'A', 'M', 'S', 'U', 'N'},
+    .OemTableId                  = FixedPcdGet64 (PcdAcpiDefaultOemTableId),
+    .OemRevision                 = FixedPcdGet32 (PcdAcpiDefaultOemRevision),
+    .CreatorId                   = FixedPcdGet32 (PcdAcpiDefaultCreatorId),
+    .CreatorRevision             = FixedPcdGet32 (PcdAcpiDefaultCreatorRevision)
+  },
+
+  //
+  // Counter Block
+  //
+  .CntControlBasePhysicalAddress = MAX_UINT64,
+  .CntReadBasePhysicalAddress    = MAX_UINT64,
+
+  //
+  // Secure EL1 Timer
+  //
+  .SecurePL1TimerGSIV            = FixedPcdGet32 (PcdArmArchTimerSecIntrNum),
+  .SecurePL1TimerFlags           = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY,
+
+  //
+  // Non-Secure EL1 Timer
+  //
+  .NonSecurePL1TimerGSIV         = FixedPcdGet32 (PcdArmArchTimerIntrNum),
+  .NonSecurePL1TimerFlags        = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY,
+
+  //
+  // Virtual EL1 Timer
+  //
+  .VirtualTimerGSIV              = FixedPcdGet32 (PcdArmArchTimerVirtIntrNum),
+  .VirtualTimerFlags             = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY,
+
+  //
+  // EL2 Timer
+  //
+  .NonSecurePL2TimerGSIV         = FixedPcdGet32 (PcdArmArchTimerHypIntrNum),
+  .NonSecurePL2TimerFlags        = EFI_ACPI_6_6_GTDT_TIMER_FLAG_TIMER_INTERRUPT_POLARITY | EFI_ACPI_6_6_GTDT_TIMER_FLAG_ALWAYS_ON_CAPABILITY
+};
+
+//
+// GTDT Table Reference
+//
+VOID *ReferenceAcpiTable = (VOID*)&GtdtTable;
