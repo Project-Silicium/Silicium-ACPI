@@ -8,6 +8,7 @@
 [Binaries]
   ASL|Common/SSDT.aml
   ASL|Palawan/APIC.aml
-  ASL|Palawan/DSDT_Minimal.aml
+  ASL|Palawan/DSDT.aml
   ASL|Palawan/FACP.aml
   ASL|Palawan/GTDT.aml
+  ASL|Palawan/PPTT.aml
